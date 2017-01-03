@@ -1,0 +1,159 @@
+####### Compiler, tools and options
+
+CC	=	cl
+CXX	=	cl
+CFLAGS	=	-nologo -W3 -MD -O1 --GX
+CXXFLAGS=	-nologo -W3 -MD -O1 -GX
+LINK	=	link
+LFLAGS	=	/NOLOGO /SUBSYSTEM:console
+INCPATH	=	
+LIBS	=
+
+####### Files
+
+TARGET	=	simplert.exe
+
+HEADERS =	Color.h \
+		Light.h \
+		Point.h \
+		Ray.h \
+		RayTracer.h \
+		Shape.h \
+		Sphere.h \
+		Triangle.h \
+		Vector.h \
+		unit_limiter.h
+
+SOURCES =	Color.cpp \
+		Light.cpp \
+		Point.cpp \
+		Ray.cpp \
+		RayTracer.cpp \
+		Shape.cpp \
+		Sphere.cpp \
+		Triangle.cpp \
+		Vector.cpp \
+		main.cpp \
+		unit_limiter.cpp
+
+OBJECTS =	Color.obj \
+		Light.obj \
+		Point.obj \
+		Ray.obj \
+		RayTracer.obj \
+		Shape.obj \
+		Sphere.obj \
+		Triangle.obj \
+		Vector.obj \
+		main.obj \
+		unit_limiter.obj
+
+####### Implicit rules
+
+.SUFFIXES: .cpp .cxx .cc .c
+
+.cpp.obj:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fo$@ $<
+
+.cxx.obj:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fo$@ $<
+
+.cc.obj:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fo$@ $<
+
+.c.obj:
+	$(CC) -c $(CFLAGS) $(INCPATH) -Fo$@ $<
+
+####### Build rules
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(LINK) $(LFLAGS) /OUT:$(TARGET) @<<
+	    $(OBJECTS) $(LIBS)
+<<
+
+clean:
+	-del Color.obj
+	-del Light.obj
+	-del Point.obj
+	-del Ray.obj
+	-del RayTracer.obj
+	-del Shape.obj
+	-del Sphere.obj
+	-del Triangle.obj
+	-del Vector.obj
+	-del main.obj
+	-del unit_limiter.obj
+	-del $(TARGET)
+
+####### Compile
+
+Color.obj: Color.cpp \
+		Color.h \
+		unit_limiter.h
+
+Light.obj: Light.cpp \
+		Light.h \
+		Point.h
+
+
+Point.obj: Point.cpp \
+		Point.h
+
+Ray.obj: Ray.cpp \
+		Ray.h \
+		Vector.h \
+		Point.h
+
+RayTracer.obj: RayTracer.cpp \
+		RayTracer.h \
+		Point.h \
+		Shape.h \
+		Color.h \
+		Ray.h \
+		Vector.h \
+		Light.h 
+
+Shape.obj: Shape.cpp \
+		Shape.h \
+		Color.h \
+		Ray.h \
+		Vector.h \
+		Point.h \
+		unit_limiter.h
+
+Sphere.obj: Sphere.cpp \
+		Sphere.h \
+		Shape.h \
+		Color.h \
+		Ray.h \
+		Vector.h \
+		Point.h
+
+Triangle.obj: Triangle.cpp \
+		Triangle.h \
+		Shape.h \
+		Color.h \
+		Ray.h \
+		Vector.h \
+		Point.h
+
+Vector.obj: Vector.cpp \
+		Vector.h \
+		Point.h
+
+main.obj: main.cpp \
+		RayTracer.h \
+		Point.h \
+		Shape.h \
+		Color.h \
+		Ray.h \
+		Vector.h \
+		Light.h \
+		Sphere.h \
+		Triangle.h
+
+unit_limiter.obj: unit_limiter.cpp \
+		unit_limiter.h
+
