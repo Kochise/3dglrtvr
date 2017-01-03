@@ -1,0 +1,22 @@
+If you want to improve the code here are some ideas:
+
+-Make the pixel plotting faster
+-Make raycasting algorithm faster
+-Port to other platform
+-Add proximity cloud algorithm
+-Add some sort of interpolation or filtering to get rounded cubes and smooth shapes
+-Add texturing (I've succesfully made a version with texturing already, it's not too hard)
+-Add lighting
+-Add colored lighting and multiple lights
+-Add transparent cubes
+-Add mirroring cubes
+-Add refraction of light through transparent cubes
+-Add support to save and load worlds
+-Add windows interface to it with menus to change resolution, save/load world, ...
+-Make a game with it, I already made a 3D game of life with it once :)
+
+The screenshots that are in this folder:
+screen?.png files are from the current version (2.02) and show how the camera can rotate and skew
+the dev?.png files are just for fun, some of them weird images I got while developing Trixel, and there's also one that shows working texturing.
+
+Please email me (lode@vandevenne.net) if you did something, and please always keep my name and email somewhere in the project as original author.

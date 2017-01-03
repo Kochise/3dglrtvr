@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>Trixel Readme</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<TT>/////////////////////////////////////////////////<br>
+//@@@@@@@///@@@@////@@@////@///@///@@@@///@//////<br>
+/////@//////@///@////@//////@/@////@//////@//////<br>
+/////@//////@@@@/////@///////@/////@@@////@//////<br>
+/////@//////@/@//////@//////@/@////@//////@//////<br>
+/////@//////@//@////@@@////@///@///@@@@///@@@@@//<br>
+/////////////////////////////////////////////////</tt>
+<h1></h1>
+<h2>Trixel 3D Engine by Lode Vandevenne</h2>
+<p> ************************************************* </p>
+<p></p>
+<h3>About</h3>
+<p>Trixel is a real time volumetric raytrace engine in a voxel world. You can 
+  move around in realtime at a low resolution, or render a detailed big image 
+  at higher resolution.</p>
+<p>This engine is a work in progress, so don't expect anything amazing!</p>
+<p>The name Trixel is derived from Three Dimensional Pixel.</p>
+<p>On an Athlon XP 1700+ it works great, but on machines less than 1GHz it runs 
+  quite slow. This is not a fast engine, too bad, and I hope it'll be able to 
+  run faster when more optimizations are added.</p>
+<p>This version is version 2.02 and is released open source under the GNU General 
+  Public Licence (see below).</p>
+<p>The pixelplotting and input are done with SDL, http://www.libsdl.org/index.php</p>
+<p>Some people requested me to release the source code so they could try to make 
+  some improvements, someone wanted to add the technique &quot;Proximity Clouds&quot; 
+  to it and someone else wanted to turn the cubes into smooth curves. I also hope 
+  more people will be able to do something useful with it, improve it, or learn 
+  something by looking at the source code.</p>
+<p>Note: some people call this a raytracer, others call it a raycaster, so I guess 
+  it's something in between.</p>
+<p>Contact me at lode@vandevenne.net if you have any remarks, questions, problems 
+  or suggestions. Please also contact me if you did something cool with it. Please 
+  mention my name in your project if you used this code for it, parts of it, used 
+  ideas from it or ported it, and leave other credits in the code intact.</p>
+<h3>Detailed About</h3>
+<p>Trixel is a Real Time Volumetric Raytracing engine, so it differs from most 
+  raytracing demos as well as from the typical Wolfenstein 3D kind of raycaster. 
+  Maybe it's best to compare with Wolfenstein 3D, but then instead of a 2D map, 
+  the map is 3D. Volumetric Raytracers are sometimes used to display effects such 
+  as fog or smoke, but Trixel features a solid world. The world exists out of 
+  a X*Y*Z array of voxels (or 3-dimensional pixels, hence the name Trixel). I've 
+  tested array sizes up to 256*256*256 but normally anything that fits in the 
+  memory of the computer should work. Each voxel can be &quot;on&quot; or &quot;off&quot;, 
+  if it's off rays go through it, if it's on, it looks like a solid cube. You 
+  can give each voxel it's own RGB color and add a special effect, so in total, 
+  one voxel occupies 4 bytes. In this voxel world, the camera is placed, rays 
+  get shot from it, and using a modified 3-Dimensional Digital Differential Analyzer 
+  (3DDDA) the first cube intersected by the ray gets detected. The nice thing 
+  about this algorithm is that, unlike normal 3D engines or even normal raytracers, 
+  the more cubes there are or the more complex the geometry is, the faster the 
+  engine gets because the rays will hit a cube sooner. Normally, in a 64*64*64 
+  world it works quite realtime on an Athlon XP 1700+ in a resolution of 320*240 
+  pixels at 32-bit color.</p>
+<p> Apart from that, the engine also supports quite a few possibilities for the 
+  camera, including (in real time) rotating, moving and skewing the camera, and 
+  looking/moving around with the mouse &amp; keyboard in 6 degrees of freedom.</p>
+<p> The source code is written in C++ and compiled for Windows, using the free 
+  Devc++ 4 compiler, and the source code is provided with Devc++ 4's project file. 
+  To place the pixels and handle the input, SDL is used. It's probably very easy 
+  to port the project to another OS than Windows.</p>
+<p> This project is very small and pretty basic, not many special features are 
+  added, but it should be easy to add almost anything. I've already succesfully 
+  added lighting and texturing to it, and a 3D Game Of Life version, but these 
+  features are not (yet) implemented in the &quot;clean&quot; Open Source code 
+  I provide here.</p>
+<p></p>
+<h3>Installing the binaries for Windows</h3>
+<p>Unzip the files, put SDL.dll and trixel.exe in the same folder and run the 
+  exe.</p>
+<p>You can also put SDL.dll in your windows system or system32 folder, then it 
+  can be accessed by any program.</p>
+<p></p>
+<h3>Installing the source code </h3>
+<p>The source code is written in c++ and is provided with a *.dev file for DevC++ 
+  4, but it shouldn't be hard to use the code with any other c++ compiler that 
+  you can get to work with SDL. All cpp and h files provided in the &quot;Src&quot; 
+  directory should be put into one project.</p>
+<p></p>
+<h3>Controls </h3>
+<p>Camera: <br>
+  -Move Mouse Up/Down: Look Up/Down (Pitch Camera)<br>
+  -Move Mouse Left/Right: Look Left/Right (Rotate Camera around world Z-axis)<br>
+  -KeyPad 4: Roll Camera Left<br>
+  -KeyPad 6: Roll Camera Right<br>
+  -KeyPad 2: Skew Camera Left<br>
+  -KeyPad 3: Skew Camera Right<br>
+  -KeyPad Period: Random Camera Vectors<br>
+  -KeyPad 5: Reset Camera, you will want to do this after using KeyPad Period</p>
+<p>Movement:<br>
+  -Up Arrow: Move Forward<br>
+  -Down Arrow: Move Backward<br>
+  -Left Arrow: Strafe Left<br>
+  -Right Arrow: Strafe Right<br>
+  -KeyPad 1: Move Up<br>
+  -KeyPad 0: Move Down<br>
+  -Grey +: Move Faster<br>
+  -Grey -: Move Slower</p>
+<p>World:<br>
+  -b: Place block in front of you.<br>
+  -n: Remove block in front of you.<br>
+  -F1 to F6: Load one of the 6 built in worlds.</p>
+<p>Resolution:<br>
+  -KeyPad 7: 160*120<br>
+  -KeyPad 8: 320*240<br>
+  -KeyPad 9: 640*480</p>
+<p>General:<br>
+  -Escape: Exit program</p>
+<p></p>
+<h3>Legal Notes </h3>
+<p>Trixel 3D Engine</p>
+<p>Copyright (c) 2001-2002 by Lode Vandevenne. All rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free Software 
+  Foundation; either version 2 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with 
+  this program; if not, write to the Free Software Foundation, Inc., 59 Temple 
+  Place, Suite 330, Boston, MA 02111-1307 USA</p>
+</body>
+</html>
