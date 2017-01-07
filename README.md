@@ -15,6 +15,8 @@ You need the following to get this program working :
 \- \\Trevor Croft : ray tracing<br>
 \- \\Werner Benger : ray tracing<br>
 
+\- \\Gens2 1.0b3 : software renderer<br>
+
 * How to use it
 
 See each project's documentation, if available.
