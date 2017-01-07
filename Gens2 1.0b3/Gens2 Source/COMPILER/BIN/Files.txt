@@ -1,0 +1,8 @@
+
+Files needed:
+
+SERIAL.NO - license code for the compiler
+TMTPC.EXE - TMT Pascal Command-line compiler ver. 4.0 or 4.01
+
+NOTE: These files are found in the TMT Pascal Multitarget ver. 4.0 dir
+      in the BIN subdirectory.

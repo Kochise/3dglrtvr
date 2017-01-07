@@ -1,0 +1,161 @@
+
+* Version 1.0 Beta 3 (Build 200)
+
+- Bug fixes and testing
+
+
+* Version 1.0 Beta 2 (Build 100)
+
+- Maps are now loaded from the folder "Maps", and screenshots are saved in folder "ScreenShots"
+- Removed some unused variables, grouped them into more logical groups and put some comments
+- Also moved some variables from globally global to localy global where they should have been
+- Renamed some of the include files to better reflect their functionality
+- Fixed the wrong window functionality: it started with WS_CAPTION enabled to show the caption in the loading window, but
+  that caused the caption to appear randomly while rendering. Now it creates the loading window with WS_CAPTION then
+  destroys that window, then creates another window without WS_CAPTION enabled which is used for rendering.
+- Modified the video resolution changing - now it doesn't destroy the window between video mode changes, it just restarts 
+  Direct Draw 7 surfaces (made separate procedure that restarts surfaces automatically and changes the video mode).
+- Made log file writing system, with details about initialization time and duration for engine initialization and Direct
+  Draw Initialization, and success information (and failure information :() ...
+- Started using an .RC file for Icons and engine version information.
+- Created an Icon for Gens2 using The GIMP :)
+
+
+* Version Beta 1 RC 4 (Build 64) - 11.09.2005 07:55 PM
+
+- Made a Pascal-Only version of the polygon drawing code. That is for testing and educational purposes only.
+  It is more than 70% slower than the Assembler version in 1280x960 resolution. $define statement is used
+  for choosing which version is used for drawing.
+- Done some optimizations in the raytrace rendering code (per pixel/per vertex) - 20%+ speed increase 
+  (mainly i replaced the floating point muls and divs with shifts)
+- Made two separate versions for the per-pixel drawing code - with alpha and without alpha and made it draw a whole
+  polygon instead of a single horizontal line
+- Did some tryouts with 3DNow! technology. It's possible to make the whole per-pixel polygon drawing code using
+  3DNow!, but i don't know if it pays of the trouble to make it (how much the speed increase will be?)
+- Rearranged some code segments - removed some Normals processing from inner loops, View calculations based on FOV
+  were done per polygon (it slipped off from my eyes for a long time :( - now made it per frame :) - 10%+ speed inc
+- Removed the LightScaterring hack from both the per-pixel/per-vertex processing. It was just not real enough to
+  be worth the extra processing involved. It just lighted the scene a bit more - like an ambient light.
+  I should be doing radiosity lighting in real-time for realistic effects but ... :( 
+  (John Carmack is doing the same thing in the Doom3 Engine - 
+   - no ambient light hacks to simulate radiosity (if there is one light in the scene the shadows are totally black))
+
+
+* Version Beta 1 RC 3 (Build 57) - 06.09.2005 01:15 AM
+
+- Made some major changes in the Input processing code: Split the input events in to repetitive and nonrepetitive.
+  The repetitive are processed by using GetAsyncKeyState to allow more keys to be pressed at the same time, and
+  nonrepetitive are processed in the CALLBACK Window Procedure - using WM_KEYDOWN, WM_KEYUP... messages.
+- Many improvements have been made in the previous Input code
+- Made use of the Win32 API function VkKeyScan to convert a char to a VK-code, instead of using a lookup table.
+- Done some code rearrangement in the Input section
+- Improved the Camera control code and done some rearrangement also. Now the code is much more clear
+  and easier to understand
+- Removed the annoying MessageBox at the start. It was just slowing the start.
+- Made a new procedure for displaying text in the window client area - for information purposes
+- Added a verbose information system in the loading part to give some information about the loading state
+  and potential problems.
+- Done some global code rearrangement for some procedures, naming conventions and some other stuff.
+
+
+* Version Beta 1 RC 2 (Build 53) - 04.09.2005 01:00 AM
+
+- Fixed some bugs with the DisplayMessage function and generalized it a bit.
+- Added some error handling and notifying for the Direct Draw Initialization and Window Creation Functions
+- Fixed a bug causing DDERR_SURFACELOST error while locking the rendering surface
+  (it happened when switching with ALT-TAB from windows back to rendering)
+- Generally made the code for Direct Draw more stable and more clear.
+- Added error checking function for the Direct Draw Errors - Get_DDraw_Error()
+- Rearranged the code for the GetDC and ReleaseDC functions for text output. They are now 
+  locally inside each text output routine e.g. Show_HUD. It allows more flexibility and control.
+- Changed the code to suit the changes made to the DisplayMessage Function
+
+
+* Version Beta 1 RC 1 (Build 50) - 01.09.2005 05:33 PM
+
+- Divided the code into several include files, grouped by the common task they were ment for
+- Made succesfull Direct Draw 7 interface, still some bugs left
+- Removed the need for the modified Graph unit (now it's better under Direct Draw 7)
+- Removed the ZenTimer unit since i used it only to detect CPU speed in MHz and that was
+  used for FPS measurement. I now made the FPS measurement based on a Windows Timer, ticking
+  in one second intervals and displaying how many frames drew in that time :))
+  It is less acurate than before, but it is only for indication, not for benchmarking.
+- Made use of the Windows GDI for Text output
+- Improved the Main Window Message Loop
+- Improved the message handling in the CALLBACK Windows Procedure
+
+
+* Version Beta 1 (Build 18) 23.08.2005 11:15 PM
+
+- Code Change: Removed the Strings and DebugMod Units. I found a better way of dealing with messages and strings 
+  so the Strings unit was not needed anymore. Decided to remove the DebugMod becouse it is needed only in the 
+  debugging period. It was sitting there for nothing and taking up 30KB+ in the EXE.
+- Also decided to remove some other units (GraphMod and ZenTimer for sure) becouse i want to free the code 
+  from too many compiler dependencies.
+- I will make use of the DDraw Unit to draw through DirectX 7.0 and use the Win API functions to determine 
+  the processor speed and/or framerate, instead of ZenTimer.
+
+
+* Version Beta 1 (Build 17)  22.08.2005  10:34 PM
+
+- Major feature added !!! Arbitrary rotating objects with full control from 3DS Max make up for a more 
+  dynamic world (some stuff left to do).
+
+
+* Version Beta 1 (Build 15)  16.08.2005  04:45 PM
+
+- Added Rotating HeadLights above the players head, that move with him.
+
+
+* Version Beta 1 (Build 13)  16.08.2005  01:45 AM
+
+- Big Advancement !!! Added Multiple Resolution Support. Now it supports 320x200, 512x384, 640x480, 
+  1024x768, 1280x960 all in 32bpp. Now the graphics system is more unified than ever.
+  Except for that BUG in 1280x960 when in DrawLightSprite something STRANGE is happening. 
+  I don't know yet what is the cause. I will get later on that. For now, i just disabled the 
+  LightCoronas for 1280x960 until i fix the BUG.
+
+
+* Version Beta 1 (Build 10)  12.08.2005  05:45 PM
+
+- Added some tweaking for the affine texture distortion, and got a much less distortion when FOV is >= 90. 
+  Basically i tweak the ClipingPlane distance from the eye according to the FOV value.
+- Done some other minor fixes.
+
+
+* Version Beta 1 (Build 8)  11.08.2005  06:08 PM
+
+- Added the possibility to change the Monitor Screen Refresh Rate. Before this, it defaulted by DirectX to 85 Hz, 
+  but some older monitors don't support this refresh. So i did some changes in the GraphMod unit to support this 
+  feature. I should make the possibility for the user to input the refresh rate and resolution.
+
+
+* Version Beta 1 (Build 7)  11.08.2005  03:00 PM
+
+- Improvement: Improved the message handling and displaying. No more weird chars, made some assumptions about 
+  Null-Terminated strings and proper handling.
+- Included the Strings unit, which has some great functions for string handling.
+
+
+* Version Beta 1 (Build 5)  11.08.2005  10:17 AM
+
+- BUGFIX: Modified the FDebug unit to DebugMod becouse it created a debug.log file always, regardless if an error 
+  occured or not, thus crashing if it is run from a CD-ROM (becouse it is READ-ONLY ofcourse => can't create a file).
+  Made it to create a debug.log file ONLY if an error occures, but to see it you must run Gens 2 from Hard Disk. 
+  I'll try to make an On-Screen message display for this purpose or write the file on the Hard Disk, preferably 
+  to be able to enter the path where it should be created.
+
+
+* Version Beta 1 (Build 3)  11.08.2005  02:07 AM
+
+- !!! Major bug fix !!! : Made it to load the files from CD (Read Only) :)
+- Finally decided to go for Beta 1 release and started build counting. 
+- Decided to quit from some current plans (for time concerns): There will be no outdoor rendering at all 
+  (not in Gens 2 at least, maybe in Gens 3+), some advanced rendering features in the raytracing engine, 
+  there will be only partial portal engine implementation (the basic functionality) and other minor stuff.
+- In the Plan Update Final.txt are written my goals for the Gens 2 Final ver 1.0
+
+
+* Version Alpha  18.02.2005  20:30 PM
+
+- First working version (some bugs and flaws left, a lot TO DO stuff)
