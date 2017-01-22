@@ -1,0 +1,81 @@
+
+         ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+         º  The purpose of a WWH is to  expand one's knowledge on a  º
+         º  topic they already understand,  but need a reference, a  º
+         º  refresher course, or to simply extend what they already  º
+         º  know about the topic.                                    º
+         º                                                           º
+         º WWH is the quick tutor.  Just the [W]hat, [W]hy and [H]ow º
+ÉÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍ»
+º WWH            º Sub-texel accuracy                                         º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Text version   º 1.0                                                        º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Written by     º Paul Nettle (midnight@grafix3d.tzo.com)                    º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Last Modified  º April 1, 1997                                              º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Prerequisites  º Requires basic understanding of polygon rendering and      º
+º                º scan conversion as well as sub-pixel accuracy (see WWH1)   º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHAT                                WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Sub-texel accuracy is used to clean up texturing quality, and solve
+other accuracy problems (such as wrap-around in textures, and
+overflow for Gouraud shading).
+
+This document relies on the fact that you have already read WWH1
+(sub-pixel accuracy) as they are interrelated, and especially since
+you can't achieve sub-texel accuracy without first achieving
+sub-pixel accuracy.
+
+Considering what we learned from WWH1, sub-texel accuracy is a very
+simple extension of sub-pixel accuracy.  In the same way that we need
+to "slide" polygons across the screen to align with pixel boundaries,
+sub-texel accuracy simply "slides" the texture across the polygon to
+align to the polygon edges.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHY                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+For better looking renders, of course.  (See WWH1 for more details).
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 HOW                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Considering what we learned about sub-pixel accuracy from WWH1,
+here's what we need to do to achieve sub-texel accuracy.
+
+In our polygon scan-conversion model explained in WWH1, we "slide"
+our pixels down the top of each edge.  For sub-texel accuracy, we'll
+need to "slide" our texture at the beginning of each scan-line.  Due
+to the frequency at which this code gets called (once per scan-line
+vs. once per edge) this code may cause a noticeable speed hit,
+however, with pipeline optimizations that speed-hit can be
+minimized.
+
+Consider the following code fragment:
+
+        start_u += delta_u * SUB_PIX(start_x);
+        start_v += delta_v * SUB_PIX(start_x);
+
+What this does is to simply "slide" the starting U/V coordinates along
+its scan-line by the distance that the starting X is from the
+right-edge of its pixel.
+
+This process must be done for each value that gets interpolated along
+the edges (i.e. any U/V for texturing or Gouraud color values, etc.)
+
+This is sub-texel accuracy.  To test your modifications, try rotating
+a quad polygon perpendicular to the screen very slowly, with a
+checkerboard pattern textured onto it.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 END                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+

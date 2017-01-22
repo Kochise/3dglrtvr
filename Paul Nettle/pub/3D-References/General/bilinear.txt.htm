@@ -1,0 +1,79 @@
+<html><head><meta http-equiv=Content-Type content='text/html; charset=UTF-8'></head>
+Matti Dahlbom <mdahlbom@cc.hut.fi> wrote in article
+<34190090.5228@cc.hut.fi>...
+> Has anyone coded a routine performing same as the modern 3D cards, the
+> texture smoothing thingy? id like to know how.
+
+I believe you're referring to "Bilinear Filtering."  The process is simple,
+but slow.  I've got an acceptable frame-rate for KAGE, so I can tell you
+the trick is in the blending.  Here's the basic process.
+
+BILINEAR FILTERING 101
+
+First, understand that a scalars I refer to are values that ranges from
+0.0f - 1.0f, and all RGB values are scalars of this type.
+
+Normally, what software renderers do is called "point sampling."  As they
+scan through screen-space, they sample points from the texture.  When you
+get up real close to a texture, and the texture density in screen space
+decreases (i.e. the texels get bigger), the renderer ends up sampling the
+same texture multiple times.  This is where the filtering comes in handy.
+
+As you're sampling these points from your texture, you need to figure out
+where you are inside that texel (you should have this information already
+by taking the fractional component of your U/V values).  From this, you can
+determine which are the "closest four texels."  This is actually confusing,
+so I'll explain this in a little more detail.
+
+Consider the "origin" of a texel to be the upper-left corner of it.  This
+point gets the full intensity of the current texel, and none of the
+remaining three of the "nearest four texels".  But as you start sampling
+points from the texture that are moving right, along the top edge of that
+texel, you start to incorporate the next texel over, and the two values get
+blended.  That's only half of it, you also need to account for the next
+texel down, and how close to it you are...
+
+Just so this is clear, get some paper and pencil, and draw this up:  You
+have a 10x10 texture (draw the texture pixels BIG).  The sampled point four
+our example is [3.7, 4.8].
+
+Since both 3.7 and 4.8 would both round UP, the "current texel" is the
+upper-left of the "nearest four" at [3,4].  The upper-right would be at
+[4,4], the lower left at [3,5] and the lower right at [4,5].
+
+Put these four texels into the variables texelUL, texelUR, texelLL, texelLR
+with your fractional U and V values in fracU & fracV.  From here this
+pseudo code snippet *SHOULD* work (I'm pretty sure it's correct, even
+though I'm typing it in off the top of my head):
+
+	// These are the scalars for each texel (ul for texelUL, ur for texelUR,
+etc.)
+
+	float	ul = (1.0f - fracU) * (1.0f - fracV);
+	float	ll = (1.0f - fracU) * fracV;
+	float	ur = fracU * (1.0f - fracV);
+	float	lr = fracU * fracV;
+
+	// Using the scalars, calculate the new red, green and blue components in
+scalar format
+
+	float	red = ul * texelUL.red + ll * texelLL.red + ur * texelUR.red + lr *
+texelLR.red;
+	float	grn = ul * texelUL.grn + ll * texelLL.grn + ur * texelUR.grn + lr *
+texelLR.grn;
+	float	blu = ul * texelUL.blu + ll * texelLL.blu + ur * texelUR.blu + lr *
+texelLR.blu;
+
+	// Put it into a 24-bit pixel, THIS is what gets put to the screen
+(provided RGB ordering)
+
+	int	newPixel = ((int) (red * 255.0f) << 16) | ((int) (grn * 255.0f) << 8)
+| (int) (blu * 255.0f);
+
+Garsh, I hope this makes sense.  Good luck!
+
+---------------------------------------------------
+Paul Nettle, KAGE developer, Terminal Reality Inc.
+Be sure to check out KAGE @ www.terminalreality.com
+
+

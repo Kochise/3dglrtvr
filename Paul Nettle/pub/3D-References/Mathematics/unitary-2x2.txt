@@ -1,0 +1,586 @@
+The Structure of 2x2 Unitary Matrices
+
+Henry G. Baker
+
+May, 1996
+
+Copyright (c) 1996 by Henry G. Baker (hbaker@netcom.com).  All rights reserved.
+
+This file can be found as URL:
+ftp://ftp.netcom.com/pub/hb/hbaker/quaternion/unitary-2x2.txt
+
+This ASCII note is best read with a _fixed-width font_.
+
+Abstract
+--------
+
+Many linear algebra books wax eloquent on the properties of 'unitary'
+matrices of complex numbers, which are complex analogues of (real)
+'orthogonal' matrices, but don't give much insight into what a unitary
+matrix 'looks like'.  In this short memo, we proceed from the
+definition of a unitary matrix and show how these constraints force
+every 2x2 unitary matrix U into a certain simple form U = D1 O D2,
+where D1,D2 are complex diagonal matrices, and O is a real orthogonal
+matrix.  Furthermore, the linear function vU of a complex vector v and
+the 2x2 unitary matrix U can be represented by a triple quaternion
+product Q1 v Q2, where Q1,Q2 are quaternions trivially derived from U.
+
+Notation
+--------
+
+Since this is an ascii text file, we are forced to severely curtail
+the use of mathematical notations.  About the only symbols that will
+be needed are the usual (TeX) symbols "^" for superscript and "_" for
+subscript.  However, we will _not_ be making use of the TeX grouping
+brackets "{}", but will instead use parentheses.  We use "/=" for _not
+equal_. 
+
+Unless otherwise noted, all matrices in this memo will be _square_.
+
+If M is a matrix, then M_ij is the ij'th element of M.  The notation
+(M_ij) means the matrix constructed from the elements M_ij, where i,j
+range over the number of rows and columns of M, respectively.  Thus,
+M=(M_ij).
+
+The _transpose_ of a matrix M is the matrix M^T = (M_ji).
+
+If z is a complex number, then z* is the complex _conjugate_ of z --
+i.e., if z=x+iy, then z* = x-iy.
+
+The _conjugate_ of a matrix M is the matrix M* = (M_ij*) -- i.e., the
+matrix of the conjugates of the elements of M.
+
+The _tranjugate_ of a matrix M is the conjugate of the transpose of M,
+or equivalently, the transpose of the conjugate of M.  We will use the
+notation M' for the tranjugate of the matrix M.
+
+For example, the tranjugate of
+
+[W X]    [W* Y*]
+[Y Z] is [X* Z*].
+
+We denote the _determinant_ of the matrix M by det(M), or, when
+writing out the matrix explicitly, by using "|" brackets instead of
+"[]" brackets.
+
+The determinant of
+
+[W X]
+[Y Z] is WZ-XY.
+
+The _inverse_ of a matrix M (assuming that it has one, i.e.,
+det(M)/=0) is M^-1 -- i.e, M M^-1 = M^-1 M = I, where I is the
+_identity_ matrix of the same size as M.
+
+The inverse of
+
+    [W X]               [ Z -X]
+M = [Y Z] is (1/det(M)) [-Y  W].
+
+A _diagonal_ matrix is a matrix whose only non-zero entries are on the
+main diagonal -- i.e., if M is diagonal, then M_ij=0 for i/=j.  We
+will use the notation diag(x,y) for a 2x2 diagonal matrix whose
+non-zero elements along the main diagonal are x and y.  The 2x2
+identity matrix is
+
+            [1 0]
+diag(1,1) = [0 1].
+
+Unitary Matrices
+----------------
+
+A _unitary_ matrix U is a nonsingular (det(U)/=0) matrix such that
+U^-1 = U' -- i.e., its inverse is equal to its tranjugate.
+
+Trivial properties of unitary matrices:
+
+* the transpose, inverse, conjugate and tranjugate of a unitary matrix
+  are all themselves unitary.
+
+* the product of two or more unitary matrices (of the same size) is
+  unitary.
+
+* the determinant of a unitary matrix has _absolute value_ of 1.
+
+The proof of this last property is as follows.  If U is unitary, then
+UU'=I, hence det(UU')=det(U)det(U')=det(U)det(U*)=det(U)det(U)*=det(I)=1.
+
+Dot Products
+------------
+
+An appropriate 'dot product'/'inner product' for (row) vectors v with
+complex elements is vv' -- i.e., if v = [z1 z2] is a 2-element row
+vector, then
+
+[z1 z2] [z1 z2]' = [z1 z2] [z1*]
+                           [z2*] = z1 z1* + z2 z2* = v v'
+
+is an appropriate dot product.  Note that for any complex vector v,
+its _norm_ vv' is _real_ and _non-negative_.
+
+A vector v is _normalized_ if vv'=1.  If uu'/=0 for a vector u, then
+the vector (1/(uu'))u is normalized.
+
+Two such vectors v,u are _orthogonal_ if vu'=0.
+
+A set of vectors is _orthonormal_ if vv'=1 (i.e., v is normalized) for
+all v, and vu'=0 for all v/=u.
+
+We now have a few more trivial properties of unitary matrices:
+
+* the _rows_ of a unitary matrix are orthonormal -- i.e., normalized
+  and orthogonal to one another.
+
+* the _columns_ of a unitary matrix are orthonormal -- i.e.,
+  normalized and orthogonal to one another.
+
+* A unitary matrix U preserves norms.
+
+The proof of this last property is as follows.
+
+norm(vU)=(vU)(vU)'=vUU'v'=vIv'=vv'=norm(v)
+
+
+The Structure of 2x2 Unitary Matrices
+-------------------------------------
+
+We now have enough machinery to reveal the structure of 2x2 unitary
+matrices.
+
+We start with an arbitrary 2x2 matrix of complex numbers, and start
+adding the constraints required by unitariness to see what effect
+these constraints have on our arbitrary numbers.
+
+Consider the arbitrary 2x2 complex unitary matrix
+
+    [W X]
+U = [Y Z].
+
+We wish to utilize the various constraints on U to determine
+constraints on the individual entries W,X,Y, and Z.
+
+Our first constraint is that the first _row_ [W X] must be normalized:
+
+[W X] [W X]' = [W X] [W*]
+                     [X*] = WW* + XX* = 1.
+
+The form of this constraint tells us that we might be better off
+considering our original matrix with its elements in _polar_ form --
+i.e., W=|W|exp(iw), X=|X|exp(ix), Y=-|Y|exp(iy), Z=|Z|exp(iz), or
+
+    [ |W|exp(iw) |X|exp(ix)]
+U = [-|Y|exp(iy) |Z|exp(iz)]
+
+(The "-" sign in the lower left hand corner of U appears to be
+arbitrary right now, but we choose it this way because it makes the
+later expressions come out simpler.)
+
+The fact that the first row must be normalized can now be expressed as
+
+WW* + XX* = |W|exp(iw)|W|exp(-iw) + |X|exp(ix)|X|exp(-ix) =
+|W|^2+|X|^2 = 1.
+
+In other words, for some real angle a _in the first quadrant_,
+|W|=cos(a), |X|=sin(a).
+
+However, by applying the constraint that the first _column_ [W Y]^T
+must also be normalized, we learn that |W|^2+|Y|^2=1, but since
+|W|^2+|X|^2 also =1, we must have |Y|=|X|=sin(a).  By similar
+reasoning, we find that |Z|=|W|=cos(a).
+
+Therefore, by using only the properties that both rows and columns
+must be normalized, our unitary matrix must have the following form:
+
+    [ cos(a)exp(iw) sin(a)exp(ix)]
+U = [-sin(a)exp(iy) cos(a)exp(iz)]
+
+In the above matrix, we can set c=cos(a) and s=sin(a) to get
+
+    [W X]   [ c exp(iw)  s exp(ix)]
+U = [Y Z] = [-s exp(iy)  c exp(iz)]
+
+We now apply the constraint that the _rows_ are orthogonal -- i.e.,
+WY* + XZ* = 0.
+
+WY* + XZ* = - c exp(iw) s exp(-iy) + s exp(ix) c exp(-iz)
+          = - cs exp(iw-iy) + cs exp(ix-iz)
+          = cs (exp(ix-iz) - exp(iw-iy))
+
+In the general case where cs/=0, we must have
+
+exp(ix-iz) - exp(iw-iy) = 0, or
+             exp(ix-iz) = exp(iw-iy), or
+
+                    x-z = w-y, modulo 2 pi.
+
+Solving for z, we get z = -w+x+y, so our matrix becomes
+
+    [W X]   [ c exp(iw)  s exp(ix)       ]
+U = [Y Z] = [-s exp(iy)  c exp(i(-w+x+y))]
+
+We now apply the requirement that the _columns_ be orthogonal -- i.e.,
+WX* + YZ* = 0.
+
+WX* + YZ* = c exp(iw) s exp(-ix) - s exp(iy) c exp(-i(-w+x+y))
+          = cs exp(i(w-x)) - cs exp(i(y+w-x-y))
+
+In the most general case, where cs/=0, we have
+
+exp(i(w-x)) - exp(i(y+w-x-y)) =
+exp(i(w-x)) - exp(i(w-x))     = 0
+
+So, once the rows are orthogonal, the columns are already orthogonal,
+as well.
+
+We now apply the constraint that the absolute value of the determinant
+must be 1:
+
+         |W X|   | c exp(iw)  s exp(ix)       |
+det(U) = |Y Z| = |-s exp(iy)  c exp(i(-w+x+y))|  =
+
+c exp(iw) c exp(i(-w+x+y)) + s exp(iy) s exp(ix) =
+c^2 exp(i(w-w+x+y)) + s^2 exp(i(y+x))            =
+c^2 exp(i(x+y)) + s^2 exp(i(y+x))                =
+exp(i(x+y)) (c^2 + s^2)                          =
+exp(i(x+y))
+
+Since c^2+s^2 = 1, the absolute value of the determinant =1.
+
+So, the unitary determinant constraint is already satisfied, as well.
+
+In a sense, we are already finished, because we have reduced our
+unitary matrix to 4 real parameters: w,x,y and the angle
+a=acos(c)=asin(s).
+
+However, we can go a good bit further.
+
+Consider now the matrix
+
+    [W exp(ib)  X]
+V = [Y exp(ib)  Z]
+
+We note that det(V) = exp(ib) det(U), so that multiplying the first
+column by a complex number whose absolute value =1 keeps the absolute
+value of the determinant of the matrix U the same.
+
+Furthermore, the first column remains normalized, since
+
+W exp(ib) W* exp(-ib) + Y exp(ib) Y* exp(-ib) = WW* + YY* = 1.
+
+Similarly, the rows are still orthogonal, since
+
+W exp(ib) Y* exp(-ib) + X Z* = WY* + XZ* = 0.
+
+Also, the columns are still orthogonal, since
+
+W exp(ib) X* + Y exp(ib) Z* = exp(ib) (WX* + YZ*) = 0.
+
+Therefore, multiplying any of the rows or any of the columns by an
+arbitrary phase factor doesn't change the unitariness of the matrix.
+This fact suggests a _factorization_ of our unitary matrix:
+
+[ c exp(iw)  s exp(ix)       ]
+[-s exp(iy)  c exp(i(-w+x+y))]             =
+
+[exp(iq)    0   ] [ c s] [exp(is)    0   ]
+[   0    exp(ir)] [-s c] [   0    exp(it)] =
+
+                      [ c s]
+diag(exp(iq),exp(ir)) [-s c] diag(exp(is),exp(it))
+
+where q,r,s,t are new real parameters to be determined.
+
+If we multiply out the right-hand side, we can equate the exponents,
+and attempt to solve the equations.
+
+[ c exp(iw)  s exp(ix)       ]   [ c exp(i(q+s))  s exp(i(q+t))]
+[-s exp(iy)  c exp(i(-w+x+y))] = [-s exp(i(r+s))  c exp(i(r+t))]
+
+We then get the following equations, modulo 2 pi:
+
+q+s = w
+r+s = y
+q+t = x
+r+t = -w+x+y
+
+We have one too many parameters, which makes sense, because we can
+move an overall phase factor from the left diagonal matrix to the the
+right diagonal matrix, and vice versa, without changing the overall
+product.  So we can arbitrarily choose t=0, and begin solving our
+equations.
+
+q = x
+r = -w+x+y
+s = y-r = y+w-x-y = w-x
+
+So, the equations are solvable, and we obtain the factorization:
+
+[ c exp(iw)  s exp(ix)       ]
+[-s exp(iy)  c exp(i(-w+x+y))]                        =
+
+[exp(ix)       0       ] [ c s] [exp(i(w-x))    0   ]
+[   0    exp(i(-w+x+y))] [-s c] [    0       exp(i0)] =
+
+                             [ c s]
+diag(exp(ix),exp(i(-w+x+y))) [-s c] diag(exp(i(w-x)),exp(i0))
+
+In other words, within every 2x2 _unitary_ matrix hides a (real)
+_orthogonal_ matrix.  Now, this orthogonal matrix
+
+[ c s]
+[-s c]
+
+can additionally be factored as follows:
+
+[ c s]             [1 i] [c+is  0  ]           [ 1 -i]
+[-s c] = 1/sqrt(2) [i 1] [ 0   c-is] 1/sqrt(2) [-i  1]
+
+where, of course, c+is = exp(ia), c-is = exp(-ia).
+
+So, we have shown that we can factor any 2x2 unitary matrix using 4
+independent real parameters (e.g., a,q,r,s) as follows:
+
+[exp(iq)    0   ] [1/n i/n] [exp(ia)    0    ] [ 1/n -i/n] [exp(is)    0   ]
+[   0    exp(ir)] [i/n 1/n] [   0    exp(-ia)] [-i/n  1/n] [   0    exp(it)] =
+
+                      [1/n i/n]                        [ 1/n -i/n]
+diag(exp(iq),exp(ir)) [i/n 1/n] diag(exp(ia),exp(-ia)) [-i/n  1/n] diag(exp(is),exp(it))
+
+where n=sqrt(2), and the set {q,r,s,t} has one redundant parameter.
+
+Thus far, we have shown how a 2x2 unitary matrix U can be decomposed
+into the form U = D1 O D2, where D1,D2 are diagonal matrices, and O is
+a real orthogonal matrix.  Furthermore, this real orthogonal matrix O
+can be further decomposed into a diagonal matrix with conjugate
+eigenvalues.
+
+
+Quaternions
+-----------
+
+For our purposes, we will define _quaternions_ as complex matrices of the form
+
+         [ A   B ]
+Q(A,B) = [-B*  A*].
+
+Thus, a quaternion is determined by 4 real parameters -- the real and
+imaginary parts of A, and the real and imaginary parts of B.
+
+The set of quaternions is _closed_ under matrix multiplication:
+
+Q(A,B) Q(C,D) = Q(AC-BD*, AD+BC*).
+
+The _conjugate_ Q'(A,B) of a quaternion Q(A,B) is simply the
+_tranjugate_ of the corresponding complex matrix -- i.e., also written
+Q'(A,B).
+
+          [A* -B]
+Q'(A,B) = [B*  A]
+
+The _norm_ of a quaternion Q(A,B) is its _determinant_: det(Q(A,B)) =
+AA* + BB*.  Note that norm(Q'(A,B)) = norm(Q(A,B)).  Note also that
+
+                             [1 0]                [1 0]
+Q(A,B) Q'(A,B) = (AA* + BB*) [0 1] = norm(Q(A,B)) [0 1]
+
+Note that if A=cos(a) and B=sin(a), then
+
+[ cos(a) sin(a)]   [ A  B ]
+[-sin(a) cos(a)] = [-B* A*], so the matrix Q(cos(a),sin(a)) is a quaternion.
+
+Note that if A=exp(ia) and B=0, then
+
+[exp(ia)    0    ]   [ A  B ]
+[   0    exp(-ia)] = [-B* A*], so the matrix Q(exp(ia),0) is also a quaternion.
+
+
+Representing Unitary Matrices by Quaternions
+--------------------------------------------
+
+We have already shown above that every 2x2 unitary matrix can be
+factored in the following form:
+
+[ c exp(iw)  s exp(ix)       ]
+[-s exp(iy)  c exp(i(-w+x+y))]                        =
+
+[exp(ix)       0       ] [ c s] [exp(i(w-x))    0   ]
+[   0    exp(i(-w+x+y))] [-s c] [     0      exp(i0)] =
+
+                             [ c s]
+diag(exp(ix),exp(i(-w+x+y))) [-s c] diag(exp(i(w-x)),exp(i0))
+
+We now show that with a bit of additional manipulation, we can express
+the diagonal matrices as quaternions.
+
+Consider first the left diagonal matrix:
+
+[exp(ix)       0       ]           [exp(id)    0    ]
+[   0    exp(i(-w+x+y))] = exp(ib) [   0    exp(-id)] =
+
+[exp(i(b+d))     0      ]
+[    0       exp(i(b-d))]
+
+We get the following linear equations, mod 2 pi:
+
+x      = b+d
+-w+x+y = b-d
+
+d = (w-y)/2
+b = x-d = x-(w-y)/2
+
+Thus, our first diagonal matrix factors as:
+
+[exp(ix)       0       ]
+[   0    exp(i(-w+x+y))]                         =
+
+                  [exp(i(w-y)/2)       0       ]
+exp(i(x-(w-y)/2)) [     0        exp(-i(w-y)/2)] =
+
+exp(i(x-(w-y)/2)) Q(exp(i(w-y)/2),0)
+
+Similarly, our second diagonal matrix factors as:
+
+[exp(i(w-x))    0   ]
+[     0      exp(i0)]                              =
+
+                [exp(i((w-x)/2))        0        ]
+exp(i((w-x)/2)) [       0        exp(-i((w-x)/2))] =
+
+exp(i((w-x)/2)) Q(exp(i((w-x)/2)),0)
+
+Now, we can gather together the constant factors from these two
+diagonal matrix factorizations to get the overall constant factor:
+
+exp(i((x+y)/2))
+
+Finally,
+
+[ c exp(iw)  s exp(ix)       ]
+[-s exp(iy)  c exp(i(-w+x+y))]                                =
+
+[exp(ix)       0       ] [ c s] [exp(i(w-x))    0   ]
+[   0    exp(i(-w+x+y))] [-s c] [     0      exp(i0)]         =
+
+                             [ c s]
+diag(exp(ix),exp(i(-w+x+y))) [-s c] diag(exp(i(w-x)),exp(i0)) =
+
+exp(i((x+y)/2)) times
+
+[exp(i(w-y)/2)        0      ]
+[     0        exp(-i(w-y)/2)] times
+
+[ c s]
+[-s c] times
+
+[exp(i((w-x)/2))         0       ]
+[       0        exp(-i((w-x)/2))] =
+
+exp(i((x+y)/2)) Q(exp(i(w-y)/2),0) Q(c,s) Q(exp(i((w-x)/2)),0)
+
+Of course, since quaternions are closed under multiplication, we can
+collapse the last three factors together into a single quaternion:
+
+Q(exp(i(w-y)/2),0) Q(c,s) Q(exp(i((w-x)/2)),0)           =
+
+Q(c exp(i(w-y)/2), s exp(i(w-y)/2)) Q(exp(i((w-x)/2)),0) =
+
+Q(c exp(i(w-(x+y)/2)), s exp(i(x-y)/2))
+
+Thus, our original unitary matrix
+
+[ c exp(iw)  s exp(ix)       ]
+[-s exp(iy)  c exp(i(-w+x+y))] =
+
+exp(i(x+y)/2) Q(c exp(i(w-(x+y)/2)), s exp(i(x-y)/2))
+
+Now we have a problem: the complex constant exp(i(x+y)/2) _cannot_
+be expressed as a quaternion, because its representation as a matrix
+looks like diag(A,A) instead of the required form of diag(A,A*).
+
+However, if we wish to express the _effect_ of a unitary matrix U on a
+complex (row) vector v=[R S], we can premultiply this vector by the complex
+constant exp(i(x+y)/2) _before_ multiplying the vector by the
+matrix of the above quaternion.  But another more elegant way to
+achieve the same effect is to represent the complex vector v=[R S] by
+the quaternion Q(R,S), and multiply it _on the left_ by the
+quaternion Q(exp(i(x+y)/2),0).  Thus,
+
+Q(exp(i(x+y)/2),0) Q(R,S) = Q(exp(i(x+y)/2) R, exp(i(x+y)/2) S).
+
+In other words, multiplying Q(R,S) on the left by a quaternion Q(C,0)
+produces the quaternion Q(C R, C S), which is exactly the effect we
+desire.
+
+Thus, the _matrix_ product
+
+      [ c exp(iw)  s exp(ix)       ]
+[R S] [-s exp(iy)  c exp(i(-w+x+y))] =
+
+v     U
+
+produces a vector, which when interpreted as a quaternion, is equal to
+the _quaternion_ product
+
+Q(exp(i(x+y)/2),0)  Q(R,S)  Q(c exp(i(w-(x+y)/2)), s exp(i(x-y)/2)) =
+
+Q1                  v       Q2.
+
+In other words, we have shown that every linear unitary function v U
+of a complex vector v can be computed by the quaternion triple product
+Q1 v Q2, where the symbol "v" in the quaternion product means the
+quaternion whose respective components are those of the vector v.
+
+We note that we still have 4 real parameters in this representation:
+w,x,y and a, where c=cos(a) and s=sin(a).
+
+
+A simpler reduction of unitary 2x2 matrices to quaternions
+----------------------------------------------------------
+
+With our knowledge of the structure of unitary 2x2 matrices, we can
+reduce the work necessary to decompose the unitary 2x2 matrix by
+noticing that
+
+U = sqrt(det(U)) U/sqrt(det(U)) = exp(i(x+y)/2) Q,
+
+det(Q)=1.
+
+As a corollary to the above structure theorem, we find that Q is
+_already_ a quaternion, whose parameters can trivially read off as the
+first row of Q!!
+
+Thus, our linear function of the complex vector V can be computed
+as the triple product
+
+Q(sqrt(det(U)),0) Q(R,S) (U/sqrt(det(U))) =
+
+Q(sqrt(det(U)),0) Q(R,S) Q
+
+For example, consider the unitary matrix
+
+    [1  0]
+U = [0 -1]
+
+det(U) = -1, so sqrt(det(U)) = i.
+
+      [-i 0]
+U = i [ 0 i] = i Q(-i,0) = exp(i pi/2) Q(exp(i 3pi/2),0).
+
+
+Conclusions
+-----------
+
+We have shown how _every_ 2x2 complex unitary matrix U can be factored
+into a form U = D1 O D2, where D1,D2 are complex diagonal matrices,
+and O is an orthogonal real matrix.  Furthermore, this factorization
+can then be used to derive a quaternion product representation for
+every unitary linear function of complex pairs: v U can be computed by
+Q1 v Q2, where the product on the left is a matrix-vector product, and
+the triple product Q1 v Q2 is a quaternion triple product.
+
+
+References
+----------
+
+Eves, Howard.  Elementary Matrix Theory.  Dover Publications, Inc.,
+New York, 1966.  ISBN 0-486-63946-0.

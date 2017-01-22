@@ -1,0 +1,263 @@
+
+         ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+         º  The purpose of a WWH is to  expand one's knowledge on a  º
+         º  topic they already understand,  but need a reference, a  º
+         º  refresher course, or to simply extend what they already  º
+         º  know about the topic.                                    º
+         º                                                           º
+         º WWH is the quick tutor.  Just the [W]hat, [W]hy and [H]ow º
+ÉÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍ»
+º WWH            º Rendering convex n-gons                                    º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Text version   º 1.0                                                        º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Written by     º Paul Nettle (midnight@grafix3d.tzo.com)                    º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Last Modified  º January 12, 1998                                           º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Prerequisites  º Requires basic understanding of (triangular) polygon       º
+º                º rendering and scan conversion.                             º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHAT                                WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Rendering convex n-gons (shapes that have more than 2 vertices) to
+the frame buffer can be a challenge, especially if you wish to
+accomplish this with any amount of speed.  I'll outline a very simple
+and fast algorithm.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHY                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Some polygon renderers can benefit greatly by rendering n-gons rather
+than triangular patches.  In a doom-style environment, this would (on
+average) drop the number of polygons to render by 50%.  This does not
+mean that you'll render less screen-space.  But it does cut down on
+the time spent in the overhead of triangular scan-conversion setup.
+
+In my past experiences, with a generic dataset (includes indoor and
+outdoor scene data with objects in the environment) the average
+reduction from triangles to n-gons was typically 50%.
+
+Clipping (2D or 3D) usually results in n-gons that must be
+triangulated for rendering.  You can avoid this step by simply
+rendering the clipped n-gons themselves.
+
+As you'll see, the routines outlined here will perform very well for
+triangular polygons as well (comparable to a dedicated triangular
+patch renderer.)
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 HOW                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+DEFINE
+
+Lets start off by defining our basic model of an n-gon (the input to
+our renderer).
+
+Since an n-gon has an unlimited number of vertices (which may be
+limited for memory or speed purposes) we'll need a way to store our
+n-gon.  For this example, we'll use a linked list rather than a
+static array of vertices for each polygon.  This linked list MUST
+contain vertices that appear in a specific order -- we'll assume
+clockwise for this explanation, but it really doesn't matter.  It
+also shouldn't matter which vertex is stored in the list first, as
+long as the last vertex in the list connects to the first, closing
+the polygon.
+
+Also, for the purpose of this example, we'll assume that the polygon
+is non-textured, Lambert shaded (i.e. a constant shade across the
+entire polygon, often referred to as "flat shaded"), and rendered
+on screen, from top to bottom.
+
+For this example, our vertex list is defined as:
+
+        typedef struct s_vert
+        {
+                int x, y;
+                struct s_vert *next;
+        } sVert;
+
+And our polygon is defined as:
+
+        typedef struct s_poly
+        {
+                sVert  *verts;
+                char   color;
+        } sPoly;
+
+For simplicity, we'll assume our X and Y values are fixed-point
+values (stored in 32-bit integers) and there will be no sub-pixel
+correction applied.
+
+One final note before I go on... none of the code in this WWH was
+compiled or even tested.  It is simply here as an example to aid the
+text in explaining the processes involved.
+
+SETUP
+
+Since we'll be rendering from top-to-bottom, we'll need to find our
+top vertex, so scan through the list of vertices and locate that top
+vertex (this assumes we know our polygon is stored in "poly"):
+
+        sVert *pTop   = poly.verts;
+        sVert *pVerts = poly.verts->next;
+
+        for( ; pVerts; pVerts = pVerts->next)
+        {
+                if (pVerts->y < pTop->y)
+                        pTop = pVerts;
+        }
+
+You may find a slight speed increase by storing your top vertex
+inside the polygon when you perform your clipping or any of your
+other pre-render steps that cycles through your screen-space
+vertices.  Also, you can ignore the fact that this polygon may have a
+flat top (either the previous or next vertex has the same height as
+the top vertex) since these vertices will automatically be skipped.
+
+Later, we'll need to discern the left edge from the right edge, so
+make two copies of this top vertex.  These will reperesent the top of
+the left edge and top of the right edge.
+
+	sVert lTemp = *pTop; // copy
+	sVert rTemp = *pTop; // copy
+        sVert *lTop = &lTemp;
+        sVert *rTop = &rTemp;
+        int   currentY = pTop->y;
+
+The reason we've made two copies of the vertex itself is because
+we'll be modifying the actual vertex as we step along the edges of
+our polygon.  simply pointing lTop and rTop at the top vertex
+wouldn't work because they would both be modifying this top vertex
+simultaneously and the polygon might come out looking as if it got a
+bad hit of something.  :>  If this is confusing, keep reading, and
+it'll soon be clear.
+
+Starting at the top vertex, calculate the edge deltas for the edges
+to the left and to the right.  Since your polygon's vertices are
+oriented in clockwise order in every case (unless you decide you want
+to render back-facing polygons) the left edge will always be defined
+as the current vertex (top) and the previous vertex.  The right edge
+will always be defined as the current vertex (top) and the next
+vertex.
+
+Keep in mind that since the vertices are stored in a list, you may
+have to wrap to the beginning or end of the list to get the previous
+or next vertex (getPrev() and getNext() account for the this, and should
+manually wrap to the beginning or end of the list).  These are
+the bottoms of the left and right edges, with their deltas:
+
+	sVert *lBot  = getPrev(pTop);
+	sVert *rBot  = getNext(pTop);
+        float lDelta = calcDelta(&lTop, &lBot);
+        float rDelta = calcDelta(&rTop, &rBot);
+	int   lHeight = lBot->y - lTop->y; // Height of the left edge
+	int   rHeight = lBot->y - lTop->y; // Height of the right edge
+
+Our scan conversion loop starts here:
+
+        for(;;)
+        {
+
+Of the two edges, determine which edge spans the fewest scanlines
+(shortest from top-to-bottom).
+
+                int height = MIN(lBot->y - lTop->y, rBot->y - rTop->y);
+
+Since your vertices are always oriented the same way, a negative
+height always means you've finished rendering the polygon.  To get a
+negative, you would have reached the bottom of the polygon and would
+have started to go up the other side.
+
+                if (height < 0) break;
+
+Render the spans.  Step along the edges as you go...
+
+                for(int i = 0; i < height; i++)
+                {
+                        renderSpan(lTop->x, rTop->x, currentY);
+                        currentY++;
+                        lTop->x += lDelta;
+                        lHeight--;
+                        rTop->x += rDelta;
+                        rHeight--;
+                }
+
+Finally, we need to step to the next edge.  To do this we compare
+each edge's height with 0 (remember that they were decremented in the
+loop). The ones that decremented all the way to 0 are done and can be
+stepped.
+
+                if (!lHeight)
+                {
+                        lTop = lBot;
+                        lBot = getPrev(lBot);
+			lDelta = calcDelta(& lTop, & lBot);
+			lHeight = lBot->y - lTop->y; // Height of the left edge
+                }
+
+                if (!rHeight)
+                {
+                        rTop = rBot;
+                        rBot = getNext(rBot);
+			rDelta = calcDelta(& rTop, & rBot);
+			rHeight = lBot->y - lTop->y; // Height of the right edge
+                }
+        }
+
+And that's all there is to it (other than a few notes.)
+
+NOTES:
+
+You may notice that we've been stepping the left and right edges
+using the actual vertices that define the tops of those edges, not
+spare copies of them (we only copied the TOP vertex).  If you share
+vertices between polygons, you'll have destroyed those vertices for
+the next polygon to be rendered.  You'll need to create a separate
+copy of each vertex for stepping.
+
+Triangles are simpler to deal with than n-gons.  One major reason is
+because they're always planar.  If you somehow get an n-gon that is
+not planar, you may find yourself rendering a concave n-gon (whether
+you plan to or not.)
+
+Gouraud shaded n-gons can be very tricky because as they rotate in
+screen space, the intensities across the surface of the n-gon changes
+direction.  Consider the following example:  A 4-sided n-gon with
+alternate vertices having intensities of dark, bright, dark, bright. 
+As that n-gon rotates on screen and the two dark vertices are across
+from each other, you'll have a dark line connecting them horizontally
+(gouraud interpolation will see little or no change between them, so
+the entire scanline will be pretty much the same shade).  However, if
+you rotate that n-gon 90 degrees on-screen, you'll find that with the
+two bright vertices across from each other horizontally, the center
+scanline will be bright.  If the gouraud were to remain constant,
+then the dark line would have become vertical.  Instead, the
+intensity across the n-gon has changed.  Larger n-gons tend to show
+this more often than small n-gons.
+
+Unlike triangles, the deltas for U and V (texture) across the surface
+of an n-gon horizontally may not be constant from scanline to
+scanline.  If the polygon was planar mapped (a texture plane was
+projected to get U/V coordinates for all vertices of an n-gon) then
+it is safe to assume that these deltas are constant from scanline to
+scanline.  Otherwise, they're not.
+
+However, Z and W (depth) across the surface of the n-gon does not
+suffer from the same potential problems as do the U and V.  The delta
+depth across each scanline in the n-gon is constant from scanline to
+scanline.
+
+I would like to extend thanks to Konstantin Putnik for his input and
+for finding bugs that made their way into this document as I attempted
+to simplify the code for the sake of explanation.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 END                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+

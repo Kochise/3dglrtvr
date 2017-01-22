@@ -1,0 +1,147 @@
+
+         ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+         º  The purpose of a WWH is to  expand one's knowledge on a  º
+         º  topic they already understand,  but need a reference, a  º
+         º  refresher course, or to simply extend what they already  º
+         º  know about the topic.                                    º
+         º                                                           º
+         º WWH is the quick tutor.  Just the [W]hat, [W]hy and [H]ow º
+ÉÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍ»
+º WWH            º Sub-pixel accuracy                                         º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Text version   º 1.0                                                        º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Written by     º Paul Nettle (midnight@grafix3d.tzo.com)                    º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Last Modified  º April 1, 1997                                              º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Prerequisites  º Requires basic understanding of polygon rendering and      º
+º                º scan conversion.                                           º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHAT                                WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Sub-pixel accuracy is used to clean up rendering quality, and solve
+other accuracy problems (such as gaps between adjacent polygons).
+
+Sub-pixel accuracy is roughly defined as:  "Only pixels whose
+center-points lie inside a given polygon are lit."  To achieve
+sub-pixel accuracy, it is not necessary to adhere to this definition 
+exactly.  For real-time applications, any point inside the pixel
+(i.e.  the lower right corner) may be used rather than the center. 
+The only side-effect of this is that the entire screen is shifted
+down/right by exactly 0.5 pixels.  Our example uses this corner.  If
+this isn't clear, it will be soon.
+
+To better understand this, consider a piece of graph paper made up of
+large blocks.  Inside each block is a small point at the very
+center.  Upon this page, is the outline of a triangle that almost 
+fills the page.  Also, consider that the lines making up the outline
+of the triangle as well as the points the designate the center of
+each grid point are infinitely thin.  This is important since we're 
+referring to a mathematical model of a triangle, not a physical
+triangle rendered in pixels or with a pen which has a width.
+
+From this simple diagram, sub-pixel accuracy is easy to understand. 
+Each block of the grid is a pixel.  And only those pixels whose
+center-points lie inside the triangle will be lit with the color of 
+the triangle.
+
+This isn't nearly as hard to implement as this description may make
+it sound.  The implementation of this is actually very simple, and a
+minimal speed hit.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHY                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Sub-pixel accuracy is only necessary due to the nature of our digital
+(i.e. pixel) displays.  As the pixels become smaller and smaller,
+sub-pixel accuracy becomes less important.  When the pixels become
+infinitely small (i.e. "real life" then sub-pixel accuracy is no
+longer necessary).  However, even with high-resolution displays
+(1280x1024) the differences of sub-pixel accuracy can be perceived.
+
+One major problem with drawing polygons onto a digital display (i.e.
+pixels) is that we're forced to make a decision whether or not to
+turn a pixel on or off.  Without sub-pixel accuracy, we'll simply
+light any pixel that touches the polygon.  This isn't good enough.
+
+Consider a polygon with a nearly horizontal top edge.  The top two
+vertices are very close to the 100th scan-line.  One is slightly
+above the scan-line (i.e. y = 99.9) and the second vertex is slightly
+below the scan-line (i.e. y = 100.1).  Without sub-pixel accuracy,
+the top edge might be a horizontal line, with an extra lit pixel
+above the vertex at one end.  This SHOULD be drawn as a horizontal
+line with a break at the mid-point, where the edge continues on, yet
+one scan-line lower.
+
+Sub-pixel accuracy also gives our polygons a smooth feel as they
+animate very slowly on- screen.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 HOW                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Now that I've filled you with all that technical information, let me
+simplify the process by simply saying that all this can be achieved
+by simply "sliding" our polygons into place to align on pixel 
+boundaries before we draw.  That's all there is to it.
+
+The simplest polygon routine (a triangle scan-converter) usually
+starts by finding the top-most point, and scan-converting downward
+until it hits the next vertex.  From there, one edge changes 
+direction, and the scan-conversion process continues until the bottom
+of the polygon is reached.
+
+In this model, at the top of each edge a starting X is calculated as
+well as a delta X.  The starting X is interpolated along the edge of
+the polygon using the delta X.  Using this model, consider the 
+following code fragment:
+
+        start_x += delta_x * (1.0 - (ceil(start_y) - start_y));
+
+What this does is to simply "slide" the starting X coordinate along
+its edge by the distance that the starting Y is from the bottom of
+its scan-line.
+
+This process must be done for each value that gets interpolated along
+the edges (i.e. any U/V for texturing or Gouraud color values, etc.)
+
+If used, the ceil() function can cause a dramatic slowdown on many
+systems.  I use an the Intel processor for the majority of my work. 
+This is an inline routine I use to replace portions of the line above
+for more speed:
+
+inline  float   SUB_PIX(const float input)
+{
+        float   retCode;
+
+        __asm   fld     input
+        __asm   fld     input
+        __asm   fsub    dword ptr half
+        __asm   frndint
+        __asm   fsubp   st(1), st
+        __asm   fld1
+        __asm   fsubrp  st(1), st
+        __asm   fstp    retCode
+
+        return retCode;
+}
+
+In the above code sample, `half' is a 32-bit floating point memory
+variable containing the value 0.5f.
+
+This reduces our sub-pixel correction to:
+
+        start_x += delta_x * SUB_PIX(start_y);
+
+This is sub-pixel accuracy.  To test your modifications, try rotating
+a 3D cube VERY slowly (i.e. 1/256th degree increments).
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 END                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
