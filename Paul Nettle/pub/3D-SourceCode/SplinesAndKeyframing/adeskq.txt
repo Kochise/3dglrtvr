@@ -1,0 +1,186 @@
+[Home]                   Technical Documents
+
+---------------------------------------------------------------------------
+How To Calculate KXP Spline Derivatives
+---------------------------------------------------------------------------
+
+A Tips & Techniques document for use with the IPAS Toolkit
+July 13, 1995
+
+Introduction:
+
+Several IPAS developers have requested information regarding how the
+derivatives for 3DS spline interpolation are computed for KXP development.
+This document contains a fairly uncommented example that will demonstrate
+3D Studio's implementation of spline interpolation.
+
+Example 3D Studio Key Interpolation Code
+
+The following is an example of 3D Studio's key interpolation code for KXP
+IPAS developers. Note that position keys are handled just like any other
+track type except for rotations. Those are handled as detailed in the
+CompAB() function below.
+
+NOTE: This is unsupported code; use at your own risk.
+
+static void CompElementDeriv( float pp, float p, float pn,
+                                        float *ds, float *dd,float ksm,
+                                        float ksp, float kdm, float kdp )
+{
+        float delm, delp;
+
+        delm = p - pp;
+        delp    = pn - p;
+        *ds  = ksm*delm + ksp*delp;
+        *dd  = kdm*delm + kdp*delp;
+}
+
+/*-------------------------------------------------------
+This computes the derivative at key, as a weighted average of the linear slopes
+ into and out of key, the weights being determined by the tension and continuity
+ parameters. Actually two derivatives are computed at key:
+        "ds" is the "source derivative", or "arriving derivative"
+        "dd" is the "destination derivative" or "departing derivative"
+----------------------------------------------------------*/
+static void CompDeriv( PosKey *keyp, PosKey *key, PosKey *keyn )
+{
+        int i;
+        /* Full TCB computation */
+        float tm,cm,cp,bm,bp,tmcm,tmcp,ksm,ksp,kdm,kdp,delm,delp,c;
+        float dt,fp,fn;
+
+        /* fp,fn apply speed correction when continuity is 0.0 */
+        dt = .5 * (float)( keyn->frame - keyp->frame );
+        fp = ( (float)( key->frame - keyp->frame ) ) / dt;
+        fn = ( (float)( keyn->frame - key->frame ) ) / dt;
+        c  = fabs( key->cont );
+        fp = fp + c - c * fp;
+        fn = fn + c - c * fn;
+        cm = 1.0 - key->cont;
+        tm = 0.5 * ( 1.0 - key->tens );
+        cp = 2.0 - cm;
+        bm = 1.0 - key->bias;
+        bp = 2.0 - bm;
+        tmcm = tm*cm;   tmcp = tm*cp;
+        ksm = tmcm*bp*fp;       ksp = tmcp*bm*fp;
+        kdm = tmcp*bp*fn;       kdp = tmcm*bm*fn;
+
+        for( i = X; i <= Z; i++ ) {
+                CompElementDeriv( keyp->pos[i], key->pos[i], keyn->pos[i],
+                             &key->ds[i], &key->dd[i], ksm, ksp, kdm, kdp );
+        }
+
+}
+
+/* -----------------------------------------------------------
+Compute the "a" and "b" terms at key "cur", which determine the incoming and
+outgoing tangents (in quaternion space )
+ -----------------------------------------------------------*/
+static int CompAB( RotKey *prev, RotKey *cur, RotKey *next )
+{
+        int i;
+        float qprev[4],qnext[4],q[4],qzero[4];
+        float qp[4],qm[4],qa[4],qb[4],qae[4],qbe[4];
+        float tm,cm,cp,bm,bp,tmcm,tmcp,ksm,ksp,kdm,kdp,c;
+        float dt,fp,fn;
+
+        if( prev != NULL ) {
+                if( cur->angle > TWOPI-.00001 ) {
+                        COPY_POINT3( q, cur->axis );
+                        q[3] = 0;
+                        qlog( q,qm );
+                } else {
+                        qcopy( qprev, prev->quat );
+                        if( qdot( qprev, cur->quat ) < 0 ) qnegate( qprev );
+                        qlndif( qprev, cur->quat, qm );
+                }
+        }
+
+        if( next != NULL ) {
+                if( next->angle > TWOPI-.00001 ) {
+                        COPY_POINT3( q, next->axis );
+                        q[3] = 0;
+                        qlog( q, qp );
+                } else {
+                        qcopy( qnext, next->quat );
+                        if( qdot( qnext, cur->quat ) < 0 ) qnegate( qnext );
+                        qlndif( cur->quat, qnext, qp );
+                }
+        }
+
+        if( prev == NULL ) qcopy( qm, qp );
+        if( next == NULL ) qcopy( qp, qm );
+
+        fp = fn = 1.0;
+        cm = 1.0 - cur->cont;
+        if( prev && next ) {
+                dt = 0.5 * (float)(next->frame - prev->frame );
+                fp = ((float)(cur->frame - prev->frame))/dt;
+                fn = ((float)(next->frame - cur->frame))/dt;
+                c = fabs( cur->cont );
+                fp = fp + c - c * fp;
+                fn = fn + c - c * fn;
+        }
+
+        tm = .5*(1.0 - cur->tens);
+        cp = 2.0 - cm;
+        bm = 1.0 - cur->bias;
+        bp = 2.0 - bm;
+        tmcm = tm * cm;
+        tmcp = tm * cp;
+        ksm  = 1.0 - tmcm * bp * fp;
+        ksp  = -tmcp * bm * fp;
+        kdm  = tmcp * bp * fn;
+        kdp  = tmcm * bm * fn - 1.0;
+
+        for( i = 0; i < 4; i++ ) {
+                qa[i] = .5 * ( kdm * qm[i] + kdp * qp[i] );
+                qb[i] = .5 * ( ksm * qm[i] + ksp * qp[i] );
+        }
+
+        qexp( qa, qae );
+        qexp( qb, qbe );
+
+        qmul( cur->quat, qae, cur->a );
+        qmul( cur->quat, qbe, cur->b );
+
+        return TRUE;
+}
+
+/*
+Subject: Re: Question re derivs.c (fwd)
+It looks like deriv.c didn't contain the ease function -- just
+the geometric derivatives.  In that case, here's the ease function:
+*/
+
+/*  Ease: remap parameter between two keys to apply eases
+
+Call this with
+   a = easeFrom of key[n],
+   b = easeTo of key[n+1], and
+ u = (t-t[n]/(t[n+1]-t[n])
+-------------------------------------*/
+
+local float Ease(float u, float a, float b) {
+ float k;
+ float s = a+b;
+ if (s==0.0) return(u);
+ if (s>1.0) {
+  a = a/s;
+  b = b/s;
+  }
+ k = 1.0/(2.0-a-b);
+ if (u < a) return((k/a)*u*u);
+ else if (u<1.0-b) return( k*(2*u - a));
+ else {
+  u = 1.0-u;
+  return(1.0-(k/b)*u*u);
+  }
+
+---------------------------------------------------------------------------
+              Home | Company | Solutions | Support | Products
+---------------------------------------------------------------------------
+© Copyright 1996 Autodesk Inc. All rights reserved. Reproduction or copying
+                          of images is prohibited.
+
+                          webmaster@autodesk.com
