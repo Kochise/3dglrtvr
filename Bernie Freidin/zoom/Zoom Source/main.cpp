@@ -1,0 +1,739 @@
+// -------------------------------------
+// ZOOM: Fractal Circle Packing Explorer
+// (c) Bernie Freidin, 1999
+// -------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <gl/glut.h>
+#include "zoom.h"
+#include "pack.h"
+#include "menu.h"
+
+#include "grs.h"
+
+//NOTE: icon bar is disabled for now.. stylish though
+#define ICON_BAR 32 // icon bar width
+#define STAT_BAR 56 // status bar height
+
+// ********************************
+// Zoom stack and window resolution
+// ********************************
+
+#define MAX_ZOOMS 100
+
+static zoom_t ZOOM_LIST[MAX_ZOOMS], Z;
+static int    ZOOM_COUNT = 0;
+static int    ZOOM_STATE = 0;
+static int    ZOOM_HILITE = 0;
+static double ZOOM_MAX_TOTAL;
+static double ZOOM_MAX_SINGLE;
+static double ZOOM_VEL_LINEAR;
+static double ZOOM_VEL_NONLINEAR;
+static double SCROLL_VEL_2D;
+
+// **************
+// Set by RESHAPE
+// **************
+
+static int    WINDOW_X;
+static int    WINDOW_Y;
+static double VIEW_X;
+static double VIEW_Y;
+static double VIEW_ASPECT;
+
+// ***************************
+// Interface to Circle Packing
+// ***************************
+
+static packinfo_t PACKINFO;
+
+// *********
+// GRS stuff
+// *********
+
+static grs_t GRS = {NULL};
+static int GRS_MODE = 0;
+
+static char GRS_presetNames[][60] = {
+	"birdhead.grs",
+	"bronto.grs",
+	"dragon.grs",
+	"house.grs",
+	"knight.grs",
+	"rex.grs",
+	"scene.grs",
+	"usa.grs",
+	"vinci.grs"
+};
+
+// **********************
+// Common render settings
+// **********************
+
+static int    ANTI_ALIASED = 0;
+static double LINE_WIDTH   = 1.0;
+
+// ********************
+// Local menu functions
+// ********************
+
+static void _mainMenuCallback(int value)
+{
+	if(value == 1) exit(0);
+}
+
+static void GLUT__Display(void);
+
+static void _advancedMenuCallback(int value)
+{
+	if(value == 1)
+	{
+		//FIXME: broken!
+		PACK_ClearTSPMemory();
+		glutPostRedisplay();
+	}
+}
+
+static void _currentObjectCallback(int value)
+{
+	if(value == 1)
+	{
+		GRS_MODE = 0;
+		ZOOM_LIST[0].x = 0.0;
+		ZOOM_LIST[0].y = 0.0;
+		ZOOM_LIST[0].z = 0.95;
+		ZOOM_COUNT = 1;
+		ZOOM_STATE = 0;
+		Z = ZOOM_LIST[0];
+		glutPostRedisplay();
+	}
+}
+
+static void _GRS_loadCallback(int value)
+{
+	char buf[200];
+	
+	if(value < 10)
+	{
+		strcpy(buf, "GRS Data/");
+		strcat(buf, GRS_presetNames[value-1]);
+	}
+	else
+	{
+		fprintf(stdout, "Enter GRS path: ");
+		fgets(buf, 199, stdin);
+		*strchr(buf, 10) = '\0'; //!!
+	}
+	if(GRS_Load(&GRS, buf) < 0) return;
+	GRS_MODE = 1;
+	ZOOM_LIST[0].x = 0.0;
+	ZOOM_LIST[0].y = 0.0;
+	ZOOM_LIST[0].z = 0.95;
+	ZOOM_COUNT = 1;
+	ZOOM_STATE = 0;
+	Z = ZOOM_LIST[0];
+	glutPostRedisplay();
+}
+
+static void InitializeMenus(void)
+{
+	// *********************************************
+	// Initialize menus. The reason for placing this
+	// function in MAIN.CPP is so that the menus may
+	// be linked to the variables that they affect.
+	// It's ugly, I know!!
+	// *********************************************
+	
+	int m0 = glutCreateMenu(_mainMenuCallback);
+	int m1 = glutCreateMenu(NULL);
+	int m2 = glutCreateMenu(_advancedMenuCallback);
+	int m4 = glutCreateMenu(_currentObjectCallback);
+	int m5 = glutCreateMenu(_GRS_loadCallback);
+	
+	glutSetMenu(m0);
+	glutAddSubMenu("Current Object", m4);
+	glutAddSubMenu("Rendering", m1);
+	glutAddSubMenu("Advanced", m2);
+	glutAddMenuEntry("Exit", 1);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	
+	// **************************************
+	// Register sub-menus with handy function
+	// **************************************
+	
+	glutSetMenu(m4);
+	glutAddMenuEntry("Circle Packing", 1);
+	glutSetMenu(m5);
+	
+	for(int i = 0; i < 9; i++)
+	{
+		glutAddMenuEntry(GRS_presetNames[i], i+1);
+	}
+	glutAddMenuEntry("Load Custom GRS...", 10);
+	
+	glutSetMenu(m4);
+	glutAddSubMenu("GRS", m5);
+	
+	MENU_Register(-1, "",
+	0.0, 1.0, 1.0, "Anti-Aliasing", m1, 1, &ANTI_ALIASED);
+	MENU_Register(4, "1 1.5 2 3",
+	0.5, 20.0, 1.5, "Line Width", m1, 2, &LINE_WIDTH);
+	
+	MENU_Register(6, "10 50 100 200 500 1000",
+	5.0, 5000.0, 500.0, "Packing LOD", m2, 1, &PACKINFO.max_render_z);
+	MENU_Register(6, "10 50 100 200 500 1000",
+	5.0, 5000.0, 500.0, "Object LOD", m2, 2, &PACKINFO.lod_constant);
+	MENU_Register(3, "-0.66 -0.87 -0.99",
+	-1.0, -0.01, -0.66, "Fade Exponent", m2, 3, &PACKINFO.fade_exponent);
+	MENU_Register(1, "300000",
+	100.0, 1000000000.0, 300000.0, "Max Total Zoom", m2, 4, &ZOOM_MAX_TOTAL);
+	MENU_Register(1, "20",
+	2.0, 1000.0, 20.0, "Max Single Zoom", m2, 5, &ZOOM_MAX_SINGLE);
+	MENU_Register(-1, "",
+	0.0, 1.0, 1.0, "Dynamic Circle Generation", m2, 6, &PACKINFO.dynamic);
+	MENU_Register(-1, "",
+	0.0, 1.0, 0.0, "Dynamic C. Gen. In Shadow", m2, 7,
+	&PACKINFO.dynamic_shadow);
+	MENU_Register(1, "0.2",
+	0.0, 1.0, 0.2, "2D Scroll Speed", m2, 8, &SCROLL_VEL_2D);
+	MENU_Register(-1, "",
+	0.0, 1.0, 0.0, "Show [x,y,z] Components", m2, 9, &PACKINFO.show_vec_3);
+	MENU_Register(-1, "",
+	0.0, 1.0, 0.0, "Show Depth Component", m2, 10, &PACKINFO.show_depth);
+	
+	int m3 = glutCreateMenu(NULL);
+	MENU_Register(1, "0.1",
+	0.0, 1.0, 0.1, "Linear Velocity", m3, 1, &ZOOM_VEL_LINEAR);
+	MENU_Register(1, "0.01",
+	0.0, 1.0, 0.01, "Nonlinear Velocity", m3, 2, &ZOOM_VEL_NONLINEAR);
+	glutSetMenu(m2);
+	glutAddSubMenu("Zoom Velocity Coefficients", m3);
+	glutAddMenuEntry("Clear TSP Memory (BROKEN)", 1);
+}
+
+static void SetPixelViewport(int lft, int top, int rgt, int bot)
+{
+	// ************************************
+	// Set up a pixel-unit coordinate space
+	// and clear it to the current color.
+	// ************************************
+	
+	if(lft < 0) lft = WINDOW_X + lft;
+	if(top < 0) top = WINDOW_Y + top;
+	if(rgt < 0) rgt = WINDOW_X;
+	if(bot < 0) bot = WINDOW_Y;
+	
+	glViewport(lft, top, rgt, bot);
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslated(-1.0, -1.0, 0.0);
+	glScaled(2.0/(double)(rgt-lft), 2.0/(double)(bot-top), 1.0);
+	glRecti(0, 0, rgt-lft, bot-top); // clear
+}
+
+static void DrawText(int x, int y, char *str)
+{
+	// **************************
+	// Draw a dumb string of text
+	// **************************
+	
+	glRasterPos2i(x, y);
+	
+	while(*str != '\0')
+	{
+		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, *(str++));
+	}
+}
+
+static void DrawStatus(void)
+{
+	char buf[200];
+	
+	// **********
+	// Save state
+	// **********
+	
+	int vsave[4];
+	glGetIntegerv(GL_VIEWPORT, vsave);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	
+	// **********
+	// Status bar
+	// **********
+	
+	double per = 100.0 * (double)PACKINFO.obj_in_view /
+	                     (double)PACKINFO.obj_total;
+	
+	glColor3d(0.2, 0.2, 0.4);
+	SetPixelViewport(ICON_BAR, 0, -1, STAT_BAR);
+	glColor3d(0.5, 1.0, 0.5);
+	
+	sprintf(buf, "scaling=  %6.4f", Z.z);
+	DrawText(10, 10, buf);
+	sprintf(buf, "position= %6.4f, %6.4f", Z.x*Z.z, Z.y*Z.z);
+	DrawText(10, 26, buf);
+	
+	if(!GRS_MODE)
+	{
+		sprintf(buf, "total objects=  %i", PACKINFO.obj_total);
+		DrawText(300, 42, buf);
+		sprintf(buf, "drawn objects=  %i (%.3f%%)", PACKINFO.obj_in_view, per);
+		DrawText(300, 26, buf);
+		sprintf(buf, "nodes rejected= %i", PACKINFO.node_reject);
+		DrawText(300, 10, buf);
+	}
+	else
+	{
+		sprintf(buf, "GRS file name= %s", GRS.filename);
+		DrawText(300, 42, buf);
+		sprintf(buf, "num polylines= %i", GRS.polylinecount);
+		DrawText(300, 26, buf);
+		sprintf(buf, "num line segs= %i", GRS.linecount);
+		DrawText(300, 10, buf);
+	}
+	// ********
+	// Icon bar
+	// ********
+	
+	glColor3d(0.2, 0.2, 0.4);
+	SetPixelViewport(0, 0, ICON_BAR, -1);
+	
+	// *************
+	// Restore state
+	// *************
+	
+	glViewport(vsave[0], vsave[1], vsave[2], vsave[3]);
+	
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+static void Zoom(zoom_t *zoom)
+{
+	// *********************************
+	// Convert to normalized coordinates
+	// *********************************
+	
+	double x1 = +(2.0*(double)Z.box[0]/VIEW_X - 1.0);
+	double y1 = -(2.0*(double)Z.box[1]/VIEW_Y - 1.0);
+	double x2 = +(2.0*(double)Z.box[2]/VIEW_X - 1.0);
+	double y2 = -(2.0*(double)Z.box[3]/VIEW_Y - 1.0);
+	x1 *= VIEW_ASPECT;
+	x2 *= VIEW_ASPECT;
+	if(x1 > x2) {double x3 = x1; x1 = x2; x2 = x3;}
+	if(y1 > y2) {double y3 = y1; y1 = y2; y2 = y3;}
+	
+	// *********************
+	// Create zoom transform
+	// *********************
+	
+	double z2;
+	
+	if(VIEW_X*(y2-y1) < VIEW_Y*(x2-x1))
+		z2 = 2.0*VIEW_ASPECT/(x2-x1); else
+		z2 = 2.0/(y2-y1);
+	
+	if(z2     > ZOOM_MAX_SINGLE) z2 = ZOOM_MAX_SINGLE;
+	if(z2*Z.z > ZOOM_MAX_TOTAL)  z2 = ZOOM_MAX_TOTAL/Z.z;
+	
+	// ***************************
+	// Concatenate zoom transforms
+	// ***************************
+	
+	zoom->x = -0.5*(x1+x2)/Z.z + Z.x;
+	zoom->y = -0.5*(y1+y2)/Z.z + Z.y;
+	zoom->z = z2*Z.z;
+}
+
+static void GLUT__Display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	if(ANTI_ALIASED) glEnable(GL_LINE_SMOOTH);
+	else             glDisable(GL_LINE_SMOOTH);
+	
+	glLineWidth((float)LINE_WIDTH);
+	
+	if(ZOOM_STATE > 0 && ZOOM_STATE < 4)
+	{
+		if(Z.box[0] != Z.box[2] ||
+		   Z.box[1] != Z.box[3] )
+		{
+			zoom_t zoom;
+			Zoom(&zoom);
+			
+			// ********
+			// Draw box
+			// ********
+			
+			double x1 = +(2.0*(double)Z.box[0]/VIEW_X - 1.0);
+			double y1 = -(2.0*(double)Z.box[1]/VIEW_Y - 1.0);
+			double x2 = +(2.0*(double)(Z.box[2]-1)/VIEW_X - 1.0);
+			double y2 = -(2.0*(double)(Z.box[3]+1)/VIEW_Y - 1.0);
+			x1 *= VIEW_ASPECT;
+			x2 *= VIEW_ASPECT;
+			if(x1 > x2) {double x3 = x1; x1 = x2; x2 = x3;}
+			if(y1 > y2) {double y3 = y1; y1 = y2; y2 = y3;}
+			
+			if(ZOOM_HILITE) glColor3d(1.0, 1.0, 0.0);
+			else            glColor3d(0.4, 0.4, 0.0);
+			
+			glBegin(GL_LINE_LOOP);
+			glVertex2d(x1, y1);
+			glVertex2d(x2, y1);
+			glVertex2d(x2, y2);
+			glVertex2d(x1, y2);
+			glEnd();
+			
+			// ***********
+			// Draw shadow
+			// ***********
+			
+			glScaled(zoom.z, zoom.z, 1.0);
+			glTranslatef(zoom.x, zoom.y, 0.0);
+			
+			if(GRS_MODE)
+			{
+				glColor3d(0.3, 0.3, 0.5);
+				GRS_Draw(&GRS);
+			}
+			else PACK_Draw(1, &zoom);
+		}
+	}
+	// ******************
+	// Draw current image
+	// ******************
+
+	glLoadIdentity();
+	glScaled(Z.z, Z.z, 1.0);
+	glTranslated(Z.x, Z.y, 0.0);
+	
+	if(GRS_MODE)
+	{
+		glColor3d(0.3, 0.3, 1.0);
+		GRS_Draw(&GRS);
+	}
+	else PACK_Draw(0, &Z);
+	
+	// *****************
+	// Draw status stuff
+	// *****************
+	
+	DrawStatus();
+	
+	glFlush();
+    glutSwapBuffers();
+}
+
+static void GLUT__Reshape(int width, int height)
+{
+	WINDOW_X = width;
+	WINDOW_Y = height;
+	VIEW_X = (double)(width  - ICON_BAR);
+	VIEW_Y = (double)(height - STAT_BAR);
+	VIEW_ASPECT = VIEW_X / VIEW_Y;
+	
+	PACK_SetView(VIEW_X, VIEW_Y);
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glScaled(VIEW_Y/VIEW_X, 1.0, 1.0);
+	glViewport(ICON_BAR, STAT_BAR,
+	           width  - ICON_BAR,
+	           height - STAT_BAR);
+	
+	if(ZOOM_STATE != 4) ZOOM_STATE = 0;
+}
+
+static void GLUT__Keyboard(unsigned char key, int x, int y)
+{
+	if(key == 27) exit(0); // ESC key quits program
+	
+	// ******************************************
+	// Backspace key restores previous zoom state
+	// ******************************************
+	
+	if(key == 8)
+	{
+		if(ZOOM_COUNT > 1)
+		{
+			ZOOM_COUNT--;
+			ZOOM_STATE = 4;
+		}
+	}
+}
+
+static void GLUT__Special(int key, int x, int y)
+{
+	double dx = 0.0;
+	double dy = 0.0;
+	
+	// ****************************
+	// Scroll left-right or up-down
+	// ****************************
+	
+	switch(key)
+	{
+		case GLUT_KEY_LEFT:  dx = +1.0; break;
+		case GLUT_KEY_RIGHT: dx = -1.0; break;
+		case GLUT_KEY_UP:    dy = -1.0; break;
+		case GLUT_KEY_DOWN:  dy = +1.0; break;
+		default: return;
+	}
+	double ooz = SCROLL_VEL_2D/ZOOM_LIST[ZOOM_COUNT-1].z;
+	ZOOM_LIST[ZOOM_COUNT-1].x += dx*ooz;
+	ZOOM_LIST[ZOOM_COUNT-1].y += dy*ooz;
+	Z.x += dx*ooz;
+	Z.y += dy*ooz;
+	
+	glutPostRedisplay();
+}
+
+static int IsMouseInBox(int box[4], int x, int y)
+{
+	int x_in = 0;
+	int y_in = 0;
+	
+	if(x > box[0] && x < box[2]) x_in = 1;
+	if(x > box[2] && x < box[0]) x_in = 1;
+	if(y > box[1] && y < box[3]) y_in = 1;
+	if(y > box[3] && y < box[1]) y_in = 1;
+	
+	return (x_in && y_in) ? 1 : 0;
+}
+
+static int IsNonZeroBox(int box[4])
+{
+	if(box[0] == box[2]) return 0;
+	if(box[1] == box[3]) return 0;
+	return 1;
+}
+
+static void GLUT__Mouse(int button, int state, int x, int y)
+{
+	int isdown = (state == GLUT_DOWN) ? 1 : 0;
+	
+	if(button != GLUT_LEFT_BUTTON) return; // not interesting
+	if(isdown == (ZOOM_STATE & 1)) return; // not interesting
+	
+	x -= ICON_BAR;
+	
+	// *****************************************************
+	// Interface code is a bunch of lousy if-then statements
+	// *****************************************************
+	
+	switch(ZOOM_STATE)
+	{
+		case 0:
+		{
+			ZOOM_HILITE = 0;
+			ZOOM_STATE++;
+			break;
+		}
+		case 1:
+		{
+			if(IsNonZeroBox(Z.box))
+			{
+				ZOOM_STATE++;
+			}
+			else
+			{
+				ZOOM_STATE--;
+			}
+			break;
+		}
+		case 2:
+		{
+			if(IsMouseInBox(Z.box, x, y))
+			{
+				ZOOM_HILITE = 1;
+				ZOOM_STATE++;
+			}
+			else
+			{
+				ZOOM_HILITE = 0;
+				ZOOM_STATE--;
+			}
+			break;
+		}
+		case 3:
+		{
+			if(IsMouseInBox(Z.box, x, y))
+			{
+				zoom_t zoom;
+				
+				Zoom(&zoom);
+				ZOOM_LIST[ZOOM_COUNT] = zoom;
+				ZOOM_COUNT++;
+				ZOOM_STATE++;
+			}
+			else
+			{
+				ZOOM_STATE--;
+			}
+			break;
+		}
+		case 4:
+		{
+			ZOOM_LIST[ZOOM_COUNT-1] = Z;
+			ZOOM_HILITE = 0;
+			ZOOM_STATE  = 1;
+			break;
+		}
+	}
+	if(ZOOM_STATE == 1)
+	{
+		if(x < 0) x = 0;
+		if(x > WINDOW_X-ICON_BAR) x = WINDOW_X-ICON_BAR;
+		if(y < 0) y = 0;
+		if(y > WINDOW_Y-STAT_BAR) y = WINDOW_Y-STAT_BAR;
+		
+		Z.box[0] = Z.box[2] = x;
+		Z.box[1] = Z.box[3] = y;
+	}
+	glutPostRedisplay();
+}
+
+static void GLUT__Motion(int x, int y)
+{
+	x -= ICON_BAR;
+	
+	switch(ZOOM_STATE)
+	{
+		case 1:
+		{
+			if(x < 0) x = 0;
+			if(x > WINDOW_X-ICON_BAR) x = WINDOW_X-ICON_BAR;
+			if(y < 0) y = 0;
+			if(y > WINDOW_Y-STAT_BAR) y = WINDOW_Y-STAT_BAR;
+			
+			Z.box[2] = x;
+			Z.box[3] = y;
+			glutPostRedisplay();
+			break;
+		}
+		case 3:
+		{
+			int hilite = IsMouseInBox(Z.box, x, y);
+			
+			if(ZOOM_HILITE != hilite)
+			{
+				ZOOM_HILITE = hilite;
+				glutPostRedisplay();
+			}
+		}
+	}
+}
+
+static void LinearClamp(double &x, double dx, double target)
+{
+	if(x < target) {x += dx; if(x > target) x = target;} else
+	if(x > target) {x -= dx; if(x < target) x = target;}
+}
+
+static void GLUT__Idle(void)
+{
+	if(ZOOM_STATE == 4)
+	{
+		// ************************************
+		// Weird linear/nonlinear zoom function
+		// ************************************
+		
+		zoom_t *target = &ZOOM_LIST[ZOOM_COUNT-1];	
+		
+		Z.x += (target->x - Z.x)*ZOOM_VEL_NONLINEAR;
+		Z.y += (target->y - Z.y)*ZOOM_VEL_NONLINEAR;
+		Z.z += (target->z - Z.z)*ZOOM_VEL_NONLINEAR;
+		LinearClamp(Z.x, ZOOM_VEL_LINEAR/Z.z, target->x);
+		LinearClamp(Z.y, ZOOM_VEL_LINEAR/Z.z, target->y);
+		LinearClamp(Z.z, ZOOM_VEL_LINEAR*Z.z, target->z);
+		
+		glutPostRedisplay();
+		
+		if(Z.x == target->x &&
+		   Z.y == target->y &&
+		   Z.z == target->z )
+		{
+			ZOOM_STATE = 0;
+		}
+	}
+}
+
+int main(int argc, char *argv[])
+{
+	// ***************
+	// Initialize GLUT
+	// ***************
+	
+	fprintf(stdout, "Zoom!: Fractal Circle Packing Explorer\n");
+	fprintf(stdout, "(c) Bernie Freidin, 1999-2000\n\n");
+	fprintf(stdout, "Keys and controls:\n");
+	fprintf(stdout, "  Create zoom box by left-click and dragging\n");
+	fprintf(stdout, "  Zoom by left-clicking in zoom box\n");
+	fprintf(stdout, "  Right-click to access menu\n");
+	fprintf(stdout, "  BACKSPACE to back up to previous zoom state\n");
+	fprintf(stdout, "  ESCAPE to quit\n\n");
+	fprintf(stdout, "Tips:\n");
+	fprintf(stdout, "  Don't switch to GRS mode (it's boring)\n");
+	fprintf(stdout, "  Experiment with LOD settings!\n");
+
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+	glutInitWindowSize(640, 480);
+	int win_id = glutCreateWindow(argv[0]);
+	glutDisplayFunc(GLUT__Display);
+	glutReshapeFunc(GLUT__Reshape);
+	glutKeyboardFunc(GLUT__Keyboard);
+	glutSpecialFunc(GLUT__Special);
+	glutMouseFunc(GLUT__Mouse);
+	glutMotionFunc(GLUT__Motion);
+	glutIdleFunc(GLUT__Idle);
+	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
+	
+	// ****************
+	// Set OpenGL state
+	// ****************
+	
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	
+	// ************************
+	// Initialize MENU and PACK
+	// ************************
+	
+	InitializeMenus();
+	PACK_Initialize(&PACKINFO);
+	
+	// ***************
+	// Initialize ZOOM
+	// ***************
+	
+	ZOOM_LIST[0].x = 0.0;
+	ZOOM_LIST[0].y = 0.0;
+	ZOOM_LIST[0].z = 0.95;
+	ZOOM_COUNT = 1;
+	ZOOM_STATE = 0;
+	Z = ZOOM_LIST[0];
+	
+	// ***
+	// Go!
+	// ***
+	
+	glutMainLoop();
+	return 0;
+}

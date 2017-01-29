@@ -1,0 +1,56 @@
+<HTML>
+<HEAD><TITLE> Zoom! Demo Source </TITLE></HEAD>
+<BODY TEXT=       "#00A0A0"
+      BGCOLOR=    "#000000"
+      BACKGROUND= "../../img/bkgnd.gif" tppabs="http://bork.hampshire.edu/~bernie/img/bkgnd.gif"
+      LINK=       "#0020F0"
+      VLINK=      "#0020F0"
+      ALINK=      "#0020F0">
+<CENTER>
+<H1><I>Zoom!</I> Demo Source</H1>
+<H3>by <A HREF="mailto:bfreidin@hampshire.edu">Bernie Freidin</A> &copy; 1999-2000</H3>
+<IMG SRC="../../img/hr.jpg" tppabs="http://bork.hampshire.edu/~bernie/img/hr.jpg"><BR><BR>
+<TABLE ALIGN=MIDDLE BORDER=0 CELLSPACING=6 CELLPADDING=0 BGCOLOR="#000060">
+<TR>
+	<TD><A HREF="pack_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo3/source/pack_cpp.html">pack.cpp</A><TD>
+	<TD><A HREF="main_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo3/source/main_cpp.html">main.cpp</A><TD>
+	<TD><A HREF="menu_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo3/source/menu_cpp.html">menu.cpp</A><TD>
+	<TD><A HREF="grs_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo3/source/grs_cpp.html">grs.cpp</A><TD>
+</TR>
+<TR>
+	<TD><A HREF="pack_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo3/source/pack_h.html">pack.h</A><TD>
+	<TD><A HREF="zoom_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo3/source/zoom_h.html">zoom.h</A><TD>
+	<TD>menu.h<TD>
+	<TD><A HREF="grs_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo3/source/grs_h.html">grs.h</A><TD>
+</TR>
+</TABLE><BR>
+<IMG SRC="../../img/hr.jpg" tppabs="http://bork.hampshire.edu/~bernie/img/hr.jpg"></CENTER><PRE>
+
+// (c) Bernie Freidin 1999-2000
+
+#ifndef MENU_H
+#define MENU_H
+
+struct minfo_t
+{
+	int    preset_count; // -1 is boolean
+	double preset_data[10];
+	double data_min;
+	double data_max;
+	char   prompt[200];
+	char   string[200];
+	int    parent_id;
+	int    entry_id;
+	void  *ptr;
+};
+
+int MENU_Register(int preset_count, char preset_data_str[],
+                  double data_min, double data_max, double data,
+                  char string[], int parent_id, int entry_id, void *ptr);
+
+#endif
+
+</PRE>
+<P ALIGN=RIGHT><FONT SIZE=1>This page &copy; Bernie Freidin, 2000.<BR>
+</BODY>
+</HTML>
