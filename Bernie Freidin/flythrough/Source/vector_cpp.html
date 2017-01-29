@@ -1,0 +1,116 @@
+<HTML>
+<HEAD><TITLE> Flythrough Demo Source </TITLE></HEAD>
+<BODY TEXT=       "#00A0A0"
+      BGCOLOR=    "#000000"
+      BACKGROUND= "../../img/bkgnd.gif" tppabs="http://bork.hampshire.edu/~bernie/img/bkgnd.gif"
+      LINK=       "#0020F0"
+      VLINK=      "#0020F0"
+      ALINK=      "#0020F0">
+<CENTER>
+<H1>Flythrough Demo Source</H1>
+<H3>by <A HREF="mailto:bfreidin@hampshire.edu">Bernie Freidin</A> &copy; 1999-2000</H3>
+<IMG SRC="../../img/hr.jpg" tppabs="http://bork.hampshire.edu/~bernie/img/hr.jpg"><BR><BR>
+<TABLE ALIGN=MIDDLE BORDER=0 CELLSPACING=6 CELLPADDING=0 BGCOLOR="#000060">
+<TR>
+	<TD><A HREF="hcsg_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/hcsg_cpp.html">hcsg.cpp</A><TD>
+	<TD><A HREF="hcsg_modeler_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/hcsg_modeler_cpp.html">hcsg_modeler.cpp</A><TD>
+	<TD><A HREF="collision_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/collision_cpp.html">collision.cpp</A><TD>
+	<TD><A HREF="camera_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/camera_cpp.html">camera.cpp</A><TD>
+	<TD>vector.cpp<TD>
+	<TD><A HREF="main_cpp.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/main_cpp.html">main.cpp</A><TD>
+</TR>
+<TR>
+	<TD><A HREF="hcsg_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/hcsg_h.html">hcsg.h</A><TD>	
+	<TD><A HREF="hcsg_modeler_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/hcsg_modeler_h.html">hcsg_modeler.h</A><TD>
+	<TD><A HREF="collision_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/collision_h.html">collision.h</A><TD>
+	<TD><A HREF="camera_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/camera_h.html">camera.h</A><TD>
+	<TD><A HREF="vector_h.html" tppabs="http://bork.hampshire.edu/~bernie/demo1/source/vector_h.html">vector.h</A><TD>
+</TR>
+</TABLE><BR>
+<IMG SRC="../../img/hr.jpg" tppabs="http://bork.hampshire.edu/~bernie/img/hr.jpg"></CENTER><PRE>
+
+// **************************************************************************
+// HCSG Demo
+// (c) Bernie Freidin, 1999-2000
+// **************************************************************************
+
+#include "vector.h"
+
+// Inter-Dimensional Vector Assignment
+
+// Hyperbolic Midpoint
+
+vec2 vec2::hmidpoint(vec2& p1, vec2& p2)
+{
+	// EXAMPLE: vec2 m = vec2::hmidpoint(p1, p2);
+	
+	double q1 = sqrt(1.0 - p1*p1);
+	double q2 = sqrt(1.0 - p2*p2);
+	
+	return (p1*q2 + p2*q1) / (q1 + q2);
+}
+
+vec3 vec3::hmidpoint(vec3& p1, vec3& p2)
+{
+	// EXAMPLE: vec3 m = vec3::hmidpoint(p1, p2);
+	
+	double q1 = sqrt(1.0 - p1*p1);
+	double q2 = sqrt(1.0 - p2*p2);
+	
+	return (p1*q2 + p2*q1) / (q1 + q2);
+}
+
+// Hyperbolic Translation (2D)
+
+mat3 mat3::htranslate(vec2& p)
+{
+	// EXAMPLE: mat3 m = mat3::translate(p);
+	
+	double c, s, t = 1.0 / (1.0 + sqrt(1.0 - p*p));
+	
+	c = 1.0 - p.y*p.y*t;
+	s = 1.0 - p.x*p.x*t;
+	t =       p.x*p.y*t;
+ 	
+	return mat3(c, t, +p.x, t, s, +p.y, +p.x, +p.y, 1.0);
+}
+
+mat3 mat3::hntranslate(vec2& p)
+{
+	// EXAMPLE: mat3 m = mat3::translate(p);
+	
+	double c, s, t = 1.0 / (1.0 + sqrt(1.0 - p*p));
+	
+	c = 1.0 - p.y*p.y*t;
+	s = 1.0 - p.x*p.x*t;
+	t =       p.x*p.y*t;
+ 	
+	return mat3(c, t, -p.x, t, s, -p.y, -p.x, -p.y, 1.0);
+}
+
+// Hyperbolic Rotation (2D)
+
+mat3 mat3::hrotate(vec2& p, double theta)
+{
+	// EXAMPLE: mat3 m = mat3::hrotate(p, theta);
+	
+	double c = cos(theta);
+	double s = sin(theta);
+	double t = 1.0 / (1.0 + sqrt(1.0 - p*p));
+	
+	mat3 r(c, -s, 0.f, s, c, 0.0, 0.0, 0.0, 1.0);
+	
+	c = 1.0 - p.y*p.y*t;
+	s = 1.0 - p.x*p.x*t;
+	t =       p.x*p.y*t;
+ 	
+	mat3 t1(c, t, -p.x, t, s, -p.y, -p.x, -p.y, 1.0);
+	mat3 t2(c, t, +p.x, t, s, +p.y, +p.x, +p.y, 1.0);
+	
+	return t2*r*t1;
+}
+
+</PRE>
+<P ALIGN=RIGHT><FONT SIZE=1>This page &copy; Bernie Freidin, 2000.<BR>
+</BODY>
+</HTML>
