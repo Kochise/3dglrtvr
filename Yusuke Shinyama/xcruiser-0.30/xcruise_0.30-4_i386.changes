@@ -1,0 +1,31 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Format: 1.7
+Date: Thu, 12 Feb 2004 16:51:17 +0200
+Source: xcruise
+Binary: xcruise
+Architecture: source i386
+Version: 0.30-4
+Distribution: unstable
+Urgency: low
+Maintainer: Debian QA Group <packages@qa.debian.org>
+Changed-By: Ville Palo <ville@vi64pa>
+Description: 
+ xcruise    - Fly about 3D-formed file system
+Changes: 
+ xcruise (0.30-4) unstable; urgency=low
+ .
+   * Vertical movement fixed (close: Bug#213654)
+Files: 
+ 6afddedeb5347f122fc64bf611d4ae37 596 games optional xcruise_0.30-4.dsc
+ a23f9143d9b05af0ba44815d691f66bb 3523 games optional xcruise_0.30-4.diff.gz
+ 43fa860ecf03ee4030ef053b4b5c3e75 28012 games optional xcruise_0.30-4_i386.deb
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.2.4 (GNU/Linux)
+
+iD8DBQFAK5OOGFMmd7HQIwcRAo7vAJ9pMENtOMyHmfDhqDqoe6/7ElHcZgCffwqW
+bdV2YgpMTgnYM9lzLaaS4/c=
+=Kbfo
+-----END PGP SIGNATURE-----

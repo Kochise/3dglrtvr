@@ -1,0 +1,15 @@
+INSTALL for XCruiser (version 0.3)
+$Id:$
+
+PREREQUISITE
+
+  * X Window System
+  * xmkmf and imake to build the program.
+    (if you're using RedHat, this is included in XFree86-devel package.)
+
+
+HOW TO INSTALL:
+
+  $ xmkmf -a
+  $ make
+  $ make install

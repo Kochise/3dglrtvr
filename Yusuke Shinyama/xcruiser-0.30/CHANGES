@@ -1,0 +1,58 @@
+CHANGES for xcruiser
+$Id: CHANGES,v 1.1.2.2 2003/01/26 18:29:18 euske Exp $
+
+
+Feb .3, 2003 - Version 0.30
+
+  The code was rewritten almost entirely.
+
+  - New features:
+	Xt is supported.
+	Easy customization of button bindings / colors / accelaration.
+	Keyboard support (but inconvenient).
+	A new rendering algorithm. (still incomplete!)
+	Monochrome mode is dismissed.
+
+
+Jan. 24, 2000 - Version 0.24
+
+  - Bug fixes:
+	On some platforms xcruise-0.23 get extremely slow
+	(thanks, Synap). I've tested on GNOME environment,
+	with Enlightenment, Sawmill and traditional Twm.
+
+
+Jan. 23, 2000 - Version 0.23, mainly for bug fix.
+
+  Probably this version works correctly on Gnome/Enlightenment
+  environment.
+
+  - New features:
+	Add '-titlemode' option to show information in
+	window's title bar, and you can freeze this with 'f' key
+	(thanks, Bernard).
+	Add '-viewall' option allowing to show 'dot files' and
+	files right under the root (thanks, Nix).
+
+  - Bug fixes:
+	Fix some lacking arguments in fprintf (thanks, Gabriel).
+	Use X events FocusIn and FocusOut instead of EnterWindow
+	and LeaveWindow (thanks, Roger).
+	Use a good way for getting mouse events
+	(thanks, Alan, David and Ryan).
+
+
+Dec. 2, 1999 - Version 0.22
+
+  Bug fixes in draw.c (Thanks to Naoki Oshiro) and task.c.
+
+
+Nov. 25, 1999 - Version 0.2
+
+  Put under GPL, some bugfixes, make sources a bit tidy.
+  Unify xcrvar.c into main.c.
+
+
+Nov. 22, 1999 -	Version 0.1
+
+  Posted to fj.sources newsgroup.

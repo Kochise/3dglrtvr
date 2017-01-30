@@ -1,0 +1,112 @@
+!!  $Id: XCruiser.ad,v 1.1.2.3 2003/01/27 01:36:10 euske Exp $
+!!
+!!  XCruiser.ad
+!!
+
+
+!!  Application
+!!
+XCruiser*geometry		: 640x480
+XCruiser*titleMode		: False
+XCruiser*viewAllFiles		: False
+XCruiser*delayTicks		: 50
+
+
+!!  Main Screen
+!!
+
+!  Colors (for inner stars)
+!
+XCruiser*innerRootColor		: blue
+XCruiser*innerGalaxyColors	: cyan, gray
+XCruiser*innerUnreadableGalaxyColors : magenta
+XCruiser*innerPlanetColors	: yellow, orange, violet, red
+XCruiser*innerUnreadablePlanetColors : magenta
+XCruiser*innerWormholeColors	: green
+XCruiser*innerLabelColor	: white
+
+!  Color (for outer stars)
+!
+XCruiser*outerRootColor		: blue
+XCruiser*outerGalaxyColors	: #008080, #606060
+XCruiser*outerUnreadableGalaxyColors : #c000c0
+XCruiser*outerPlanetColors	: #c0c000, darkorange, darkviolet, brown
+XCruiser*outerUnreadablePlanetColors : #c000c0
+XCruiser*outerWormholeColors	: #008000
+XCruiser*outerLabelColor	: #606060
+
+!  Colors (for other informations)
+!
+XCruiser*background		: #000020
+XCruiser*infoColor		: green
+XCruiser*alertColor		: red
+XCruiser*measureColor		: green
+XCruiser*cursorColor		: white
+
+!  Fonts
+!
+XCruiser*infoFont		: *adobe-courier-bold-r*180*
+XCruiser*alertFont		: *adobe-helvetica-bold-o*240*
+XCruiser*measureFont		: *adobe-helvetica-medium-r*120*
+XCruiser*labelFonts		: *adobe-courier-bold*90*,\
+				  *adobe-courier-bold*120*,\
+				  *adobe-courier-bold*180*,\
+				  *adobe-courier-bold*240*
+
+!  Bindings
+!
+!	setVelocity(v)
+!		Set the velocity to v.
+!	addVelocity(dv)
+!		Add dv to the velocity.
+!	brake(ds)
+!		Add ds to the speed.
+!	moveCursorTo(x,y)
+!		Set the position of the cursor to (x,y).
+!	moveCursor(dx,dy)
+!		Move the cursor with (dx,dy).
+!	toggleShowing({info,measure,label})
+!		Toggle showing informations.
+!	open()
+!		Open the file currently pointed.
+!	getInfo()
+!		Show the infomation of the file.
+!	navigate([pathname]) *NOT IMPLEMENTED YET!*
+!		Auto pilot to the pathname. (Ask when the pathname omitted)
+!
+XCruiser*MainScreen*translations: #override\n\
+	<Motion>		: moveCursor()\n\
+	<Btn1Up>		: brake(-0.5)\n\
+	<Btn3Up>		: brake(-0.5)\n\
+	~Shift<Btn1Down>	: stop() addVelocity(0.05)\n\
+	Shift<Btn1Down>		: stop() addVelocity(1.0)\n\
+	~Shift<Btn3Down>	: stop() addVelocity(-0.05)\n\
+	Shift<Btn3Down>		: stop() addVelocity(-1.0)\n\
+	<Btn2Up>		: open()\n\
+	<KeyUp>			: moveCursorTo(0, 0) brake(-0.5)\n\
+	<KeyDown>Left		: moveCursor(-0.2, 0)\n\
+	<KeyDown>Right		: moveCursor( 0.2, 0)\n\
+	<KeyDown>Up		: moveCursor(0, -0.2)\n\
+	<KeyDown>Down		: moveCursor(0,  0.2)\n\
+	~Shift<KeyDown>space	: stop() addVelocity(0.05)\n\
+	Shift<KeyDown>space	: stop() addVelocity(1.0)\n\
+	~Shift<KeyDown>b	: stop() addVelocity(-0.05)\n\
+	Shift<KeyDown>b		: stop() addVelocity(-1.0)\n\
+	<KeyDown>z		: reposition()\n\
+	<KeyDown>x		: changeFlyingMode()\n\
+	<KeyDown>v		: toggleShowing(info) toggleShowing(measure) toggleShowing(label)\n\
+	<KeyDown>m		: toggleShowing(measure)\n\
+	<KeyDown>n		: autopilot()\n\
+	<KeyDown>h		: autopilot(/home/yusuke)\n\
+	<KeyDown>i		: getInfo()\n\
+	<KeyDown>Return		: open()\n\
+	<KeyDown>o		: open("open %s")\n\
+	<KeyDown>f		: freeze()\n\
+	<KeyDown>q		: quit()\n
+
+!  Other
+!
+XCruiser*currentGalaxyLineWidth	: 2
+XCruiser*cursorSize		: 20
+XCruiser*verticalLimit		: 70
+XCruiser*viewAllFiles		: False
