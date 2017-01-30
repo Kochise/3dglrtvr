@@ -1,0 +1,18 @@
+# Build parameters:
+<sizex>11</sizex>		# Defines the Depth of the maze
+<sizey>11</sizey>		# Defines the height of the maze
+<sizez>11</sizez>		# Defines the width of the maze
+<walls>500</walls>		# How many walls it should try to place (*3 - 1 per plane)
+<style>1</style>		# 0=Wall style, 1=Drill worm tunnels
+<seed>1</seed>			# Random seed to build from
+
+# Flags:
+<wall_solid>0</wall_solid>	# Should walls be drawn solid by default (1=yes)
+<wall_lines>0</wall_lines>	# Draw lines on walls (1=yes)
+<ground>1</ground>		# Draw ground plane (1=yes)
+<sky>1</sky>			# Draw sky plane (1=yes)
+<textures>0</textures>		# Use textures on walls (1=yes)
+
+# Flags matches keys: s=solid, l=lines, t=textures
+# When using textures, Solid don't work. Use a transperent texture!
+# Solid don't look good without lines (Bounding errors)
