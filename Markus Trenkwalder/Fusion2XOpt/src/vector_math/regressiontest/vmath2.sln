@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vmath2", "vmath2.vcproj", "{BB053851-0D6B-47E3-A6CA-4A90C5703E21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB053851-0D6B-47E3-A6CA-4A90C5703E21}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BB053851-0D6B-47E3-A6CA-4A90C5703E21}.Debug|Win32.Build.0 = Debug|Win32
+		{BB053851-0D6B-47E3-A6CA-4A90C5703E21}.Release|Win32.ActiveCfg = Release|Win32
+		{BB053851-0D6B-47E3-A6CA-4A90C5703E21}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
