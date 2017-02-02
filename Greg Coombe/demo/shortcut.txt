@@ -1,0 +1,26 @@
+Keyboard Map	
+Action	 
+
+'l'	
+Compute Global Illumination
+
+'k'	
+Step through each camera view
+
+''	
+Increase light intensity
+
+'<'	
+Increase light intensity
+
+'r'	
+Cycle light colors
+
+'m'	
+Move objects
+
+'w', 'z'	
+Translate moveable objects in x
+
+'a', 's'	
+Translate moveable objects in z

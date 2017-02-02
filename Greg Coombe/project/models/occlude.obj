@@ -1,0 +1,38 @@
+#
+# A simple occluder model
+# Converted by Greg Coombe
+#
+
+mtllib cornell.mtl
+
+g floor
+v  -250 0.0 -250   
+v  250 0.0 -250
+v  250 0.0  250
+v  -250 0.0  250
+f 4 3 2 1
+        
+g light
+v  50 350 -50
+v  50 350 50
+v  -50 350 50
+v  -50 350 -50
+f 5 6 7 8
+
+
+g occluder
+v  100 150 -100
+v  100 150 100
+v  -100 150 100
+v  -100 150 -100
+f 9 10 11 12
+
+
+# Collect all of the color associations
+group light
+usemtl light
+group floor
+usemtl green
+group occluder
+usemtl red
+
