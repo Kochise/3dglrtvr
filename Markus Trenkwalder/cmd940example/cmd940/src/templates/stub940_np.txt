@@ -1,0 +1,5 @@
+	static void _:NAME:()
+	{
+		:RETTYPE: r = :NAME:(:CALLLIST:);
+		cmd940i::write_rb->write(&r, sizeof(r));
+	}

@@ -1,0 +1,13 @@
+	:RETTYPE: :NAME:(:PARAMLIST:)
+	{
+		struct {
+			int id__;
+			:SPARAMLIST:
+		} p__;
+		p__.id__ = :ID:;
+		:ASSIGNMENTS:
+		cmd940i::write_rb->write(&p__, sizeof(p__));
+		:RETTYPE: r__;
+		cmd940i::read_rb->read(&r__, sizeof(r__));
+		return r__;
+	}
