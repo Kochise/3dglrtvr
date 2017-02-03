@@ -1,0 +1,468 @@
+
+                          TGE 1.33 Quick Reference
+                  Copyright (c) 1994 by Matthew Hildebrand
+
+
+Initialization routines:
+=======================
+
+  loadGraphDriver             Load a graphics driver.
+                              int loadGraphDriver(char *filename);
+  initGraphics                Initialize graphics mode.
+                              void initGraphics(void);
+  deInitGraphics              Initialize 80x25 colour text mode.
+                              void deInitGraphics(void);
+
+Graphics primitives:
+===================
+
+  putPixel                    Place a single pixel on-screen.
+                              void putPixel(int x, int y, unsigned colour);
+  getPixel                    Get a single pixel from the screen.
+                              unsigned getPixel(int x, int y);
+  line                        Draw a line joining two points.
+                              void line(int x1, int y1, int x2, int y2,
+                                unsigned colour);
+  horizLine                   Draw a horizontal line joining two points.
+                              void horizLine(int y, int x1, int x2,
+                                unsigned colour);
+  vertLine                    Draw a vertical line joining two points.
+                              void vertLine(int x, int y1, ing y2, unsigned
+                                colour);
+  drawRect                    Draw a regtangle outline.
+                              void drawRect(int ulx, int uly, int lrx, int
+                                lry, unsigned colour);
+  filledRect                  Draw a filled rectangle.
+                              void filledRect(int ulx, int uly, int lrx,
+                                int lry, unsigned colour);
+  ellipse                     Draw an ellipse outline.
+                              void ellipse(int x, int y, int wide, int
+                                deep, unsigned colour);
+  filledEllipse               Draw a filled ellipse.
+                              void filledEllipse(int x, int y, int wide,
+                                int deep, unsigned colour);
+  circle                      Draw a circle outline.
+                              void circle(int x, int y, int radius,
+                                unsigned colour);
+  filledCircle                Draw a filled circle.
+                              void filledCircle(int x, int y, int radius,
+                                unsigned colour);
+  clearGraphics               Clear the entire screen.
+                              void clearGraphics(unsigned colour);
+  fillRegion                  Floodfill a region of the screen with the
+                                specified colour.
+                              void fillRegion(int x, int y, unsigned
+                                colour);
+
+Image-related functions:
+=======================
+
+  putImage                    Put an image on-screen.
+                              void putImage(int x, int y, void *image);
+  putImageInv                 Put an image on-screen, treating zero pixels
+                                as transparent.
+                              void putImageInv(int x, int y, void *image);
+  getImage                    Get an image from the screen.
+                              void getImage(int ulx, int uly, int lrx, int
+                                lry, void *image);
+  imageSize                   Determine the amount of memory required to
+                                store an image.
+                              unsigned long imageSize(int ulx, int uly, int
+                                lrx, int lry);
+  imageSizeDim                Determine the amount of memory required to
+                                store an image.
+                              unsigned long imageSizeDim(unsigned wide,
+                                unsigned deep);
+  putHorizLine                Place one horizontal line of image data
+                                on-screen.
+                              void putHorizLine(int y, int xOff, int
+                                lineLen, void *buf);
+  putHorizLineInv             Place one horizontal line of image data
+                                on-screen, treating zero pixels as
+                                transparent.
+                              void putHorizLineInv(int y, int xOff, int
+                                lineLen, void *buf);
+  getHorizLine                Get one horizontal line of image data from
+                                the screen.
+                              void getHorizLine(int y, int xOff, int
+                                lineLen, void *buf);
+  putHorizLine                Place one vertical line of image data
+                                on-screen.
+                              void putVertLine(int x, int YOff, int
+                                lineLen, void *buf);
+  putHorizLineInv             Place one vertical line of image data
+                                on-screen, treating zero pixels as
+                                transparent.
+                              void putVertLineInv(int x, int yOff, int
+                                lineLen, void *buf);
+  getHorizLine                Get one vertical line of image data from the
+                                screen.
+                              void getVertLine(int x, int yOff, int
+                                lineLen, void *buf);
+  scaleBitmap                 Scale a bitmap.
+                              void *scaleBitmap(void *srcImage, unsigned
+                                newWide, unsigned newDeep, void
+                                *destImage);
+  imageWidth                  Return the width of an image.
+                              unsigned imageWidth(void *image);
+  imageHeight                 Return the height of an image.
+                              unsigned imageHeight(void *image);
+
+Palette-related routines:
+========================
+
+  setPaletteReg               Set a single palette register.
+                              void setPaletteReg(unsigned palReg, unsigned
+                                char red, unsigned char green, unsigned
+                                char blue);
+  getPaletteReg               Get a single palette register.
+                              void getPaletteReg(unsigned palReg, unsigned
+                                char *red, unsigned char *green, unsigned
+                                char *blue);
+  setBlockPalette             Set a block of palette registers.
+                              void setBlockPalette(unsigned firstReg,
+                                unsigned lastReg, void *data);
+  getBlockPalette             Get a block of palette registers.
+                              void getBlockPalette(unsigned firstReg,
+                                unsigned lastReg, void *data);
+  colourCloseTo               Find a colour which closely matches the
+                                specified 24-bit colour.
+                              unsigned colourCloseTo(unsigned char red,
+                                unsigned char green, unsigned char blue);
+  colourCloseToX              Find a colour which closely matches the
+                                specified 24-bit colour, excluding one
+                                colour from the search.
+                              unsigned colourCloseToX(unsigned char red,
+                                unsigned char green, unsigned char blue,
+                                unsigned colourExclude);
+  fadePalette                 Fade one palette into another.
+                              int fadePalette(unsigned step, void *inPal,
+                                void *outPal, void *targetPal);
+  greyPalette                 Produce a greyscale version of a palette.
+                              void greyPalette(void *inPal, void *outPal);
+  rotatePalette               Rotate a palette.
+                              void rotatePalette(int howMuch, void *inPal,
+                                void *outPal);
+  promotePalette              Promote a 6-bit palette to 8-bit.
+                              void promotePalette(void *pal);
+  demotePalette               Demote an 8-bit palette to 6-bit.
+                              void demotePalette(void *pal);
+  replaceColour               Replace all instances of a colour within a
+                                specified region.
+                              void replaceColour(int ulx, int uly, int lrx,
+                                int lry, unsigned oldColour, unsigned
+                                newColour);
+
+Viewports and clipping:
+======================
+
+  setInputViewport            Set the defining coordinates of the input
+                                viewport.
+                              void setInputViewport(int ulx, int uly, int
+                                lrx, int lry);
+  setOutputViewport           Set the defining coordinates of the output
+                                viewport.
+                              void setOutputViewport(int ulx, int uly, int
+                                lrx, int lry);
+  setViewports                Set the defining coordinate of the input and
+                                the output viewports.
+                              void setViewports(int ulx, int uly, int lrx,
+                                int lry);
+  getInputViewport            Get the defining coordinates of the input
+                                viewport.
+                              void getInputViewport(int *ulx, int *uly, int
+                                *lrx, int *lry);
+  getOutputViewport           Get the defining coordinates of the output
+                                viewport.
+                              void getOutputViewport(int *ulx, int *uly,
+                                int *lrx, int *lry);
+  clipRect                    Clip a rectangle to within the current output
+                                viewport.
+                              int clipRect(int *x1, int *y1, int *x2, int
+                                 *y2);
+  clipLine                    Clip a line to within the current output
+                                viewport.
+                              int clipLine(int *x1, int *y1, int *x1, int
+                                *y2);
+  clipInputPoint              Return a flag indicating whether or not the
+                                specified coordinates lie within the
+                                current input viewport.
+                              int clipInputPoint(int x, int y);
+  clipOutputPoint             Return a flag indicating whether or not the
+                                specified coordinates lie within the
+                                current output viewport.
+                              int clipOutputPoint(int x, int y);
+  pointOnScreen               Return a flag indicating whether or not the
+                                specified coordinates lie on-screen.
+                              int pointOnScreen(int x, int y);
+
+Virtual screens:
+===============
+
+  makeVirtScreen              Allocate memory for a virtual screen; can
+                                also be used to allocate memory for an
+                                image.
+                              void *makeVirtScreen(unsigned wide, unsigned
+                                deep);
+  setGraphicsAddr             Set the location upon which graphics input
+                                and output will both be performed.  Use
+                                NULL for the screen, or a pointer to the
+                                virtual screen to use.
+                              void setGraphicsAddr(void *addr);
+  setGraphicsInputAddr        Set the location upon which graphics input
+                                will be performed.  Use NULL for the
+                                screen, or a pointer to the virtual screen
+                                to use.
+                              void setGraphicsInputAddr(void *addr);
+  setGraphicsOutputAddr       Set the location upon which graphics output
+                                will be performed.  Use NULL for the
+                                screen, or a pointer to the virtual screen
+                                to use.
+                              void setGraphicsOutputAddr(void *addr);
+  getGraphicsInputAddr        Get the location upon which graphics input
+                                will be performed.  Returns NULL for the
+                                screen, or a pointer to the virtual screen
+                                being used.
+                              void *getGraphicsInputAddr(void);
+  getGraphicsOutputAddr       Get the location upon which graphics output
+                                will be performed.  Returns NULL for the
+                                screen, or a pointer to the virtual screen
+                                being used.
+                              void *getGraphicsOutputAddr(void);
+
+Output modes:
+============
+
+  setGraphicsOutputMode       Select the output mode to use:  TGE_COPY_PUT,
+                                TGE_AND_PUT, TGE_NOT_PUT, TGE_OR_PUT, or
+                                TGE_XOR_PUT.
+                              void setGraphicsOutputMode(int mode);
+
+Graphics files:
+==============
+
+  loadPalFile                 Load a palette data file.
+                              void *loadPalFile(char *filename, void
+                                *addr);
+  savePalFile                 Save a palette data file.
+                              int savePalFile(char *filename, void *pal);
+  loadRawFile                 Load a RAW image file into memory.
+                              void *loadRawFile(char *filename);
+  saveRawFile                 Save a RAW image file to disk.
+                              int saveRawFile(char *filename, void *image);
+  displayRawFile              Display a RAW image file.
+                              int displayRawFile(int x, int y, char
+                                *filename);
+  loadPcxFilePal              Load the palette from a PCX image file.
+                              void *loadPcxFilePal(char *filename, void
+                                *addr);
+  loadPcxFile                 Load a PCX image file, and its palette if
+                                requested, into memory.
+                              void *loadPcxFile(char *filename, char
+                                *palette);
+  displayPcxFile              Display a PCX image file.
+                              int displayPcxFile(int x, int y, char
+                                *filename);
+
+Variable-size fonts:
+===================
+
+  VariableFont::load          Load a font from disk.
+                              int VariableFont::load(char *filename);
+  VariableFont::put           Put a string or character on-screen.
+                              void VariableFont::put(int x, int y, char
+                                ch);
+                              void VariableFont::put(int x, int y, char
+                                *ch);
+  VariableFont::width         Find the width of a string or character.
+                              unsigned VariableFont::width(char *string);
+                              unsigned VariableFont::width(char ch);
+  VariableFont::height        Find the height of a string or character.
+                              unsigned VariableFont::height(char *string);
+                              unsigned VariableFont::height(char ch);
+  VariableFont::maxWIdth      Return the width of the widest character.
+                              unsigned VariableFont::maxWidth(void);
+  VariableFont::maxHeight     Return the height of the tallest character.
+                              unsigned VariableFont::maxHeight(void);
+  VariableFont::matchColours  Match font colours to current palette.
+                              void VariableFont::matchColours(void);
+  VariableFont::palette       Get or set the entire font palette, or a
+                                portion of it.
+                              void VariableFont::palette(void *data);
+                              void *VariableFont::palette(void);
+                              void VariableFont::palette(unsigned char
+                                palReg, unsigned char red, unsigned char
+                                green, unsigned char blue);
+                              void VariableFont::palette(unsigned char
+                                palReg, unsigned char *red, unsigned char
+                                *green, unsigned char *blue);
+  VariableFont::spacing       Get or set the current spacing value.
+                              unsigned VariableFont::spacing(void);
+                              void VariableFont::spacing(unsigned
+                                numPixels);
+
+Fixed-size fonts:
+================
+
+  FixedFont::load             Load a font from disk.
+                              int FixedFont::load(char *filename);
+  FixedFont::FixedFont        Initialize a FixedFont instance.
+                              FixedFont::FixedFont(unsigned char
+                                foreground=1, unsigned char background=0);
+  FixedFont::width            Find the width of a string or character.
+                              unsigned FixedFont::width(char *string);
+                              unsigned FixedFont::width(char ch);
+  FixedFont::maxWidth         Return the width of the widest character.
+                              unsigned FixedFont::maxWidth(void);
+  FixedFont::height           Find the height of a string or character.
+                              unsigned FixedFont::height(char *string);
+                              unsigned FixedFont::height(char ch);
+  FixedFont::maxHeight        Return the height of the tallest character.
+                              unsigned FixedFont::maxHeight(void);
+  FixedFont::put              Put a string or character on-screen.
+                              void FixedFont::put(int x, int y, char ch);
+                              void FixedFont::put(int x, int y, char *ch);
+  FixedFont::foreground       Get or set the foreground colour.
+                              unsigned FixedFont::foreground(void);
+                              void FixedFont::foreground(unsigned colour);
+  FixedFont::background       Get or set the background colour.
+                              unsigned FixedFont::background(void);
+                              void FixedFont::background(unsigned colour);
+  FixedFont::charAddr         Get a character's bitimage address.
+                              void *FixedFont::charAddr(char ch);
+
+Mouse-related functions:
+=======================
+
+  initNewMouse                Initialize the new mouse handler.
+                              void initNewMouse(void);
+  deInitNewMouse              Deactivate the new mouse handler.
+                              void deInitNewMouse(void);
+  enableNewMouse              Re-enable the new mouse handler following a
+                                call to disableNewMouse().
+                              void enableNewMouse(void);
+  disableNewMouse             Temporarily deactive the new mouse handler,
+                                to be reactivated later by a call to
+                                enableNewMouse().
+                              void disableNewMouse(void);
+  setupMousePointer           Select a mouse pointer bitmap.  This function
+                                requires that the new mouse handler be
+                                installed.
+                              void setupMousePointer(int pointerNum);
+  setPointerColours           Update the colours used to compose the mouse
+                                pointer.
+                              void setPointerColours(void);
+  resetMouse                  Reset the mouse driver and hardware.  Returns
+                                non-zero if a mouse driver is available.
+                              int resetMouse(void);
+  getButtonsMouse             Return the number of buttons on the mouse.
+                              int getButtonsMouse(void);
+  showMouse                   Show the mouse pointer.
+                              void showMouse(void);
+  hideMouse                   Hide the mouse pointer.
+                              void hideMouse(void);
+  getPosMouse                 Get the current mouse pointer position.
+                              void getPosMouse(int *x, int *y);
+  setPosMouse                 Set the mouse pointer position.
+                              void setPosMouse(unsigned x, unsigned y);
+  leftButtonMouse             Return non-zero if the left button is down.
+                              int leftButtonMouse(void);
+  rightButtonMouse            Return non-zero if the right button is down.
+                              int rightButtonMouse(void);
+  centerButtonMouse           Return non-zero if the center button is down.
+                              int centerButtonMouse(void);
+  buttonPressMouse            Return the number of times the specified
+                                button has been pressed since the last call
+                                to this function (with the same button
+                                parameter), and store the coordinates of
+                                the last press.
+                              unsigned buttonPressMouse(unsigned button,
+                                int *x, int *y);
+  buttonReleaseMouse          Return the number of times the specified
+                                button has been released since the last
+                                call to this function (with the same button
+                                parameter), and store the coordinates of
+                                the last release.
+                              unsigned buttonPressMouse(unsigned button,
+                                int *x, int *y);
+  setHorizLimitsMouse         Set the maximum and minimum horizontal limits
+                                for the mouse pointer.
+                              void setHorizLimitsMouse(unsigned min,
+                                unsigned max);
+  setVertLimitsMouse          Set the maximum and minimum vertical limits
+                                for the mouse pointer.
+                              void setVertLimitsMouse(unsigned min,
+                                unsigned max);
+  setPointerMouse             Set the shape of the mouse pointer.  This
+                                function can only select 256-colour bitmaps
+                                when the new mouse handler is installed.
+                              void setPointerMouse(int xOff, int yOff, void
+                                *image);
+  getSaveSizeMouse            Return the size of the buffer necessary to
+                                store the state of the mouse driver.
+                              unsigned getSaveSizeMouse(void);
+  saveStateMouse              Save the current state of the mouse pointer.
+                              void saveStateMouse(void *buf);
+  restoreStateMouse           Restore a previously saved state of the mouse
+                                pointer.
+                              void restoreStateMouse(void *buf);
+  setRatioMouse               Set the mouse sensitivity, in units of
+                                mickeys per 8 pixels of pointer movement.
+                              void setRatioMouse(unsigned horiz, unsigned
+                                vert);
+  getSensitivityMouse         Get the mouse sensitivity, in units of
+                                mickeys per 8 pixels of pointer movement.
+                                The mouse double speed threshold (the
+                                minimum number of mickeys per second of
+                                motion before pointer movement is doubled)
+                                is retrieved as well.
+  softResetMouse              Reset the mouse driver, but not the mouse
+                                hardware.
+                              void softResetMouse(void);
+  waitReleaseMouse            If the specified button is not already up,
+                                wait until it is released, then return.
+                              void waitReleaseMouse(int button);
+
+Virtual coordinate system:
+=========================
+
+  VirtualCoord::VirtualCoord  Create an instance of the virtual coordinate
+                                system object.
+                              VirtualCoord::VirtualCoord(void);
+                              VirtualCoord::VirtualCoord(unsigned virtMaxX,
+                                unsigned virtMaxY, unsigned realMaxX,
+                                unsigned realMaxY);
+  VirtualCoord::virtParams    Set or get the maximum virtual x- and
+                                y-coordinates.
+                              void VirtualCoord::virtParams(unsigned
+                                virtMaxX, unsigned virtMaxY);
+                              void VirtualCoord::virtParams(unsigned
+                                *virtMaxX, unsigned *virtMaxY);
+  VirtualCoord::realParams    Set or get the maximum real x- and
+                                y-coordinates.
+                              void VirtualCoord::realParams(unsigned
+                                realMaxX, unsigned realMaxY);
+                              void VirtualCoord::realParams(unsigned
+                                *realMaxX, unsigned *realMaxY);
+  VirtualCoord::realCoords    Calculate the real (x,y) coordinates given
+                                the virtual coordinates.
+                              void VirtualCoord::realCoords(unsigned virtX,
+                                unsigned virtY, unsigned *realX, unsigned
+                                *realY);
+  VirtualCoord::realX         Calculate the real x-coordinate given the
+                                virtual x-coordinate.
+                              unsigned VirtualCoord::realX(unsigned virtX);
+  VirtualCoord::realY         Calculate the real y-coordinate given the
+                                virtual y-coordinate.
+                              unsigned VirtualCoord::realY(unsigned virtY);
+  VirtualCoord::virtCoords    Calculate the virtual (x,y) coordinates given
+                                the real coordinates.
+                              void VirtualCoord::virtCoords(unsigned realX,
+                                unsigned realY, unsigned *virtX, unsigned
+                                *virtY);
+  VirtualCoord::virtX         Calculate the virtual x-coordinate given the
+                                real x-coordinate.
+                              unsigned VirtualCoord::virtX(unsigned realX);
+  VirtualCoord::virtY         Calculate the virtual y-coordinate given the
+                                real y-coordinate.
+                              unsigned VirtualCoord::virtY(unsigned realY);
