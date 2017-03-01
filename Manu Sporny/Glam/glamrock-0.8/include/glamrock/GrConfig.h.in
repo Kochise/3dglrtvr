@@ -1,0 +1,28 @@
+/*
+ * $Id: GrConfig.h.in,v 1.2 2003/04/18 19:30:25 cglasnap Exp $
+ *
+ * Copyright (c) 2003, Advanced Simulation Technology, Inc.
+ * Copyright (c) 2003, xRhino, Inc.
+ *
+ * This library is free software; you can redistribute and/or modify
+ * it under the terms of the Q Public License as long as the code is
+ * not incorporated into a proprietary product. A separate license is
+ * available for use of this code with a proprietary system. For more
+ * information on the license, please see
+ * /usr/share/doc/libglam-rock/copyright.
+ */
+
+#ifndef GRCONFIG_H
+#define GRCONFIG_H
+
+#include <ostream>
+#include <istream>
+//#include <ostream.h>
+//#include <istream.h>
+#include <iostream>
+
+using namespace std;
+
+#define GLAMROCKDATADIR "@GLAMROCKDATADIR@"
+
+#endif

@@ -1,0 +1,303 @@
+dnl glamrock top level configure.in
+dnl
+dnl Process this file with autoconf to produce a configure script.
+
+AC_INIT(glamrock, 0.8, msporny@zenmachine.org, glamrock-0.8-1.tar.gz)
+AC_CONFIG_AUX_DIR(config)
+AC_CANONICAL_SYSTEM
+
+dnl Initialize the library version and release information
+ROCK_MAJORV='0'
+ROCK_MINORV='8'
+ROCK_RELEASE='1'
+ROCK_VERSION=${ROCK_MAJORV}.${ROCK_MINORV}
+
+dnl ------------------------------------------------------------------------
+dnl Command line arguments
+dnl ------------------------------------------------------------------------
+
+dnl Checks if we are building and testing locally, or if we intend to build
+dnl and install this package.
+AC_ARG_ENABLE(localtest,
+    [  --enable-localtest      Enable local testing/debugging [default=no]],
+    _enable_localtest="$enableval", _enable_localtest='no')
+
+dnl Checks if we are going to enable debugging
+AC_ARG_ENABLE(debug,
+    [  --enable-debug          Turn on debugging [default=yes]],
+    _enable_debug="$enableval", _enable_debug='yes')
+
+dnl Checks if we are going to enable profiling
+AC_ARG_ENABLE(profile,
+    [  --enable-profile        Turn on profiling [default=no]],
+    _enable_profile="$enableval", _enable_profile='no')
+
+dnl Checks if we are going to allow optimization
+AC_ARG_ENABLE(optimization,
+    [  --enable-optimization   Optimize with -O2 [default=no]],
+    _enable_optimization="$enableval", _enable_optimization='no')
+
+dnl Checks if we are going to allow ultra optimization
+AC_ARG_ENABLE(ultra-optimization,
+    [  --enable-ultra-opt      Turn on every optimization trick in the book [default=no]],
+    _enable_ultra_optimization="$enableval", _enable_ultra_optimization='no')
+
+AC_ARG_WITH(glam,
+            [  --with-glam=<PATH>      GLAM include path [default=/usr]],
+            GLAMPATH="$withval", GLAMPATH="${GLAMPATH-/usr}")
+
+AC_ARG_WITH(sugar,
+            [  --with-sugar=<PATH>     SUGAR include path [default=/usr]],
+            SUGARPATH="$withval", SUGARPATH="${SUGARPATH-/usr}")
+
+AC_ARG_WITH(glmath,
+            [  --with-glmath=<PATH>    GLMATH include path [default=/usr]],
+            GLMATHPATH="$withval", GLMATHPATH="${GLMATHPATH-/usr}")
+
+
+
+CPPFLAGS="-I."
+CXXFLAGS="-I."
+LDFLAGS=""
+XCXXFLAGS=""
+INCLUDES=""
+
+dnl Set parameters based on --enable parameters
+if test "x${_enable_localtest}" = "xyes" ; then
+   GLAMROCKDATADIR="@ROCKROOTDIR@/src/test/data"
+else
+   GLAMROCKDATADIR="/usr/share/glamrock/data"
+fi
+
+dnl Set compile flags based on --enable parameters
+if test "x${_enable_debug}" = "xyes" ; then
+   CXXFLAGS="${CXXFLAGS} -DDEBUG -g"
+fi
+
+if test "x${_enable_optimization}" = "xyes" ; then
+   CXXFLAGS="${CXXFLAGS} -O2"
+fi 
+
+if test "x${_enable_ultra_optimization}" = "xyes" ; then
+   CXXFLAGS="${CXXFLAGS} -ffast-math -finline-functions -fomit-frame-pointer -funroll-loops -O3"
+fi
+
+if test "x${GLAMPATH}" != "x/usr" ; then
+   CPPFLAGS="${CPPFLAGS} -I${GLAMPATH}/include"
+   CXXFLAGS="${CXXFLAGS} -I${GLAMPATH}/include"
+   LDFLAGS="${LDFLAGS} -L${GLAMPATH}/lib"
+fi
+
+if test "x${SUGARPATH}" != "x/usr" ; then
+   CPPFLAGS="${CPPFLAGS} -I${SUGARPATH}/include"
+   CXXFLAGS="${CXXFLAGS} -I${SUGARPATH}/include"
+   LDFLAGS="${LDFLAGS} -L${SUGARPATH}/lib"
+fi
+
+if test "x${GLMATHPATH}" != "x/usr" ; then
+   CPPFLAGS="${CPPFLAGS} -I${GLMATHPATH}/include"
+   CXXFLAGS="${CXXFLAGS} -I${GLMATHPATH}/include"
+   LDFLAGS="${LDFLAGS} -L${GLMATHPATH}/lib"
+fi
+
+
+dnl Add include directories if they are not standard.
+
+dnl # -------------------------------------------------------------------------
+dnl # Setup variables that we are going to use
+dnl # -------------------------------------------------------------------------
+AR=''			dnl # Archive library command (generally ar(1))
+ARFLAGS=''		dnl # Flags for $AR
+AR_NAME_FLAG=''		dnl # Extra flag used to allow $AR to name its output
+DEP_GEN_FLAG='-M'	dnl # Flag for the compiler to generate dependencies
+LD=''			dnl # Shared library command (usually ld(1))
+BDYNAMIC_FLAG=''        dnl # Linker flag for linking libraries dynamically
+BSTATIC_FLAG=''         dnl # Linker flag for linking libraries statically
+LDOPTS=''		dnl # More options for shared library generator
+LDOPTS_DBG=''		dnl # Debugging options for shared library generator
+LDOPTS_OPT=''		dnl # Optimization options for shared library generator
+OBJ_FILE_SUFFIX='o'	dnl # Suffix for object file names
+OBJ_NAME_FLAG='-o $@'	dnl # Flag used for naming a compiled object file
+
+LIB_PREFIX='lib'	dnl # Prefix for library name
+STATICLIB_EXT='a'	dnl # Extension for shared library names (usually 'a')
+SHAREDLIB_EXT=''	dnl # Extension for shared library names (usually 'so')
+
+DBG_FLAGS=''		dnl # Compiler debugging flags for object files
+OPT_FLAGS=''		dnl # Compiler optimization flags for object files
+
+PLATFORM=''		dnl # Platform name
+DOCTOOL='doc++'         dnl # The api documentation generation tool
+
+dnl # Depending on the target operating system, set various command options and
+dnl # such.
+case $target_os in
+    linux*)
+        AR='ar'
+        ARFLAGS='-ruv'
+        CXXFLAGS="-Wall -ftemplate-depth-50 $CXXFLAGS"
+        XCXXFLAGS="$LDFLAGS"
+        INCLUDES="$INCLUDES"
+        LD='${CXX} -shared'
+        LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
+        LDOPTS=''
+        OPT_FLAGS='-O2'
+        DBG_FLAGS='-g'
+        SHAREDLIB_EXT='so'
+
+        dnl Set compile flags for generating profiling info
+        if test "x${_enable_profile}" = "xyes" ; then
+           CXXFLAGS="$CXXFLAGS -pg"
+           XCXXFLAGS="$LDFLAGS -pg"
+           PROFILE_FLAG=1
+        fi
+
+        PLATFORM='LINUX'
+        ;;
+    dnl # Unkown operating system (to config.guess).
+    unknown)
+        PLATFORM='UNKNOWN'
+        ;;
+esac
+
+dnl # Check for the proper C++ compiler
+AC_PROG_CXX
+
+CFLAGS="$CFLAGS ${_EXTRA_FLAGS}"
+CXXFLAGS="$CXXFLAGS ${_EXTRA_FLAGS}"
+
+dnl # When compiling on Windows, we need to force the compiler to treat the
+dnl # source file as a .cpp file even though it will end in .c and set the
+dnl correct path separator.
+AC_DEFINE(PATH_SEPARATOR, "/", 
+	  The platform specific directory path separator)
+AC_PROG_CPP
+AC_PROG_CXXCPP
+AC_LANG_CPLUSPLUS
+
+AC_CACHE_CHECK(if C++ compiler is STL compliant,
+     ac_cv_CXX_is_current,
+     AC_TRY_COMPILE([#include <map>],
+               [std::map<const char*, int> test_map;],
+               ac_cv_CXX_is_current='yes',
+               [ ac_cv_CXX_is_current='no' ;
+                      AC_MSG_ERROR(*** The library requires a current C++ compiler) ]))
+
+dnl # -------------------------------------------------------------------------
+dnl # Check for needed libraries
+dnl # -------------------------------------------------------------------------
+
+AC_CHECK_LIB(GL, main, [LIBS="-lGL"], [echo "libGL not found. Halting."; exit 1])
+AC_CHECK_LIB(GLU, main, [LIBS="$LIBS -lGLU"], [echo "libGLU not found. Halting."; exit 1])
+AC_CHECK_LIB(glut, main, [LIBS="$LIBS -lglut"], [echo "libglut not found. Halting."; exit 1])
+AC_CHECK_LIB(GLmath, main, [LIBS="$LIBS -lGLmath"], [echo "libGLmath not found. Halting."; exit 1])
+AC_CHECK_LIB(OGLFT, main, [LIBS="$LIBS -lOGLFT"], [echo "libOGLFT not found. Halting."; exit 1])
+AC_CHECK_LIB(glpng, main, [LIBS="$LIBS -lglpng"], [echo "libglpng not found. Halting."; exit 1])
+AC_CHECK_LIB(sugar, main, [LIBS="$LIBS -lsugar"], [echo "libsugar not found. Halting."; exit 1])
+AC_CHECK_LIB(sugar-gl, main, [LIBS="$LIBS -lsugar-gl"], [echo "libsugar-gl not found. Halting."; exit 1])
+AC_CHECK_LIB(glam, main, [LIBS="$LIBS -lglam"], [echo "libglam not found. Halting."; exit 1])
+
+if test "x${_enable_profile}" = "xyes" ; then
+   if test "x${GLMATHPATH}" != "x" ; then
+      AC_CHECK_FILE(${GLMATHPATH}/lib/libGLmath.a, [], [echo "${GLMATHPATH}/lib/libGLmath.a not found. Halting."; exit 1])
+   else
+      AC_CHECK_FILE(/usr/lib/libGLmath.a, [], [echo "libGLmath.a not found. Halting."; exit 1])
+   fi
+   if test "x${SUGARPATH}" != "x" ; then
+      AC_CHECK_FILE(${SUGARPATH}/lib/libsugar.a, [], [echo "${SUGARPATH}/lib/libsugar.a not found. Halting."; exit 1])
+      AC_CHECK_FILE(${SUGARPATH}/lib/libsugar-gl.a, [], [echo "${SUGARPATH}/lib/libsugar-gl.a not found. Halting."; exit 1])
+   else
+      AC_CHECK_FILE(/usr/lib/libsugar-gl.a, [], [echo "libsugar-gl.a not found. Halting."; exit 1])
+      AC_CHECK_FILE(/usr/lib/libsugar.a, [], [echo "libsugar.a not found. Halting."; exit 1])
+   fi
+   if test "x${GLAMPATH}" != "x" ; then
+      AC_CHECK_FILE(${GLAMPATH}/lib/libglam.a, [], [echo "${GLAMPATH}/lib/libglam.a not found. Halting."; exit 1])
+   else
+      AC_CHECK_FILE(/usr/lib/libglam.a, [], [echo "libglam.a not found. Halting."; exit 1])
+   fi
+
+fi
+
+
+
+dnl # -------------------------------------------------------------------------
+dnl # Check for other programs
+dnl # -------------------------------------------------------------------------
+
+dnl Check for the proper ranlib
+AC_PROG_RANLIB
+
+dnl Check for support for 'ln -s' and set $LN_S env variable
+AC_PROG_LN_S
+
+dnl Specify that the directory structure is not flat
+AC_PROG_MAKE_SET
+
+dnl Check for doc++
+AC_CHECK_PROG(DOCTOOL, doc++, doc++)
+
+dnl Check for xmlto
+AC_CHECK_PROG(XMLTO, xmlto, xmlto)
+
+dnl Check for Sodipodi
+AC_CHECK_PROG(SODIPODI, sodipodi, sodipodi)
+
+AC_SUBST(SHELL)
+
+dnl # -------------------------------------------------------------------------
+dnl # Do Makefile substitutions.
+dnl # -------------------------------------------------------------------------
+
+ROCKROOTDIR=`pwd`
+LPILINK=${ROCKROOTDIR}/config/lpilink
+SOURCELINK=${ROCKROOTDIR}/config/sourcelink
+
+AC_SUBST(ROCKROOTDIR)
+AC_SUBST(topdir)
+AC_SUBST(GLAMROCKDATADIR)
+
+AC_SUBST(ROCK_MAJORV)
+AC_SUBST(ROCK_MINORV)
+AC_SUBST(ROCK_VERSION)
+AC_SUBST(ROCK_RELEASE)
+
+AC_SUBST(GLMATHPATH)
+AC_SUBST(SUGARPATH)
+AC_SUBST(GLAMPATH)
+AC_SUBST(PROFILE_FLAG)
+AC_SUBST(PLATFORM)
+AC_SUBST(AR)
+AC_SUBST(ARFLAGS)
+AC_SUBST(AR_NAME_FLAG)
+AC_SUBST(CFLAGS)
+AC_SUBST(XCXXFLAGS)
+AC_SUBST(CXXFLAGS)
+AC_SUBST(INCLUDES)
+AC_SUBST(LD)
+AC_SUBST(BDYNAMIC_FLAG)
+AC_SUBST(BSTATIC_FLAG)
+AC_SUBST(LIBS)
+AC_SUBST(LDOPTS)
+AC_SUBST(LDOPTS_DBG)
+AC_SUBST(LDOPTS_OPT)
+AC_SUBST(DBG_FLAGS)
+AC_SUBST(OPT_FLAGS)
+
+AC_SUBST(OS_TYPE)
+AC_SUBST(PLATFORM)
+
+AC_SUBST(DOCTOOL)
+AC_SUBST(XMLTO)
+AC_SUBST(SODIPODI)
+AC_SUBST(LPILINK)
+AC_SUBST(SOURCELINK)
+
+AC_OUTPUT([Makefile.base
+           Makefile
+           include/glamrock/GrConfig.h
+           doc/Makefile
+           doc/handbook/Makefile
+           src/Makefile
+           src/test/Makefile
+           src/libglam-rock/Makefile
+           src/build/Makefile])

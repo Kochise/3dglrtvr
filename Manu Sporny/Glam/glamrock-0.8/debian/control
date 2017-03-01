@@ -1,0 +1,41 @@
+Source: glamrock
+Priority: optional
+Maintainer: Manu Sporny <msporny@zenmachine.org>
+Build-Depends: debhelper (>> 3.0.0), glam-dev
+Standards-Version: 3.5.8
+
+Package: libglamrock-dev
+Section: devel
+Architecture: any
+Depends: libglamrock0 (= ${Source-Version}), glam-dev
+Description: Development files for the GLAMrock UI toolkit
+ GLAMrock is an extension to the GLAM user interface meta-toolkit. GLAM is a 
+ vector-based OpenGL user interface meta-toolkit that allows the developer 
+ to create compelling 2D and 3D user interfaces for OpenGL applications.
+ GLAMrock extends GLAM by providing a professional set of soft, sinuous, 2D
+ user interface widgets. This package contains all development libraries and
+ header files needed for developing with GLAMrock.
+
+Package: libglamrock0
+Section: libs
+Architecture: any
+Depends: libc6 (>= 2.3), libgcc1 (>= 1:3.2), libglut3, libstdc++5 (>= 1:3.2), glam0
+Description: Run-time library files for the GLAMrock UI toolkit
+ GLAMrock is an extension to the GLAM user interface meta-toolkit. GLAM is a 
+ vector-based OpenGL user interface meta-toolkit that allows the developer 
+ to create compelling 2D and 3D user interfaces for OpenGL applications.
+ GLAMrock extends GLAM by providing a professional set of soft, sinuous, 2D
+ user interface widgets. This package contains all the run-time libraries and
+ files needed to execute GLAMrock-based applications.
+
+Package: glamrock-demos
+Section: graphics
+Architecture: any
+Depends: libglamrock0 (= ${Source-Version}), xlibmesa3 | libgl1, xlibs (>> 4.1.0), glam0
+Description: Demonstration programs for the GLAMrock UI toolkit
+ GLAMrock is an extension to the GLAM user interface meta-toolkit. GLAM is a 
+ vector-based OpenGL user interface meta-toolkit that allows the developer 
+ to create compelling 2D and 3D user interfaces for OpenGL applications.
+ GLAMrock extends GLAM by providing a professional set of soft, sinuous, 2D
+ user interface widgets. This package contains demonstration applications
+ on what the GLAMrock UI toolkit is capable of creating.

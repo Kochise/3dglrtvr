@@ -1,0 +1,21 @@
+default: all
+
+# Include common definitions.
+include @ROCKROOTDIR@/Makefile.base
+
+SOURCES_LINK_DIR = @ROCKROOTDIR@/src/build
+HEADER_LINK_DIR  = @ROCKROOTDIR@/include/glamrock
+
+LINK_HEADERS = $(wildcard *.h)
+LINK_SOURCES = $(wildcard *.C)
+
+include @ROCKROOTDIR@/config/recursive.mk
+include @ROCKROOTDIR@/config/compile.mk
+
+includedir:
+	mkdir -p ${HEADER_LINK_DIR}
+
+all: includedir link_headers link_sources
+
+clean:
+        @${MAKE} RECURSIVE_TARGET="clean" build

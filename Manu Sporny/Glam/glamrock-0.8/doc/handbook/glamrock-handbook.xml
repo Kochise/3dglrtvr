@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE book SYSTEM "/usr/share/sgml/docbook/dtd/xml/4.2/docbookx.dtd">
+
+<book>
+ <title>The GLAMrock Software Library Handbook</title>
+ <bookinfo>
+  <legalnotice>
+   <title>Copyright Notice</title>
+   <para>
+    This handbook is provided under the GNU Free Documentation License (FDL).
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+    For more information on the GNU FDL, please visit the 
+    <ulink url="http://www.gnu.org/licenses/fdl.html">
+     GNU Free Documentation License web page</ulink>.
+   </para>
+  </legalnotice>
+  <copyright>
+   <year>2003</year>
+   <holder>Manu Sporny
+    <ulink url="mailto:msporny@zenmachine.org">msporny@zenmachine.org</ulink>
+   </holder>
+  </copyright>
+  <author>
+  <firstname>Manu</firstname>
+  <surname>Sporny</surname>
+  <affiliation>
+   <jobtitle>Director of Product Development</jobtitle>
+   <orgname>xRhino, Inc.</orgname>
+   <orgdiv>Product Development</orgdiv>
+  </affiliation>
+  </author>
+ </bookinfo>
+
+ <!-- Include all book's chapters -->
+
+</book>
