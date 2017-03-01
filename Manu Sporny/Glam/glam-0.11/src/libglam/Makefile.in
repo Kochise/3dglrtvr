@@ -1,0 +1,14 @@
+default: all
+
+# Include common definitions.
+include @GLAMROOTDIR@/Makefile.base
+
+# Subdirectories used for recursion through the source tree.
+SUBDIRS	= base event primitives containers decorators animation build
+
+include @GLAMROOTDIR@/config/recursive.mk
+
+all: ${SUBDIRS}
+
+clean:
+	@${MAKE} RECURSIVE_TARGET="clean" recursive

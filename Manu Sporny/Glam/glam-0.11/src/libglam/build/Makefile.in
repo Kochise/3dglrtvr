@@ -1,0 +1,25 @@
+default: all
+
+# Include common definitions.
+include @GLAMROOTDIR@/Makefile.base
+
+SOURCES = $(wildcard *.C)
+
+include @GLAMROOTDIR@/config/recursive.mk
+include @GLAMROOTDIR@/config/compile.mk
+
+libglam.so: ${SOURCES} ${OBJECTS}
+	${CXX_LINK} ${OBJECTS} -o libglam.so
+	${LN_S} @GLAMROOTDIR@/src/libglam/build/libglam.so \
+		@GLAMROOTDIR@/lib/libglam.so
+
+libglam.a: ${SOURCES} ${OBJECTS}
+	${AR} libglam.a ${OBJECTS}
+	${LN_S} @GLAMROOTDIR@/src/libglam/build/libglam.a \
+		@GLAMROOTDIR@/lib/libglam.a
+
+all: libglam.so libglam.a
+
+CLEANUP_FILES += libglam.so libglam.a @GLAMROOTDIR@/lib/libglam.a @GLAMROOTDIR@/lib/libglam.so ${SOURCES}
+
+include @GLAMROOTDIR@/config/clean.mk
