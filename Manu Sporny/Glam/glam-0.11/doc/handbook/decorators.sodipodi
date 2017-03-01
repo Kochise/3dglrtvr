@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg101"
+   sodipodi:version="0.33pre"
+   width="280pt"
+   height="2in"
+   sodipodi:docname="decorators.sodipodi"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs103">
+    <linearGradient
+       id="linearGradient108">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop109" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop110" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient108"
+       id="linearGradient111" />
+    <radialGradient
+       xlink:href="#linearGradient108"
+       id="radialGradient112"
+       cx="0.5"
+       cy="0.5"
+       fx="0.5"
+       fy="0.5"
+       r="0.5"
+       gradientUnits="objectBoundingBox"
+       spreadMethod="pad" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     snaptoguides="true"
+     showgrid="false"
+     snaptogrid="false" />
+  <g
+     id="g500"
+     transform="matrix(0.55551,0,0,0.55551,20.8613,5.80151)">
+    <path
+       style="font-size:12;fill:#f3d900;fill-rule:evenodd;stroke:#000000;stroke-width:10;stroke-linejoin:round;"
+       d="M 8.79718 229.103 L 238.173 229.103 L 123.485 9.72775 L 8.79718 229.103 z "
+       id="path171"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;"
+       d="M 123.23 53.8178 L 115.677 96.3188 L 110.677 98.8188 L 110.677 107.569 L 49.4262 185.694 L 50.0512 195.694 L 93.1772 182.569 L 96.3022 178.194 L 107.552 174.444 L 112.552 181.319 L 111.927 188.194 L 88.1772 198.819 L 88.8022 206.319 L 110.677 204.444 L 119.427 201.319 L 123.204 205.069 L 126.98 201.319 L 135.73 204.444 L 157.605 206.319 L 158.23 198.819 L 134.48 188.194 L 133.855 181.319 L 138.855 174.444 L 150.105 178.194 L 153.23 182.569 L 196.356 195.694 L 196.981 185.694 L 135.73 107.569 L 135.73 98.8188 L 130.73 96.3188 L 123.23 53.8178 z "
+       id="path184"
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccc" />
+  </g>
+  <rect
+     style="font-size:12;fill:none;fill-rule:evenodd;stroke:#30a01e;stroke-width:3;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0;stroke-dasharray:12,12;"
+     id="rect507"
+     width="124.858002"
+     height="117.470001"
+     x="193.337940"
+     y="15.246204"
+     ry="46.5448" />
+  <text
+     style="fill:black;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:16;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="55.4105"
+     y="166.816"
+     id="text525">
+    <tspan
+       x="55.4104996"
+       y="166.815994"
+       sodipodi:role="line"
+       id="tspan536">
+SVG Icon</tspan>
+  </text>
+  <text
+     style="fill:black;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:16;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="206.127"
+     y="165.136"
+     id="text528">
+    <tspan
+       x="206.126999"
+       y="165.136002"
+       sodipodi:role="line"
+       id="tspan538">
+Target Reticle</tspan>
+  </text>
+</svg>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   version="1"
+   x="0"
+   y="0"
+   width="500"
+   height="500"
+   id="svg338"
+   sodipodi:version="0.31"
+   sodipodi:docname="../test/data/dragText.svg"
+   sodipodi:docbase="../test/data/"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     id="base" />
+  <defs
+     id="defs340">
+    <linearGradient
+       id="linearGradient115">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop116" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop117" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient115"
+       id="linearGradient118" />
+  </defs>
+  <rect
+     width="328.774048"
+     height="309.906006"
+     ry="48.074"
+     x="87.971492"
+     y="105.267288"
+     style="font-size:12;fill:#53f19a;fill-rule:evenodd;stroke:none;stroke-width:15.8359;stroke-linejoin:round;fill-opacity:0.694805;"
+     id="rect112" />
+  <rect
+     width="328.773987"
+     height="309.906006"
+     ry="48.074"
+     x="87.971518"
+     y="105.267334"
+     style="font-size:12;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:16.8;stroke-linejoin:round;"
+     id="rect462" />
+  <rect
+     style="font-size:12;fill:#808080;fill-rule:evenodd;stroke-width:1pt;"
+     id="rect107"
+     width="227.987000"
+     height="40.880501"
+     x="138.365031"
+     y="160.377441" />
+  <rect
+     style="font-size:12;fill:#808080;fill-rule:evenodd;stroke-width:1.25;stroke:none;stroke-opacity:1;stroke-dasharray:none;stroke-linecap:round;"
+     id="rect108"
+     width="40.880501"
+     height="213.835999"
+     x="231.918294"
+     y="165.094437" />
+</svg>

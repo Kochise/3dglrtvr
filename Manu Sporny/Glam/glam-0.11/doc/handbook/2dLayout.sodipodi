@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg639"
+   sodipodi:version="0.33pre"
+   width="184.28pt"
+   height="141.89pt"
+   sodipodi:docbase="/work/src/opensource/glam/doc/handbook/"
+   sodipodi:docname="/work/src/opensource/glam/doc/handbook/2dLayout.sodipodi"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs641">
+    <linearGradient
+       id="linearGradient643">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop644" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop645" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient643"
+       id="linearGradient646" />
+    <radialGradient
+       xlink:href="#linearGradient643"
+       id="radialGradient697"
+       cx="0.500000"
+       cy="0.500000"
+       r="0.500000"
+       fx="0.500000"
+       fy="0.500000" />
+  </defs>
+  <sodipodi:namedview
+     id="base" />
+  <g
+     id="g771"
+     transform="translate(-11.07503,-22.74303)">
+    <rect
+       style="font-size:12;fill:#a8b0f0;fill-rule:evenodd;stroke:#000000;stroke-width:1.25;stroke-dasharray:none;"
+       id="rect642"
+       width="195.000031"
+       height="147.500000"
+       x="28.750031"
+       y="37.361561" />
+    <g
+       id="g750">
+      <rect
+         style="font-size:12;fill:#d7d9ff;fill-rule:evenodd;stroke:#000000;stroke-width:2.5;stroke-dasharray:none;"
+         id="rect667"
+         width="112.500015"
+         height="37.500000"
+         x="68.750015"
+         y="76.112019" />
+      <text
+         style="font-size:18;font-weight:normal;stroke-width:1pt;font-family:Arial;font-style:normal;text-anchor:start;writing-mode:lr;"
+         x="112.410284"
+         y="101.781784"
+         id="text668"
+         sodipodi:linespacing="100%"
+         transform="translate(-0.831156,-0.473053)">
+        <tspan
+           x="112.410286"
+           y="101.781784"
+           sodipodi:role="line"
+           id="tspan748">
+OK</tspan>
+      </text>
+    </g>
+    <g
+       id="g755">
+      <text
+         style="fill:black;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:14;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+         x="39.5095816"
+         y="128.656921"
+         id="text717"
+         sodipodi:linespacing="100%">
+        <tspan
+           x="39.5095825"
+           y="128.656921"
+           sodipodi:role="line"
+           id="tspan729">
+X1</tspan>
+      </text>
+      <text
+         style="fill:black;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:14;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+         x="48.7500000"
+         y="156.737061"
+         id="text720"
+         sodipodi:linespacing="100%">
+        <tspan
+           x="48.7500000"
+           y="156.737061"
+           sodipodi:role="line"
+           id="tspan731">
+Y1</tspan>
+      </text>
+      <path
+         style="font-size:12;fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.25;stroke-dasharray:5,5;stroke-dashoffset:0;"
+         d="M 68.75 185.487 L 68.75 113.709 L 28.75 113.709 "
+         id="path742"
+         sodipodi:nodetypes="ccc" />
+    </g>
+    <g
+       id="g763">
+      <text
+         style="fill:black;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:14;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+         x="101.874985"
+         y="71.7370605"
+         id="text723"
+         sodipodi:linespacing="100%">
+        <tspan
+           x="101.874985"
+           y="71.7370605"
+           sodipodi:role="line"
+           id="tspan733">
+X2</tspan>
+      </text>
+      <text
+         style="fill:black;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:14;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+         x="184.374985"
+         y="137.987000"
+         id="text726"
+         sodipodi:linespacing="100%">
+        <tspan
+           x="184.374985"
+           y="137.987000"
+           sodipodi:role="line"
+           id="tspan735">
+Y2</tspan>
+      </text>
+      <path
+         style="font-size:12;fill:none;fill-rule:evenodd;stroke:#00ff00;stroke-width:1.25;stroke-dasharray:5,5;stroke-dashoffset:2.125;"
+         d="M 181.25 184.862 L 181.25 76.1121 L 28.75 76.1121 "
+         id="path743"
+         sodipodi:nodetypes="ccc" />
+    </g>
+  </g>
+</svg>

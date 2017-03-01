@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg101"
+   sodipodi:version="0.31"
+   width="250pt"
+   height="250pt"
+   sodipodi:docname="/home/cglasnap/svgs/unitTank.svg"
+   sodipodi:docbase="/home/cglasnap/svgs/"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs103">
+    <linearGradient
+       id="linearGradient129">
+      <stop
+         style="stop-color:#cce6ff;stop-opacity:1;"
+         offset="0.000000"
+         id="stop130" />
+      <stop
+         style="stop-color:#7f99b3;stop-opacity:1;"
+         offset="1.000000"
+         id="stop131" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient129"
+       id="linearGradient132" />
+    <linearGradient
+       xlink:href="#linearGradient129"
+       id="linearGradient172" />
+    <radialGradient
+       xlink:href="#linearGradient129"
+       id="radialGradient173" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     snaptogrid="false"
+     gridtolerance="5px"
+     gridspacingx="0.5mm"
+     gridspacingy="0.5mm" />
+  <path
+     style="fill:#f20000;fill-rule:evenodd;stroke:black;stroke-opacity:1;stroke-width:10;stroke-linejoin:round;stroke-linecap:butt;fill-opacity:1;stroke-dasharray:none;"
+     d="M 124.613 8.80424 L 239.185 122.786 L 124.022 237.95 L 8.85856 122.786 L 124.613 8.80424 z "
+     id="path3096"
+     sodipodi:nodetypes="ccccc" />
+  <path
+     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-linejoin:round;"
+     d="M 69.7522 153.314 L 176.241 152.061 L 189.187 136.61 L 188.769 130.346 L 167.889 120.741 L 129.887 121.158 L 119.447 113.641 L 119.238 109.257 L 133.019 105.081 L 178.538 104.663 L 190.231 106.333 L 190.44 95.6847 L 177.912 97.7727 L 121.535 98.1896 L 110.26 92.7606 L 77.2691 94.4316 L 68.917 102.784 L 69.3346 109.048 L 75.5987 117.818 L 53.048 129.928 L 53.048 135.774 L 69.7522 153.314 z "
+     id="path123"
+     sodipodi:nodetypes="cccccccccccccccccccccc" />
+</svg>

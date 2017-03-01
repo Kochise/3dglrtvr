@@ -1,0 +1,29 @@
+default: all
+
+# Include common definitions.
+include @GLAMROOTDIR@/Makefile.base
+
+SOURCES = $(wildcard *.C)
+
+# Visual libraries
+VLIBS  = -L@GLAMROOTDIR@/lib -L@GLMATHPATH@/lib -L/usr/X11/lib -L/usr/X11R6/lib -lglut -lGLU -lm -lglam -lglpng -lsugar -lsugar-gl -lGLmath -lOGLFT
+
+CE_OBJECTS = glamCurveEditor.o GceCurveUI.o GceControlPoint.o
+
+AE_OBJECTS = glamAnimEditor.o GaeAnimUI.o GaeControlPoint.o \
+             GaeCurveEditWidget.o Gae3dCurveEditWidget.o \
+             GaeSplineEditWidget.o GaeEvent.o
+
+glamCurveEditor: ${CE_OBJECTS}
+	${CXX_EXECUTABLE} ${VLIBS} ${CE_OBJECTS} -o glamCurveEditor -lglam
+
+glamAnimEditor: ${AE_OBJECTS}
+	${CXX_EXECUTABLE} ${VLIBS} ${AE_OBJECTS} -o glamAnimEditor -lglam
+
+all: glamCurveEditor glamAnimEditor ${OBJECTS}
+
+CLEANUP_FILES += glamCurveEditor glamAnimEditor ${OBJECTS}
+
+# Include common definitions.
+include @GLAMROOTDIR@/config/compile.mk
+include @GLAMROOTDIR@/config/clean.mk

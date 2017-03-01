@@ -1,0 +1,90 @@
+ <glossary>
+  <title>GLAM Glossary</title>
+  <para>
+    All GLAM related terms can be found in this glossary.
+  </para>
+  <glossdiv>
+    <title>A</title>
+    <glossentry>
+      <glossterm>Actions</glossterm>
+      <glosssee otherterm="widget_actions_listeners">
+	Widget Actions &amp; Listeners
+      </glosssee>
+    </glossentry>
+  </glossdiv>
+  <glossdiv>
+    <title>E</title>
+    <glossentry>
+      <glossterm>Events</glossterm>
+      <glosssee otherterm="user_events">
+	User Events
+      </glosssee>
+    </glossentry>
+  </glossdiv>
+  <glossdiv>
+    <title>G</title>
+    <glossentry id="glam">
+      <glossterm>Graphics Library American Mother</glossterm>
+      <acronym>GLAM</acronym>
+      <glossdef>
+	<para>
+	  The GLAM toolkit is an OpenGL-based cross platform user interface
+	  toolkit for creating 2D or 3D user interfaces. Its main purpose is
+	  to provide the underlying framework for a user interface, leaving
+	  the application specific look, feel and behavior to the developer's
+	  discretion.
+	</para>
+      </glossdef>
+    </glossentry>
+  </glossdiv>
+  <glossdiv>
+    <title>L</title>
+    <glossentry id="layout_managers">
+      <glossterm>Layout Managers</glossterm>
+      <glossdef>
+	<para>
+	  Layout managers make positioning components within containers easy.
+	  They also allow for particular arrangements of components to remain
+	  stable as containers are resized.
+	</para>
+      </glossdef>
+    </glossentry>
+    <glossentry>
+      <glossterm>Listeners</glossterm>
+      <glosssee otherterm="widget_actions_listeners">
+	Widget Actions &amp; Listeners
+      </glosssee>
+    </glossentry>
+  </glossdiv>
+  <glossdiv>
+    <title>U</title>
+    <glossentry id="user_events">
+      <glossterm>User Events</glossterm>
+      <glossdef>
+	<para>
+	  User events describe the user's interaction with an application
+	  involving input devices such as mouse and keyboard.
+	</para>
+	<glossseealso otherterm="widget_actions_listeners">
+	  Widget Actions &amp; Listeners
+	</glossseealso>
+      </glossdef>
+    </glossentry>
+  </glossdiv>
+  <glossdiv>
+    <title>W</title>
+    <glossentry id="widget_actions_listeners">
+      <glossterm>Widget Actions &amp; Listeners</glossterm>
+      <glossdef>
+	<para>
+	  Widget Actions and Listeners make communication between
+	  widgets and other components of an application (generally other
+	  widgets) possible. Widget actions represent the actions that
+	  widgets perform in response to user events. After a widget
+	  has handled a user event, it generates an action and passes it
+	  to all of its listeners to notify them of what has transpired.
+	</para>
+      </glossdef>
+    </glossentry>
+  </glossdiv>
+ </glossary>
