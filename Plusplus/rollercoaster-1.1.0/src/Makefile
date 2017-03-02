@@ -1,0 +1,33 @@
+#CFLAGS=-Wall -c -g
+# You may want to change these if your computer doesn't support it.
+CFLAGS=-Wall -c -O3 -ffast-math -march=i686 -mfpmath=sse -msse
+LIBRARY=-L/usr/X11R6/lib -lglut -lGLU -lGL -lX11 -lm -lXmu -lXi
+CC=gcc
+LD=gcc
+RM=rm
+
+bin/roller: obj/roller.o obj/point.o obj/poteau.o obj/glbmp.o obj/main.o \
+obj/parser.o
+	${LD} -o bin/roller obj/roller.o obj/point.o obj/poteau.o obj/glbmp.o \
+	obj/parser.o obj/main.o ${LIBRARY}
+
+obj/roller.o: roller.c roller.h glbmp.h point.h poteau.h parser.h
+	${CC} ${CFLAGS} -o obj/roller.o roller.c
+
+obj/parser.o: parser.c parser.h point.h roller.h poteau.h
+	${CC} ${CFLAGS} -o obj/parser.o parser.c
+
+obj/point.o: point.c point.h
+	${CC} ${CFLAGS} -o obj/point.o point.c
+
+obj/glbmp.o: glbmp.c glbmp.h
+	${CC} ${CFLAGS} -o obj/glbmp.o glbmp.c
+
+obj/poteau.o: poteau.c glbmp.h point.h
+	${CC} ${CFLAGS} -o obj/poteau.o poteau.c
+
+obj/main.o: main.c roller.h
+	${CC} ${CFLAGS} -o obj/main.o main.c
+
+clean:
+	${RM} -f obj/*.o
