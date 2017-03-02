@@ -1,0 +1,58 @@
+#include <windows.h>
+#include "resource.h"
+
+Plusplus ICON plusplus.ico
+
+Screen BITMAP screen.bmp
+
+STRINGTABLE DISCARDABLE
+BEGIN
+	1 "RollerCoaster 2000"
+END
+
+1001 RCDATA
+{
+	#include "grass.bmp.rc"
+}
+
+1002 RCDATA
+{
+	#include "metal.tga.rc"
+}
+
+1003 RCDATA
+{
+	#include "panneau.tga.rc"
+}
+
+1004 RCDATA
+{
+	#include "tree.tga.rc"
+}
+
+ConfigDialog DIALOGEX 16, 11, 201, 300
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "RollerCoaster2000 Settings"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "RollerCoaster Track File", -1, 13, 60, 175, 52, WS_GROUP
+    EDITTEXT        IDD_EDIT, 19, 75, 163, 12, ES_AUTOHSCROLL | WS_GROUP, WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Browse", IDD_BROWSE, 142, 92, 40, 14
+    CHECKBOX        "Random track mode", IDD_RANDOMTRACKS, 19, 116, 162, 10, WS_GROUP | WS_TABSTOP
+    GROUPBOX        "RollerCoaster Tracks Directory", -1, 13, 130, 175, 52, WS_GROUP
+    EDITTEXT        IDD_EDIT_DIR, 19, 145, 163, 12, ES_AUTOHSCROLL | WS_GROUP, WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Browse", IDD_BROWSE_DIR, 142, 162, 40, 14
+    GROUPBOX        "Resolution", -1, 13, 190, 77, 54, WS_GROUP
+    AUTORADIOBUTTON "1024x768", IDD_1024x768, 21, 202, 61, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "800x600", IDD_800x600, 21, 215, 61, 10
+    AUTORADIOBUTTON "640x480", IDD_640x480, 21, 228, 61, 10
+    GROUPBOX        "Bits per pixel", -1, 111, 190, 77, 54, WS_GROUP
+    AUTORADIOBUTTON "32", IDD_32bpp, 122, 204, 39, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "16", IDD_16bpp, 122, 217, 39, 10
+    CHECKBOX        "Keep desktop settings", IDD_KEEPDESKTOP, 19, 250, 162, 10, WS_GROUP
+    DEFPUSHBUTTON   "OK", IDOK, 100, 277, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 151, 277, 40, 14, NOT WS_TABSTOP
+    CONTROL         "Screen", -1, "Static", SS_BITMAP | WS_GROUP, 14, 10, 64, 64, WS_EX_CLIENTEDGE
+    LTEXT           "RollerCoaster2000 Screen Saver", -1, 73, 20, 115, 12, WS_GROUP
+    LTEXT           "by Plusplus", -1, 73, 32, 115, 12, WS_GROUP
+END

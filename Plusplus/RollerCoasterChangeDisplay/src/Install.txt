@@ -1,0 +1,23 @@
+HOW TO COMPILE WITH LCC-WIN32 ?
+===============================
+The provided Makefile.win32 can be used with the lcc-win32 free compiler. This
+compiler is downloadable from http://www.cs.virginia.edu/~lcc-win32
+
+To compile, open a shell (msdos prompt), make sure that lcc's bin directory is
+in your PATH environment variable, go in RollerCoasterScreenSaverSrc directory
+and type make -f Makefile.win32, or you can rename Makefile.win32 to Makefile
+and just call make.
+
+If everything went well, the RollerCoaster2000.scr file must lie in the bin
+directory. That's all folks.
+
+HOW TO COMPILE WITH VISUAL C++ ?
+================================
+The provided Makefile.vc should work with the VC++ compiler. Actually, it has
+only been tested with VC++ version 5.
+
+To compile open a shell (msdos prompt), go to the RollerCoasterScreenSaverSrc
+directory and type nmake -f Makefile.vc
+It should work. But before doing that you probably have to execute a file
+called "VCVARS32.BAT" and that lies in vc's bin directory. This file sets the
+shell environment to be usable for compiling.
