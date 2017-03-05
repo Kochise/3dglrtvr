@@ -1,0 +1,1675 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SoftPixelEngine" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Engine/;Devmode/;Readme/;Resources/;Plugins/;Plugins/jpeglib/;Plugins/libpng/;Engine/scene/Animation/;Engine/scene/;Engine/scene/Collision/;Engine/threading/;Engine/dim/;Engine/video/RenderSystem/Direct3D11/;Engine/video/RenderSystem/Direct3D9/;Engine/video/RenderSystem/Dummy/;Engine/sound/Dummy/;Engine/tool/;Engine/gui/;Engine/video/FileFormats/;Engine/video/;Engine/video/HardwareBuffer/;Engine/io/;Engine/video/Materials/;Engine/scene/Objects/;Engine/math/;Engine/scene/FileFormats/;Engine/network/;Engine/video/RenderSystem/OpenGLPipeline/;Engine/video/RenderSystem/OpenGL/;Engine/video/RenderSystem/OpenGLES1/;Engine/sound/OpenSLES/;Engine/physics/;Engine/video/RenderSystem/;Engine/scene/SceneGraph/;Engine/audio/;Engine/device/;Engine/scene/TreeNodes/;Engine/sound/WinMM/;Plugins/zlib/;Engine/video/RenderSystem/OpenGLES2/;Engine/video/Shader/;Engine/video/Shader/Cg/;Engine/audio/Dummy/;Engine/audio/OpenSLES/;Engine/audio/WinMM/;Engine/audio/XAudio2/;" />
+		<Build>
+			<Target title="DevVersion(Windows)">
+				<Option platforms="Windows;" />
+				<Option output="bin/Win32-gcc/SoftPixelEngineDevmode" prefix_auto="1" extension_auto="1" />
+				<Option object_output="lib/Win32-gcc/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-ffast-math" />
+				</Compiler>
+				<Linker>
+					<Add option="-lopengl32" />
+					<Add option="-ld3d9" />
+					<Add option="-lwinmm" />
+					<Add option="-lwsock32" />
+					<Add option="-lnetapi32" />
+					<Add option="-mwindows" />
+					<Add option="lib/libvfw32.a" />
+					<Add library="D:/Anwendungen/C++/Libraries/NewtonWin-2.16/sdk/x32/dll_vs7/newton.lib" />
+					<Add library="D:/Anwendungen/NVIDIA Corporation/Cg/lib/cg.lib" />
+					<Add library="D:/Anwendungen/NVIDIA Corporation/Cg/lib/cgD3D9.lib" />
+					<Add library="D:/Anwendungen/NVIDIA Corporation/Cg/lib/cgGL.lib" />
+				</Linker>
+			</Target>
+			<Target title="LibVersion(Windows)">
+				<Option platforms="Windows;" />
+				<Option output="bin/Win32-gcc/SoftPixelEngine" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/Win32-gcc/" />
+				<Option object_output="lib/Win32-gcc/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-ffast-math" />
+				</Compiler>
+				<Linker>
+					<Add option="-lopengl32" />
+					<Add option="-ld3d9" />
+					<Add option="-lwinmm" />
+					<Add option="-lwsock32" />
+					<Add option="-lnetapi32" />
+					<Add option="-mwindows" />
+					<Add option="lib/libvfw32.a" />
+					<Add library="D:/Anwendungen/C++/Libraries/NewtonWin-2.16/sdk/x32/dll_vs7/newton.lib" />
+					<Add library="D:/Anwendungen/NVIDIA Corporation/Cg/lib/cg.lib" />
+					<Add library="D:/Anwendungen/NVIDIA Corporation/Cg/lib/cgD3D9.lib" />
+					<Add library="D:/Anwendungen/NVIDIA Corporation/Cg/lib/cgGL.lib" />
+				</Linker>
+			</Target>
+			<Target title="DevVersion(Linux)">
+				<Option platforms="Unix;" />
+				<Option output="bin/Linux/SoftPixelEngineDevmode" prefix_auto="1" extension_auto="1" />
+				<Option object_output="lib/Linux/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-ffast-math" />
+				</Compiler>
+				<Linker>
+					<Add option="-lGL" />
+					<Add option="-lXxf86vm" />
+					<Add option="-lpng" />
+				</Linker>
+			</Target>
+			<Target title="LibVersion(Linux)">
+				<Option platforms="Unix;" />
+				<Option output="bin/Linux/SoftPixelEngine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="lib/Linux/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-fPIC" />
+				</Compiler>
+				<Linker>
+					<Add option="-lGL" />
+					<Add option="-lXxf86vm" />
+					<Add option="-lpng" />
+					<Add option="-lpthread" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-O2" />
+		</Compiler>
+		<Unit filename="History.txt">
+			<Option virtualFolder="Readme/" />
+		</Unit>
+		<Unit filename="Information.txt">
+			<Option virtualFolder="Readme/" />
+		</Unit>
+		<Unit filename="LICENSE.txt">
+			<Option virtualFolder="Readme/" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="media/spDevmode.cpp">
+			<Option virtualFolder="Devmode/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="DevVersion(Linux)" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimation.cpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimation.hpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationBone.cpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationBone.hpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationMorphTarget.cpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationMorphTarget.hpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationNode.cpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationNode.hpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationSkeletal.cpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spAnimationSkeletal.hpp">
+			<Option virtualFolder="Engine/scene/Animation/" />
+		</Unit>
+		<Unit filename="sources/Base/spBasicMeshGenerator.cpp">
+			<Option virtualFolder="Engine/scene/" />
+		</Unit>
+		<Unit filename="sources/Base/spBasicMeshGenerator.hpp">
+			<Option virtualFolder="Engine/scene/" />
+		</Unit>
+		<Unit filename="sources/Base/spBasicObject.hpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Unit filename="sources/Base/spCriticalSection.cpp">
+			<Option virtualFolder="Engine/threading/" />
+		</Unit>
+		<Unit filename="sources/Base/spCriticalSection.hpp">
+			<Option virtualFolder="Engine/threading/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimension.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionAABB.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionContainer4.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionLine3D.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionMatrix2.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionMatrix3.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionMatrix4.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionOBB.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionPlane3D.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionPoint2D.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionQuaternion.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionRect2D.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionSecureList.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionSize2D.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionTriangle3D.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionUniversalBuffer.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spDimensionVector3D.hpp">
+			<Option virtualFolder="Engine/dim/" />
+		</Unit>
+		<Unit filename="sources/Base/spGeometryStructures.hpp">
+			<Option virtualFolder="Engine/scene/" />
+		</Unit>
+		<Unit filename="sources/Base/spImageBuffer.cpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/Base/spImageBuffer.hpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/Base/spImageManagement.cpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/Base/spImageManagement.hpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/Base/spIndexFormat.cpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spIndexFormat.hpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutput.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputControl.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputControl.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFile.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFile.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileAsset.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileAsset.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileHDD.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileHDD.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileRAM.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileRAM.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileSystem.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputFileSystem.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputLog.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputLog.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputOSInformator.cpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputOSInformator.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInputOutputString.hpp">
+			<Option virtualFolder="Engine/io/" />
+		</Unit>
+		<Unit filename="sources/Base/spInternalDeclarations.hpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Unit filename="sources/Base/spMaterialColor.hpp">
+			<Option virtualFolder="Engine/video/Materials/" />
+		</Unit>
+		<Unit filename="sources/Base/spMaterialConfigTypes.hpp">
+			<Option virtualFolder="Engine/video/Materials/" />
+		</Unit>
+		<Unit filename="sources/Base/spMaterialStates.cpp">
+			<Option virtualFolder="Engine/video/Materials/" />
+		</Unit>
+		<Unit filename="sources/Base/spMaterialStates.hpp">
+			<Option virtualFolder="Engine/video/Materials/" />
+		</Unit>
+		<Unit filename="sources/Base/spMath.cpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMath.hpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathCollisionLibrary.cpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathCollisionLibrary.hpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathRadianDegree.hpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathRandomizer.cpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathRandomizer.hpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathSpline.hpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathTriangleCutter.cpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathTriangleCutter.hpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathViewFrustum.cpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMathViewFrustum.hpp">
+			<Option virtualFolder="Engine/math/" />
+		</Unit>
+		<Unit filename="sources/Base/spMemoryManagement.hpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Unit filename="sources/Base/spMeshBuffer.cpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spMeshBuffer.hpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spNode.cpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Unit filename="sources/Base/spNode.hpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Unit filename="sources/Base/spStandard.cpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Unit filename="sources/Base/spStandard.hpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Unit filename="sources/Base/spStencilManager.cpp">
+			<Option virtualFolder="Engine/scene/" />
+		</Unit>
+		<Unit filename="sources/Base/spStencilManager.hpp">
+			<Option virtualFolder="Engine/scene/" />
+		</Unit>
+		<Unit filename="sources/Base/spThreadManager.cpp">
+			<Option virtualFolder="Engine/threading/" />
+		</Unit>
+		<Unit filename="sources/Base/spThreadManager.hpp">
+			<Option virtualFolder="Engine/threading/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeBuilder.cpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeBuilder.hpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNode.cpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNode.hpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeBSP.cpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeBSP.hpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeKD.cpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeKD.hpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeOct.cpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeOct.hpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeQuad.cpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spTreeNodeQuad.hpp">
+			<Option virtualFolder="Engine/scene/TreeNodes/" />
+		</Unit>
+		<Unit filename="sources/Base/spVertexFormat.cpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spVertexFormat.hpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spVertexFormatList.cpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spVertexFormatList.hpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spVertexFormatUniversal.cpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/Base/spVertexFormatUniversal.hpp">
+			<Option virtualFolder="Engine/video/HardwareBuffer/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageFileFormats.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageFormatInterfaces.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageFormatInterfaces.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderBMP.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderBMP.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderDDS.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderDDS.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderJPG.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderJPG.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderPCX.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderPCX.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderPNG.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderPNG.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderTGA.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderTGA.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderWAD.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageLoaderWAD.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageSaverBMP.cpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Image/spImageSaverBMP.hpp">
+			<Option virtualFolder="Engine/video/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshFileFormats.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoader.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoader3DS.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoader3DS.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderB3D.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderB3D.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderMD2.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderMD2.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderMD3.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderMD3.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderMS3D.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderMS3D.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderOBJ.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderOBJ.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderSPM.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderSPM.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderX.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshLoaderX.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshSaver.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshSaverB3D.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshSaverB3D.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshSaverOBJ.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshSaverOBJ.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshSaverSPM.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Mesh/spMeshSaverSPM.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Scene/spSceneLoaderBSP1.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Scene/spSceneLoaderBSP1.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Scene/spSceneLoaderBSP3.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Scene/spSceneLoaderBSP3.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Scene/spSceneLoaderSPSB.cpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/FileFormats/Scene/spSceneLoaderSPSB.hpp">
+			<Option virtualFolder="Engine/scene/FileFormats/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgCoreHeader.hpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderContext.cpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderContext.hpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgram.cpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgram.hpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgramD3D11.cpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgramD3D11.hpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgramD3D9.cpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgramD3D9.hpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgramGL.cpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderProgramGL.hpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderTable.cpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Cg/spCgShaderTable.hpp">
+			<Option virtualFolder="Engine/video/Shader/Cg/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkAddress.cpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkAddress.hpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkClient.cpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkClient.hpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkCore.hpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkSocket.cpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkSocket.hpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkSystem.cpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkSystem.hpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Network/spNetworkSystemThreads.cpp">
+			<Option virtualFolder="Engine/network/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsBasicObject.cpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsBasicObject.hpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsBodyJoint.cpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsBodyJoint.hpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsRigidBody.cpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsRigidBody.hpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsStaticBody.cpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsStaticBody.hpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsSystem.cpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Physics/spPhysicsSystem.hpp">
+			<Option virtualFolder="Engine/physics/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spDummySound.cpp">
+			<Option virtualFolder="Engine/audio/Dummy/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spDummySound.hpp">
+			<Option virtualFolder="Engine/audio/Dummy/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spDummySoundDevice.cpp">
+			<Option virtualFolder="Engine/audio/Dummy/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spDummySoundDevice.hpp">
+			<Option virtualFolder="Engine/audio/Dummy/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spOpenSLESSound.cpp">
+			<Option virtualFolder="Engine/audio/OpenSLES/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spOpenSLESSound.hpp">
+			<Option virtualFolder="Engine/audio/OpenSLES/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spOpenSLESSoundDevice.cpp">
+			<Option virtualFolder="Engine/audio/OpenSLES/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spOpenSLESSoundDevice.hpp">
+			<Option virtualFolder="Engine/audio/OpenSLES/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spSound.cpp">
+			<Option virtualFolder="Engine/audio/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spSound.hpp">
+			<Option virtualFolder="Engine/audio/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spSoundDevice.cpp">
+			<Option virtualFolder="Engine/audio/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spSoundDevice.hpp">
+			<Option virtualFolder="Engine/audio/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spWinMMSound.cpp">
+			<Option virtualFolder="Engine/audio/WinMM/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spWinMMSound.hpp">
+			<Option virtualFolder="Engine/audio/WinMM/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spWinMMSoundDevice.cpp">
+			<Option virtualFolder="Engine/audio/WinMM/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spWinMMSoundDevice.hpp">
+			<Option virtualFolder="Engine/audio/WinMM/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spXAudio2Sound.cpp">
+			<Option virtualFolder="Engine/audio/XAudio2/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spXAudio2Sound.hpp">
+			<Option virtualFolder="Engine/audio/XAudio2/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spXAudio2SoundDevice.cpp">
+			<Option virtualFolder="Engine/audio/XAudio2/" />
+		</Unit>
+		<Unit filename="sources/Framework/Sound/spXAudio2SoundDevice.hpp">
+			<Option virtualFolder="Engine/audio/XAudio2/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spExtendedToolset.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spExtendedToolset.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolLightmapGenerator.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolLightmapGenerator.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolModelCombiner.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolModelCombiner.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolParticleAnimator.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolParticleAnimator.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolPathFinder.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolPathFinder.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolScriptLoader.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolScriptLoader.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolTextureManipulator.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolTextureManipulator.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolXMLParser.cpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/Framework/Tools/spToolXMLParser.hpp">
+			<Option virtualFolder="Engine/tool/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIBasicObject.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIBasicObject.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIButtonGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIButtonGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUICheckboxGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUICheckboxGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIContainerGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIContainerGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIController.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIController.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIListGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIListGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIManager.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIManager.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIMenuItem.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIMenuItem.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIProgressbarGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIProgressbarGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIScrollbarGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIScrollbarGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIStringGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIStringGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUITextGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUITextGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUITrackbarGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUITrackbarGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUITreeGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUITreeGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIWebGadget.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIWebGadget.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIWindow.cpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/GUI/spGUIWindow.hpp">
+			<Option virtualFolder="Engine/gui/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDevice.cpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDevice.hpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceAndroid.cpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceAndroid.hpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceFlags.hpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceIOS.cpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceIOS.hpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceLinux.cpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceLinux.hpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceOS.hpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceWindows.cpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Platform/spSoftPixelDeviceWindows.hpp">
+			<Option virtualFolder="Engine/device/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jaricom.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcapimin.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcapistd.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcarith.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jccoefct.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jccolor.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcdctmgr.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jchuff.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcinit.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcmainct.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcmarker.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcmaster.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcomapi.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jconfig.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcparam.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcprepct.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jcsample.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jctrans.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdapimin.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdapistd.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdarith.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdatadst.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdatasrc.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdcoefct.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdcolor.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdct.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jddctmgr.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdhuff.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdinput.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdmainct.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdmarker.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdmaster.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdmerge.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdpostct.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdsample.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jdtrans.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jerror.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jerror.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jfdctflt.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jfdctfst.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jfdctint.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jidctflt.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jidctfst.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jidctint.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jinclude.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jmemmgr.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jmemnobs.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jmemsys.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jmorecfg.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jpegint.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jpeglib.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jquant1.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jquant2.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jutils.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/jpeglib/jversion.h">
+			<Option virtualFolder="Plugins/jpeglib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/png.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/png.h">
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngconf.h">
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngerror.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pnggccrd.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngget.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngmem.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngpread.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngread.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngrio.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngrtran.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngrutil.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngset.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngtrans.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngvcrd.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngwio.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngwrite.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngwtran.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/libpng/pngwutil.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/libpng/" />
+			<Option target="DevVersion(Windows)" />
+			<Option target="LibVersion(Windows)" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/adler32.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/compress.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/crc32.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/crc32.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/deflate.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/deflate.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/gzio.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/infback.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/inffast.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/inffast.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/inffixed.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/inflate.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/inflate.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/inftrees.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/inftrees.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/trees.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/trees.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/uncompr.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/zconf.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/zlib.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/zutil.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/Plugins/zlib/zutil.h">
+			<Option virtualFolder="Plugins/zlib/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11RenderSystem.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11RenderSystem.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11Shader.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11Shader.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11ShaderTable.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11ShaderTable.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11Texture.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D11/spDirect3D11Texture.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D11/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9RenderContext.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9RenderContext.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9RenderSystem.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9RenderSystem.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9Shader.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9Shader.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9ShaderTable.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9ShaderTable.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9Texture.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/Direct3D9/spDirect3D9Texture.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Direct3D9/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLCoreHeader.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLFramebufferObject.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLFramebufferObject.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLFunctionsARB.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLFunctionsARB.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLPipelineBase.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLPipelineBase.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLPipelineFixed.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLPipelineFixed.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLPipelineProgrammable.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLPipelineProgrammable.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLRenderContext.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLRenderContext.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLRenderSystem.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLRenderSystem.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLShader.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLShader.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLShaderTable.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLShaderTable.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLTexture.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLTexture.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGL/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLTextureBase.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGL/spOpenGLTextureBase.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES1RenderSystem.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES1/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES1RenderSystem.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES1/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES1Texture.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES1/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES1Texture.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES1/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES2RenderSystem.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES2/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES2RenderSystem.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES2/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES2Texture.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES2/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLES2Texture.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLES2/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLESFunctionsARB.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLESRenderContext.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/OpenGLES/spOpenGLESRenderContext.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/OpenGLPipeline/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spComputeShader.hpp">
+			<Option virtualFolder="Engine/video/Shader/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spDesktopRenderContext.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spDesktopRenderContext.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spDummyRenderSystem.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Dummy/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spDummyRenderSystem.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/Dummy/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spMovieSequencePacket.hpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderContext.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderContext.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderSystem.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderSystem.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderSystemFont.cpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderSystemFont.hpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderSystemMovie.cpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spRenderSystemMovie.hpp">
+			<Option virtualFolder="Engine/video/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spShaderConfigTypes.hpp">
+			<Option virtualFolder="Engine/video/Shader/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spShaderProgram.cpp">
+			<Option virtualFolder="Engine/video/Shader/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spShaderProgram.hpp">
+			<Option virtualFolder="Engine/video/Shader/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spShaderTable.cpp">
+			<Option virtualFolder="Engine/video/Shader/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spShaderTable.hpp">
+			<Option virtualFolder="Engine/video/Shader/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spTextureBase.cpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/RenderSystem/spTextureBase.hpp">
+			<Option virtualFolder="Engine/video/RenderSystem/" />
+		</Unit>
+		<Unit filename="sources/Resources/D3D11DefaultBasicShader3D(SM4).h">
+			<Option virtualFolder="Resources/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollision.cpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollision.hpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionBox.cpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionBox.hpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionConfigTypes.hpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionDetector.cpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionDetector.hpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionMesh.cpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionMesh.hpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionNode.cpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionNode.hpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionSphere.cpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/Collision/spCollisionSphere.hpp">
+			<Option virtualFolder="Engine/scene/Collision/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spCameraBlender.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spCameraBlender.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spCameraFirstPerson.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spCameraFirstPerson.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spCameraTracking.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spCameraTracking.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spMaterialNode.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spMaterialNode.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spRenderNode.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spRenderNode.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneBillboard.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneBillboard.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneCamera.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneCamera.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneGraph.cpp">
+			<Option virtualFolder="Engine/scene/SceneGraph/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneGraph.hpp">
+			<Option virtualFolder="Engine/scene/SceneGraph/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneGraphSimple.cpp">
+			<Option virtualFolder="Engine/scene/SceneGraph/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneGraphSimple.hpp">
+			<Option virtualFolder="Engine/scene/SceneGraph/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneGraphSimpleChildTree.cpp">
+			<Option virtualFolder="Engine/scene/SceneGraph/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneGraphSimpleChildTree.hpp">
+			<Option virtualFolder="Engine/scene/SceneGraph/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneLight.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneLight.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneMesh.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneMesh.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneNode.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneNode.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneTerrain.cpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SceneGraph/spSceneTerrain.hpp">
+			<Option virtualFolder="Engine/scene/Objects/" />
+		</Unit>
+		<Unit filename="sources/SoftPixelEngine.hpp">
+			<Option virtualFolder="Engine/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
