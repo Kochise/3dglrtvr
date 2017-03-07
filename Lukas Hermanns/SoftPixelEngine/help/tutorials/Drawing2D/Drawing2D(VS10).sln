@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Drawing2D", "Drawing2D(VS10).vcxproj", "{1CA6AE7A-453B-4905-9B00-1613CABA70F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CA6AE7A-453B-4905-9B00-1613CABA70F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1CA6AE7A-453B-4905-9B00-1613CABA70F5}.Debug|Win32.Build.0 = Debug|Win32
+		{1CA6AE7A-453B-4905-9B00-1613CABA70F5}.Release|Win32.ActiveCfg = Release|Win32
+		{1CA6AE7A-453B-4905-9B00-1613CABA70F5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
