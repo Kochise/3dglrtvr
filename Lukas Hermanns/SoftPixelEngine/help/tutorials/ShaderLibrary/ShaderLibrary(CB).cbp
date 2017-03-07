@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ShaderLibrary" />
+		<Option platforms="Windows;Unix;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="sources\;" />
+		<Build>
+			<Target title="Release(Window)">
+				<Option platforms="Windows;" />
+				<Option output="bin-Win32-gcc\ShaderLibrary" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin-Win32-gcc\" />
+				<Option object_output=".\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="..\..\..\lib\Win32-gcc\libSoftPixelEngine.a" />
+				</Linker>
+			</Target>
+			<Target title="Release(Linux)">
+				<Option platforms="Unix;" />
+				<Option output="bin-Linux\ShaderLibrary" prefix_auto="1" extension_auto="1" />
+				<Option working_dir=".\" />
+				<Option object_output=".\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="..\..\..\bin\Linux\SoftPixelEngine.so" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="sources\Library.cpp">
+			<Option virtualFolder="sources\" />
+		</Unit>
+		<Unit filename="sources\Library.hpp">
+			<Option virtualFolder="sources\" />
+		</Unit>
+		<Unit filename="sources\main.cpp">
+			<Option virtualFolder="sources\" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
