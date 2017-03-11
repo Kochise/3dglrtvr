@@ -19,11 +19,15 @@ You need the following to get this program working :
 \- \\Cristi Posea\\CSizingControlBar : dockable windows<br>
 \- \\Dime Vangelovski\\Gens2 1.0b3 : software rendering (pascal+asm sources)<br>
 \- \\Ernst Kleiberg\\BotanicVis : file-data browser (no source)<br>
+\- \\Eric Penner\\rigidbody : physic rendering (collision)<br>
 \- \\Greg Coombe\\research : global illumination (markov tracing)<br>
 \- \\Joel Davis\\Hex Planet : planet rendering (hex coordinates)<br>
+\- \\John Walker\\Earth Screen Saver : stellar illumination<br>
 \- \\Jun Rekimoto\\Information Cube : file-data browser (no source)<br>
+\- \\Lance Putnam\\glv : user interface (prototyping)<br>
 \- \\Lode Vandevenne\\trixel : software rendering<br>
 \- \\Lord Trancos\\Pulsar LMTools : global illumination (pascal sources)<br>
+\- \\Lukas Hermanns\\SoftPixelEngine : software rendering<br>
 \- \\Markus Trenkwalder\\cmd940 : software rendering (for gp2x handheld)<br>
 \- \\Matthew Hildebrand\\tge : software rendering<br>
 \- \\Nicolas Capens\\swShader : software rendering (jit shader)<br>
