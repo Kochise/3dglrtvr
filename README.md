@@ -10,11 +10,13 @@ You need the following to get this program working :
 
 * List of programs
 
+\- \\Allan Nielsen\\SuperGrid : grid-like control with tree_like header<br>
 \- \\Andras Balogh\\Ranger Mk2 : terrain rendering (lod)<br>
 \- \\Asen Kovatchev\\3DJelloSrc : physic rendering (jello)<br>
 \- \\Bernie Freidin\\flythrough : csg modeling (scriptable)<br>
 \- \\Bjarke Viksoe\\treemaptest_src : file browser (better than spacemonger)<br>
 \- \\Bjarne Fich\\3DMaze : csg modeling (the only 6-dof maze)<br>
+\- \\Cristi Posea\\CSizingControlBar : dockable windows<br>
 \- \\Dime Vangelovski\\Gens2 1.0b3 : software rendering (pascal+asm sources)<br>
 \- \\Ernst Kleiberg\\BotanicVis : file-data browser (no source)<br>
 \- \\Greg Coombe\\research : global illumination (markov tracing)<br>
