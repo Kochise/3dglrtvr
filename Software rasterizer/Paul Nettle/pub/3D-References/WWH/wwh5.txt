@@ -1,0 +1,129 @@
+
+         ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+         º  The purpose of a WWH is to  expand one's knowledge on a  º
+         º  topic they already understand,  but need a reference, a  º
+         º  refresher course, or to simply extend what they already  º
+         º  know about the topic.                                    º
+         º                                                           º
+         º WWH is the quick tutor.  Just the [W]hat, [W]hy and [H]ow º
+ÉÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍ»
+º WWH            º Calculating a rotation matrix based on location/target     º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Text version   º 1.0                                                        º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Written by     º Paul Nettle (midnight@grafix3d.tzo.com)                    º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Last Modified  º May 15, 1997                                               º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º Prerequisites  º Basic vector and matrix mathematics                        º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHAT                                WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+The purpose here is to describe how to obtain a proper matrix given a
+location and a target (or a vector), and an amount of roll.
+
+This document will also emulate the specific nature of 3DS cameras,
+when it comes to the degenerate case (input vector points directly
+up).
+
+The accompanying source code is in C++.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 WHY                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+This is useful when dealing with cameras in a 3D world, or when you
+need to orient an object based on a vector, rather than
+roll/pitch/yaw components.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 HOW                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+DEFINE
+
+     cVector - dx, dy, dz
+     cMatrix - 3x3 matrix class (consisting of 3 cVectors)
+
+The input Vector must be a directional vector.  So for
+location->target, calculate like this:
+
+     vector = target - camera;
+
+There is a problem with creating rotation matricies out of direction
+vectors.  There is a degenerate case when the [delta y] of the
+direction vector is anything but zero.  3D Studio handles this in a
+special way, and here's a solution to it.
+
+TESTING
+
+Many people claim to have perfectly working code, and I have found
+that in over 50% of them, this was not the case.
+
+To test this, simply view an object from all 6 directions (above,
+below, left, right, front, back).  Make sure the view vector contains
+two 0 components and a 1 component (i.e. [0,0,1] or [0,-1,0]).
+
+The degenerate cases are [0,1,0] and [0,-1,0]. Pay special attention
+to the degenerate cases.
+
+This code based on the descriptions in _Computer Graphics Principles
+and Practice_ (page 222) by Foley, van Dam, Feiner and Hughes.
+
+SOURCE
+
+cMatrix	cMatrix::generateMatrix( cVector &vector, const float rollDegrees )
+{
+        // Get our direction vector (the Z vector component of the matrix)
+        // and make sure it's normalized into a unit vector
+
+        cVector zAxis(vector);
+        zAxis.normalize();
+
+        // Build the Y vector of the matrix (handle the degenerate case
+        // in the way that 3DS does) -- This is not the TRUE vector, only
+        // a reference vector.
+
+        cVector yAxis;
+
+        if (!zAxis.dx && !zAxis.dz)
+                yAxis = cVector(-zAxis.dy, 0.0f, 0.0f );
+        else
+                yAxis = cVector(0.0f, 1.0f, 0.0f);
+
+        // Build the X axis vector based on the two existing vectors
+
+        cVector xAxis = yAxis.cross( zAxis );
+        xAxis.normalize();
+
+        // Correct the Y reference vector
+
+        yAxis = xAxis.cross( zAxis );
+        yAxis.normalize();
+        yAxis = -yAxis;
+
+        // Generate rotation matrix without roll included
+
+        cMatrix rot(xAxis, yAxis, zAxis);
+
+        // Generate the Z rotation matrix for roll (bank)
+
+        cMatrix roll(MATRIX_Z, rollDegrees);
+
+        // Concatinate them for a complete rotation matrix that includes
+        // all rotations
+
+        cMatrix result = roll * rot;
+
+        // All done
+
+        return result;
+}
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ WWH                                 END                                 WWH ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+

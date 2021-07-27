@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Android-Tutorial", "Android-Tutorial.vcxproj", "{0F3138DC-295E-4B08-8ACE-9087D7FF87A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Android = Debug|Android
+		Release|Android = Release|Android
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F3138DC-295E-4B08-8ACE-9087D7FF87A2}.Debug|Android.ActiveCfg = Debug|Android
+		{0F3138DC-295E-4B08-8ACE-9087D7FF87A2}.Debug|Android.Build.0 = Debug|Android
+		{0F3138DC-295E-4B08-8ACE-9087D7FF87A2}.Release|Android.ActiveCfg = Release|Android
+		{0F3138DC-295E-4B08-8ACE-9087D7FF87A2}.Release|Android.Build.0 = Release|Android
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

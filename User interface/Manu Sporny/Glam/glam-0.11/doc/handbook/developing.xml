@@ -1,0 +1,398 @@
+<chapter>
+  <title>Downloading, Building and Installing GLAM</title>
+
+  <sect1>
+    <title>Downloading GLAM</title>
+
+    <para>
+      GLAM source, tutorial binaries and sample media are available from
+      <ulink url="http://www.sourceforge.net/projects/glam/">
+	SourceForge</ulink>.
+    </para>
+  </sect1>
+  
+  <sect1>
+    <title>GLAM Build Tools</title>
+
+    <para>
+      The GLAM build system depends on quite a few free software packages. It
+      makes heavy use of GNU autoconf, and make. Debian packages are used for 
+      the binary build and distribution of the software. Open standards such 
+      as Docbook, UML, PDF and HTML are used for all manuals and API 
+      documentation.
+    </para>
+
+    <sect2>
+      <title>GNU Autoconf and make</title>
+
+      <para>
+	To ease multi-platform development, GLAM uses several of the 
+	well-known cross platform software configuration and build utilities.
+	Since this is not the place for a tutorial on each of these systems, 
+	only a brief description and webpage is provided for each package.
+      </para>
+
+      <variablelist>
+	<title>GLAM Build Tools</title>
+
+	<varlistentry>
+	  <term>autoconf</term>
+
+	  <listitem>
+	    <para>
+	      GNU autoconf is used for the software build system bootstrap
+	      and initialization phase. It is autoconf's job to examine the 
+	      current system's capabilities and configure the software to 
+	      build on that particular system. It also checks to make sure all
+	      required build tools, libraries and header files are contained 
+	      on the system before the build process starts.
+	    </para>
+
+	    <para>
+	      For more information on autoconf, please visit the 
+	      <ulink url="http://www.gnu.org/software/autoconf/">GNU Autoconf
+		Homepage</ulink>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>make</term>
+
+	  <listitem>
+	    <para>
+	      Autoconf generates all the <filename>Makefile</filename>s, 
+	      which GNU make then uses to produce all object files, libraries 
+	      and documentation.
+	    </para>
+
+	    <para>
+	      More information on GNU make can be found at the 
+	      <ulink url="http://www.gnu.org/software/make/make.html">GNU 
+		Make Homepage</ulink>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2>
+      <title>System Documentation via Doc++, DocBook and Dia</title>
+
+      <para>
+	Overall system and API documentation is of the utmost importance 
+	to any software project. The GLAM system implements a documentation 
+	methodology that is inline with the work pipeline of core developers, 
+	end developers, and system engineers.
+      </para>
+
+      <para>
+	API documentation is integrated into each C++ header file, and 
+	each developer is required to change the documentation when an API 
+	feature changes. Overall system design documentation is provided via 
+	DocBook XML handbooks that can be formatted into PDF for print usage 
+	or HTML for an online reference manual.
+      </para>
+
+      <para>
+	Visual software system documentation is provided via UML diagrams,
+	which are then printed to PDF.
+      </para>
+
+      <variablelist>
+	<title>GLAM Documentation Tools</title>
+
+	<varlistentry>
+	  <term>Doc++</term>
+
+	  <listitem>
+	    <para>
+	      Doc++ is an inline software documentation system. It uses 
+	      standard javadoc documentation markup language to provide 
+	      information on classes, methods, variables, etc. All Doc++ 
+	      documentation is contained in project C++ header files, which 
+	      are then processed by doc++ to make attractive, cross-referenced,
+	      HTML API documentation.
+	    </para>
+
+	    <para>
+	      For more information on Doc++, please visit the 
+	      <ulink url="http://docpp.sourceforge.net/">Doc++ Homepage
+	      </ulink>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>DocBook XML</term>
+
+	  <listitem>
+	    <para>
+	      DocBook XML is a media-independent, standard documentation 
+	      system for creating technical manuals. The document that you are
+	      currently reading was generated using DocBook XML. It separates
+	      the content of a manual from it's physical form, thus allowing a
+	      variety of delivery mechanisms such as HTML, PDF, TeX, or 
+	      PostScript. All non-API documentation such as system overview, 
+	      concept and usage is marked up in DocBook XML format.
+	    </para>
+
+	    <para>
+	      For more information on DocBook XML, please visit the 
+	      <ulink url="http://www.docbook.org/">DocBook Homepage</ulink>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>Dia</term>
+
+	  <listitem>
+	    <para>
+	      Dia is a vector drawing editor, much like Microsoft Visio. 
+	      It provides a very nice Unified Modeling Language (UML) 
+	      capability that is used for visual software design, prior to 
+	      implementation. It is also coupled with two programs, 
+	      <filename>dia2code</filename> and <filename>code2dia</filename>,
+	      that provide very basic round-trip engineering for C++ software 
+	      systems.
+	    </para>
+
+	    <para>
+	      For more information on UML, please visit the 
+	      <ulink url="http://www.uml.org/">UML Homepage</ulink>.
+	    </para>
+
+	    <para>
+	      For more information on Dia, please visit the 
+	      <ulink url="http://www.lysator.liu.se/~alla/dia/dia.html">Dia 
+		Homepage</ulink>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>Sodipodi</term>
+
+	  <listitem>
+	    <para>
+	      Sodipodi is a vector based drawing program, similar to Adobe Illustrator.
+	      Several of the diagrams in the documentation were created with sodipodi 
+	      and converted from the .sodipodi format to the PNG (Portable Network 
+	      Graphics) format. In essence, a .sodipodi file is just an SVG (Scalable 
+	      Vector Graphics) format with several extensions.
+	    </para>
+	    
+	    <para>
+	      For more information on Sodipodi, please visit 
+	      <ulink url="http://sodipodi.com">Sodipodi.com</ulink>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+   </sect2>
+
+  </sect1>
+
+  <sect1>
+    <title>The GLAM Build Process</title>
+
+    <sect2>
+      <title>Configuration</title>
+
+      <para>
+	The configuration step is always the first step taken in any 
+	software build process. Configuration is performed via 
+	GNU autoconf. When building a software package, you will want to perform the 
+	following steps after uncompressing the source archive:
+      </para>
+
+      <para>
+	<orderedlist>
+	  <listitem>
+	    <para>
+	      <command>autoreconf</command></para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <command>./configure</command></para>
+	  </listitem>
+	</orderedlist>
+      </para>
+
+      <para>
+	There are several options that you can pass the <command>configure
+	</command> script. For example <option>--enable-optimization</option>
+	would enable the package for optimum performance. Conversely, <option>
+	  --enable-debug</option> would add a great deal of overhead to better
+	enable a developer to debug crashes in a particular section of 
+	software. For a complete list of available options, you can always 
+	pass <command>configure</command> the <option>--help</option> flag.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Pre-Compile Setup</title>
+
+      <para>
+	Several directories and files need to be created before the 
+	compilation phase of the build process. This step is transparent to 
+	the person that is compiling, but is important and sometimes causes 
+	random build failures on strangely configured systems.
+      </para>
+
+      <para>
+	In general, the software systems described in this document try to
+	separate the source directories from the temporary build directories. 
+	Source and header files are symbolically linked to their build 
+	locations before the compilation phase of the build process.
+      </para>
+
+      <para>
+	For example: <filename>libfoo/src/blah.h</filename> would be 
+	symbolically linked to <filename>libfoo/include/foo/blah.h</filename>.
+	<filename>libfoo/src/blah.C</filename> would be symbolically linked to
+	<filename>libfoo/src/build/blah.C</filename>. The file would be 
+	compiled in the <filename>libfoo/src/build/</filename> directory.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Compiling and Linking Phase</title>
+
+      <para>
+	The compile and link phase is relatively straight-forward. In 
+	general, all C++ source files in all build directories are compiled 
+	and linked into a set of libraries or executables. 
+      </para>
+
+      <para>
+	For example: All C++ files in the <filename>libfoo/src/build
+	</filename> directory would be linked into a shared library called 
+	<filename>libfoo/src/build/libfoo.so</filename>. That shared library 
+	would then be symbolically linked to the <filename>
+	  libfoo/lib/libfoo.so</filename> file.
+      </para>
+
+      <para>
+	In general, executables remain in the <filename>build</filename> 
+	directory until the software system is installed.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Installation</title>
+
+      <para>
+	The final step in the software build process is installation. 
+	Rarely do you want to execute this step, it is included in the 
+	<filename>Makefile</filename>s to ease the Debian package build 
+	process.
+      </para>
+
+      <para>
+	<caution>
+	  <title>
+	    <command>make install</command> can damage your system</title>
+	  <para>
+	    Performing a <command>make install</command> may overwrite 
+	    certain important files on your system. Don't execute the 
+	    following command unless you know exactly what it does.
+	  </para>
+	</caution>
+      </para>
+
+      <para>
+	<command>make install prefix=/usr</command> will install the 
+	entire software system using the <filename>/usr</filename> directory 
+	as the root directory. In general, documentation will be installed in 
+	<filename>/usr/share/doc/packagename</filename>, library files will be
+	installed in <filename>/usr/lib</filename> and header files will be 
+	installed in <filename>/usr/include</filename>.
+      </para>
+    </sect2>
+
+  </sect1>
+
+  <sect1>
+    <title>Building Debian Packages</title>
+
+    <para>
+      To build a Debian package of GLAM, you will want to perform the 
+      following steps after downloading the source archive:
+    </para>
+    
+    <para>
+      <orderedlist>
+	<listitem>
+	  <para>
+	    <command>dpkg-source -x glam_&lt;version&gt;.dsc</command>
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    <command>cd glam-&lt;version&gt;</command>
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    <command>autoreconf</command>
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    <command>dpkg-buildpackage -us -uc -rfakeroot</command>
+	  </para>
+	</listitem>
+      </orderedlist>
+    </para>
+
+    <para>
+      The rest of the build process is automated and will create Debian 
+      packages that will be placed above the <filename>glam-&lt;version&gt;
+      </filename> directory. You may install these Debian packages using the
+      <command>dpkg -i &lt;packagename&gt;</command> command.
+    </para>
+
+    <para>
+      For more information on building Debian packages, please visit the
+      <ulink url="http://www.debian.org/doc/manuals/maint-guide/">
+	Debian's New Package Maintainers Guide</ulink>.
+    </para>
+  </sect1>
+  
+  <sect1>
+    <title>Contributing to GLAM</title>
+
+    <para>
+      It is easy to contribute to GLAM. GLAM uses a CVS repository to manage
+      and control source code. To begin development on GLAM, you must have a 
+      SourceForge account. This account will allow you to check out the GLAM 
+      source tree.
+    </para>
+
+    <para>
+      To submit your changes, you must have a development account for the
+      GLAM project. Email the administrator of the project (NOT SourceForge)
+      to ask for rights. After you are granted development rights, you will be
+      able to submit your changes.
+      <orderedlist>
+	<listitem>
+	  <para>
+	    <command>cvs checkout glam</command>
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    <command>cvs commit glam</command>
+	  </para>
+	</listitem>
+      </orderedlist>
+    </para>
+  </sect1>
+
+</chapter>

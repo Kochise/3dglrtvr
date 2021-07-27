@@ -1,0 +1,8 @@
+	:RETTYPE: :NAME:()
+	{
+		int id = :ID:;
+		cmd940i::write_rb->write(&id, sizeof(id));
+		:RETTYPE: r;
+		cmd940i::read_rb->read(&r, sizeof(r));
+		return r;
+	}

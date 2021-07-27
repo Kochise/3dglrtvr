@@ -1,0 +1,25 @@
+default: all
+
+# Include common definitions.
+include @ROCKROOTDIR@/Makefile.base
+
+SOURCES = $(wildcard *.C)
+
+include @ROCKROOTDIR@/config/recursive.mk
+include @ROCKROOTDIR@/config/compile.mk
+
+libglamrock.so: ${SOURCES} ${OBJECTS}
+	${CXX_LINK} ${OBJECTS} -o libglamrock.so
+	${LN_S} @ROCKROOTDIR@/src/build/libglamrock.so \
+		@ROCKROOTDIR@/lib/libglamrock.so
+
+libglamrock.a: ${SOURCES} ${OBJECTS}
+	${AR} libglamrock.a ${OBJECTS}
+	${LN_S} @ROCKROOTDIR@/src/build/libglamrock.a \
+		@ROCKROOTDIR@/lib/libglamrock.a
+
+all: libglamrock.so libglamrock.a
+
+CLEANUP_FILES += libglamrock.so libglamrock.a @ROCKROOTDIR@/lib/libglamrock.a @ROCKROOTDIR@/lib/libglamrock.so ${SOURCES}
+
+include @ROCKROOTDIR@/config/clean.mk

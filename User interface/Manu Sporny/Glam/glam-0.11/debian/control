@@ -1,0 +1,51 @@
+Source: glam
+Priority: optional
+Maintainer: Manu Sporny <msporny@zenmachine.org>
+Build-Depends: debhelper (>> 3.0.0), glmath-dev, liboglft0-dev, libsugar-dev, libsugar0-gl-dev, libglpng-dev
+Standards-Version: 3.5.8
+
+Package: glam-dev
+Section: devel
+Architecture: any
+Depends: glam0 (= ${Source-Version}), glmath-dev, liboglft0-dev, libsugar-dev, libsugar0-gl-dev, libglpng-dev
+Description: A vector-based OpenGL user interface meta-toolkit
+ GLAM is a vector-based OpenGL user interface meta-toolkit that allows the
+ developer to create compelling 2D and 3D user interfaces for OpenGL
+ applications. It supports all standard user interface components, such as
+ buttons, menus, list boxes, text, sliders, as well as complex animation 
+ controls and SVG drawing primitives. The final look, feel and behavior of
+ the interface is left to the developer as GLAM provides a robust framework
+ for building and extending complex UIs.
+ .
+ This package contains the development header files and static library for
+ debugging purposes.
+
+Package: glam0
+Section: libs
+Architecture: any
+Depends: liboglft0 (>= 0.8), libsugar0-gl, glmath0, libglpng, ttf-bitstream-vera
+Description: A vector-based OpenGL user interface meta-toolkit library
+ GLAM is a vector-based OpenGL user interface meta-toolkit that allows the
+ developer to create compelling 2D and 3D user interfaces for OpenGL
+ applications. It supports all standard user interface components, such as
+ buttons, menus, list boxes, text, sliders, as well as complex animation 
+ controls and SVG drawing primitives. The final look, feel and behavior of
+ the interface is left to the developer as GLAM provides a robust framework
+ for building and extending complex UIs.
+ .
+ This package contains the run-time libraries for GLAM.
+
+Package: glam-demos
+Section: devel
+Architecture: any
+Depends: glam0 (>= ${Source-Version})
+Description: A vector-based OpenGL user interface meta-toolkit library
+ GLAM is a vector-based OpenGL user interface meta-toolkit that allows the
+ developer to create compelling 2D and 3D user interfaces for OpenGL
+ applications. It supports all standard user interface components, such as
+ buttons, menus, list boxes, text, sliders, as well as complex animation 
+ controls and SVG drawing primitives. The final look, feel and behavior of
+ the interface is left to the developer as GLAM provides a robust framework
+ for building and extending complex UIs.
+ .
+ This package contains example code and binaries for GLAM.

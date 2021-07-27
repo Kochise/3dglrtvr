@@ -1,0 +1,263 @@
+<html><head><meta http-equiv=Content-Type content='text/html; charset=UTF-8'></head>
+Path: goya!EU.net!Norway.EU.net!oslonett.no!sn.no!telepost.no!news.scala.no!news
+From: LarsPC@
+Newsgroups: comp.graphics.algorithms
+Subject: Re: Lens Flares
+Date: 14 Mar 1996 13:59:22 GMT
+Organization: Scala AS, Norway
+Lines: 249
+Message-ID: <4i98nq$k4l@trance.scala.no>
+References: <4i7u68$944@tribune.usask.ca>
+Reply-To: lars@scala.no
+NNTP-Posting-Host: lars.scala.no
+X-Newsreader: IBM NewsReader/2 v1.2
+
+In <4i7u68$944@tribune.usask.ca>, aa266@sfn.saskatoon.sk.ca (Graeme Humphries) writes:
+
+>	Does anybody have (or know where I can get) some code or 
+>explanations as to how to do lense flares?  They look extremely cool, but 
+>I just haven't seen any description of how to do it.
+
+This program was written for an Amiga (that I don't have any longer), so
+I hope this version is working properly.
+
+It does not draw the extra reflections that you see moving around when
+you change the flare position. They are positioned at fixed ratios along
+a line from the flare through the center of the screen and does not seem
+to be all that difficult to add.
+
+This program is *slow* :-)  Let me know what you think.
+
+-= Lars =-  lars@scala.no
+
+
+/*
+ * flare.c
+ *
+ * Lars Hamre, 1995
+ * lars@scala.no
+ *
+ * tab = 4 spaces
+ */
+
+#include <exec/types.h>
+#include <dos/dos.h>
+#include <intuition/intuition.h>
+#include <graphics/gfx.h>
+
+#include <proto/exec.h>
+#include <proto/dos.h>
+#include <proto/graphics.h>
+#include <proto/intuition.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
+/*************************************************************************/
+
+struct Screen *scr;
+struct Window *win;
+struct RastPort *rp;
+ULONG rgbtab[1 + 3*256 + 1];
+
+int Width  = 640;
+int Height = 480;
+
+/*************************************************************************/
+
+// Return random value between -1 and 1
+
+double frand1d(LONG x)
+{
+	LONG s = 71 * x; s = s * 8192 ^ s;
+	return 1.0 - ((s*(s*s*15731+789221)+1376312589)& 0x7fffffff)/1073741824.0;
+}
+
+// Return bandlimited noise. Each integer value has a different
+// random number. Values in-between use linear interpolation.
+
+double Noise1D(double x)
+{
+	LONG i;
+	double f,n0,n1;
+
+	i = floor(x);
+	f = x - i;
+	n0 = frand1d(i);
+	n1 = frand1d(i+1);
+
+	return n0 + (n1-n0)*f;
+}
+
+// Draw the flare
+
+void doit(double r)
+{
+	struct RastPort temprp = *rp;
+	UBYTE col[640];
+	LONG x, y;
+	double dx, dy, d, a, f, v;
+
+	double linear = 0.03;
+	double gauss  = 0.006;
+	double mix    = 0.50;
+
+	double ring,rmin,rmax,rmid,rwid;
+
+	// ring position and width
+
+	rmid = 27;
+	rwid = 1.6;
+	rmax = rmid + rwid;
+	rmin = rmid - rwid;
+
+	f = r;
+	r = 0;
+
+	temprp.Layer = NULL;
+	temprp.BitMap = AllocBitMap(640,1,8,0,rp->BitMap);
+
+	for (y=0; y<Height; y++)
+	{
+		dy = Height/2 - y;
+		for (x=0; x<Width; x++)
+		{
+			dx = x - Width/2;
+
+			// Get distance from center of flare
+
+			d = sqrt(dx*dx + dy*dy) * 0.5; // 0.5 controls diameter
+
+			// The center of the flare is modelled as a gaussian
+			// bump, and the glow around is a simple falloff.
+			// Mix and match as you like.
+			//
+			// If calculating in RGB try making the bump white
+			// and the glow red-orange.
+
+			a = exp(-d*d*gauss)*mix + exp(-d*linear)*(1-mix);
+
+			// Draw the ring around the flare. An orange-red
+			// color is appropriate here as well.
+			// Try RGB = {80,20,10} (or was it darker?)
+
+			if (d<rmin || d>rmax)
+				ring = 0;
+			else
+			{
+				ring = fabs(d-rmid)/rwid;
+				ring = 1 - ring*ring*(3 - 2*ring);
+				ring *= 0.10;
+			}
+
+			a += ring;
+
+			// Creates random lines out from the center.
+			// v/PI*17 controls the number of lines.
+			// v*10 sets the noise frequency
+			// *2 is the noise modulation
+
+			v = atan2(dx, dy)+PI;
+			v = (fmod(v/PI*17 + 1.0 + Noise1D(v*10), 1.0) - 0.5)*2;
+			v = fabs(v);
+			v = pow(v, 5.0);
+
+			// Add lines and fade out over distance.
+
+			a += 0.10*v / (1 + d*0.1);
+
+			// Clip to maximum value
+
+			if (a>1)
+				a = 1;
+
+			col[x] = 255.0 * a;
+		}
+		WritePixelLine8(rp, 0, y, Width, col, &temprp);
+	}
+	FreeBitMap(temprp.BitMap);
+}
+
+/*********************************************************/
+
+#define GAMMA 1.0 // 1.8
+
+// Create a grayscale palette
+
+void SetColors(void)
+{
+	LONG i, r, g, b, p;
+
+	for (i=0; i<256; i++)
+	{
+		r = 255 * pow(i/255.0, 1/GAMMA);
+		g = 255 * pow(i/255.0, 1/GAMMA);
+		b = 255 * pow(i/255.0, 1/GAMMA);
+
+		rgbtab[1 + i*3 + 0] = r<<24;
+		rgbtab[1 + i*3 + 1] = g<<24;
+		rgbtab[1 + i*3 + 2] = b<<24;
+	}
+	rgbtab[0] = (256 << 16) | 0;
+	LoadRGB32(&scr->ViewPort, rgbtab);
+}
+
+void main(void)
+{
+	srand(time(0));
+	if (scr = OpenScreenTags(NULL,
+		SA_Width,  640,
+		SA_Height, 480,
+		SA_Depth, 8,
+		SA_DisplayID, VGAPRODUCT_KEY,
+		SA_ShowTitle, FALSE,
+		TAG_END))
+	{
+		SetColors();
+
+		if (win = OpenWindowTags(NULL,
+			WA_CustomScreen, scr,
+			WA_IDCMP,  IDCMP_RAWKEY,
+			WA_Activate,	TRUE,
+			WA_Borderless,	TRUE,
+			WA_Backdrop,	TRUE,
+			TAG_END))
+		{
+			struct IntuiMessage *imsg;
+			BOOL running = TRUE;
+			double r=1;
+
+			rp = win->RPort;
+
+			doit(r);
+
+			while (running)
+			{
+				WaitPort(win->UserPort);
+				while (imsg = (struct IntuiMessage *) GetMsg(win->UserPort))
+				{
+					switch (imsg->Class)
+					{
+					case IDCMP_RAWKEY:
+						switch (imsg->Code)
+						{
+						case 80:
+							running = FALSE;
+							break;
+						}
+						break;
+					}
+					ReplyMsg((struct Message *) imsg);
+				}
+			}
+			CloseWindow(win);
+		}
+		else printf("Couldn't open window\n");
+		CloseScreen(scr);
+	}
+	else printf("Couldn't open screen\n");
+}
+
+

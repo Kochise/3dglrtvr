@@ -1,7 +1,0 @@
-NAME            Earthscr
-EXPORTS
-            ScreenSaverProc                 @1
-            ScreenSaverConfigureDialog      @2
-            
-
-

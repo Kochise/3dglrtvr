@@ -1,0 +1,796 @@
+From slama@slama.pub.hr Fri Nov 18 20:23:46 1994
+From: slama@slama.pub.hr (Davor Slamnig)
+Newsgroups: comp.os.ms-windows.programmer.misc,rec.games.programmer
+Subject: From Windows to VGA mode 13h and back - summary w. demo (long)
+Date: Tue, 15 Nov 94 23:39:53 MET
+Organization: Disorganized
+Distribution: world
+NNTP-Posting-Host: srcapp.srce.hr
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+
+    Hi
+
+    This message contains a summary of posts and my personal
+    e-mail concerning the ways to stay in Windows and get
+    rid of the GDI. Specifically, the goal was to enter
+    VGA mode 13h, make direct writes to VGA RAM, and return
+    to Windows GDI.
+
+    This way, you would have direct control over VGA RAM,
+    while still retaining the Windows memory management -
+    which means you can acces all the memory you have without
+    DOS-extenders (or Unix :)
+
+    There are 3 ways to do it:
+
+    1. Death / Resurrection                 (GDI.EXE)
+    2. DisableOEMLayer / EnableOEMLayer     (USER.EXE)
+    3. DisplayDib                           (DISPDIB.DLL)
+
+    The first two function pairs are "undocumented" in
+    the sense that Microsoft doesn't mention them in manuals
+    and supposedly will not support them in future Windows
+    versions.
+
+    DisplayDib is the only "supported" function, although
+    information about it is hard to find.
+
+    This summary explains how to use all these functions
+    and how to get the VGA screen-start selector.
+    Thanks to all posters who unravelled the mystery
+    layer by layer (OEMLayer, too :)
+
+    I should have posted this about 6 months earlier, when the
+    threads were active. But different cards displayed different
+    glitches, and I was not really sure whether they were caused
+    by DisplayDib or by other parts of my program(s).
+
+    Anyway, I finaly wrote a bare-bones DisplayDib demo which
+    I'm appending to this text. The program enters DisplayDib
+    NOWAIT mode and then copies screen-sized buffers to VGA
+    RAM.
+
+    I'm crossposting this to comp.os.ms-windows.programmer.misc
+    and rec.games.programmer because the original thread happened
+    in the windows conference, and the mechanism would be very
+    useful in game programming.
+
+Slama
+
+----------------------------------------------------------------------
+
+From: marnold@netcom.com (Matt Arnold)
+Subject: Re: How to call an undocumented Windows function?
+
+slama@slama.pub.hr (Davor Slamnig) writes:
+>    How do I go about calling an undocumented Windows function?
+>    I found strings "DEATH" and "RESURRECTION" in gdi.exe (these
+>    functions shuld kill and restore Windows GDI).
+>    I tried to call them by name from BC++, but the linker can't
+>    find them.
+
+That's cause IMPORT.LIB does not contain these "undocumented" functions
+for the linker to link with.
+
+But you should be able to do it manually using...
+
+   hGDI = GetModuleHandle("GDI");  // check on name here, "GDI" might be wrong
+   lpfnDeath = GetProcInstance(hGDI, "DEATH");
+
+   lpfnDeath();   // call "DEATH" (takes parameters?)
+  
+...for example. 
+
+---------------------------------------------------------------------------
+
+From: "Philip K. Chung" <pkchung@phoenix.Princeton.EDU>
+Subject: Re: How to call an undocumented Windows function?
+
+the follwing is taken directly out of _Undocumented_Windows_ by A.
+Schulman, D. Maxey, and M. Pietrek:
+
+pp. 559-560
+
+Death	GDI.121
+
+void FAR PASCAL Death(HDC)
+HDC hDC; /* handle of desktop device context */
+
+This function , called from the undocumented DisableOEMLayer function,
+disables the GDI display driver.  This returns the display  to the
+default text mode defined for the device, normally 80x25 in 16 colors.
+
+Used by: USER.EXE
+Support: 3.0, 3.1
+See also: Resurrection, DisableOEMLayer, EnableOEMLayer
+
+p. 589
+
+Resurrection	GDI.122
+
+void FAR PASCAL Resurrection(HDC, WORD, WORD, WORD, WORD, WORD, WORD)
+HDC hDC; /* Handle of desktop device context */
+WORD w1; /* unknown - set to 0 */
+WORD w2; /* unknown - set to 0 */
+WORD w3; /* unknown - set to 0 */
+WORD w4; /* unknown - set to 0 */
+WORD w5; /* unknown - set to 0 */
+WORD w6; /* unknown - set to 0 */
+
+This function, called from the undocumented EnableOEMLayter function,
+enables the GDI graphics driver.  The driver in turn sets the display
+adapter to the active graphics mode for Windows.
+
+Used by: USER.EXE
+Support: 3.0, 3.1
+See also: Death, DisableOEMLayer, EnableOEMLayer
+
+hope this helps.  if you really want to get into these undocumented
+functions, you should definitely get this book.  it comes with some
+nifty utilities too.  actually even if you don't want to actually use
+these functions, it is probably a good book to take a look at.  it's
+about $40 i think.  the publisher is Addison-Wesley ISBN
+0-201-60834-0.
+
+---------------------------------------------------------------
+
+Subject: Re: How to call an undocumented Windows function? 
+From: Miguel Carrasquer <mcv@inter.nl.net>
+
+I can tell you what Schulman c.s. say about these functions:
+ DisableOEMLayer disables the keyboard, mouse and display
+drivers, the system timer, and restores the previous video
+mode with a screen clear.  It calls the (non-exported) 
+InternalBroadcastDriverMessage, and also sends a notification
+to the network driver, if present.  You are left in "raw"
+DOS mode, but still in protected mode.
+
+--------------------------------------------------------------------
+
+From: "Scott C. Cottrille" <scottco@cs.washington.edu>
+Subject: Re: From Windows to VGA mode 13h and back
+
+>From what I've been told, once you use Death(), you should be able to 
+directly write to VRAM.  However, you will have to use the exported 
+selector _A000h from KRNL386.EXE to get a pointer to VRAM (since you're 
+still in protected mode).  Try the following:
+
+	extern WORD 	_A000h;
+
+	PBYTE		vidmem;
+	WORD		wTmp;
+
+	wTmp = (WORD)(&_A000h);
+	vidmem = (PBYTE)MAKELP(wTmp, 0);
+		
+And in your .DEF file, under the imports section, add this line:
+
+	__A000h = KERNEL.174
+
+-----------------------------------------------------------------------
+Sender: "Pondor" <Pondor@aol.com>
+Subject: Re: How to call an undocumented Windows function?
+
+>    I want to do direct to screen graphics under Windows.
+>    I manage to switch to VGA mode 13h (after killing GDI with
+>    DisableOEMLayer). But it seems that writing to absolute address
+>    0xa0000000 doesn't work in Windows.
+>    Any hints?
+
+pp. 429-430
+
+DisableOEMLayer   USER.4
+
+void FAR PASCAL DisableOEMLayer(void);
+
+This function disables the Windows OEM device interface.  It disables the
+keyboard, mouse and display drivers, and the system timer and restores the
+prior (probably non-graphics) video mode with a screen clear.  In addition,
+it uses an internal call, InternalBroadcastDriverMessage, to signal to all
+system drivers that the OEM layer is going down.  If there is a network
+driver present, it too is notified.  This effectively leaves the machine in
+"raw" DOS but still in protected mode.
+
+See the discussion in EnableOEMLayer for more information.
+
+Used by: WINOLDAP.MOD, WINOA286.MOD, but not WINOA386.MOD
+Support: 3.0, 3.1
+See also: EnableOEMLayer, and Death, Resurrection (Chapter 8)
+Example: See EnableOEMLayer
+
+pp. 447-449
+
+EnableOEMLayer   USER.3
+
+void FAR PASCAL EnableOEMLayer(void);
+
+This function enables the Windows OEM device interface, i.e. the interface
+between the Windows device independent API and BIOS and DOS device drivers.
+ While the OEM layer is disabled, access to devices is not available from the
+messaging interface; any application that disables the OEM layer must use
+traditional interrupts for console communication, for example.
+
+When the OEM layer is reenabled, the screen is restored to graphics mode and
+the OEM layer takes over control of device management.  Specifically, the GDI
+layer is resurrected with a call to the undocumented Resurrection function,
+and then input from the mouse, keyboard, and system timer is reenabled.
+ System device drivers are notified that the OEM layer is coming up using a
+call to InternalBroadcastDriverMessage, (which is not exported).  If there is
+a network device driver, it too is notified.  Finally, the desktop is
+repainted; the message interface again becomes the means by which
+applications communicate with devices.
+
+In real mode (Windows 3.0 only) and Windows standard mode, which runs in the
+286 protected mode if the 80286/80386 processors, this is the means by which
+the Windows "Old App" (DOS) control application (WINOLDAP/WINOA286)
+disables/enables the Windows device layer to allow traditional DOS
+applications to run.
+
+In 386 enhanced mode, where Windows runs in the V86 mode of the 80386
+processor, DOS applications run in separate virtual machines (VM) and can be
+"windowed" and preemptively multitasked.  In this mode, the control program
+(WINOA386) does not use Enable/DisableOEMLayer(), which do, however, still
+work.
+
+Used by: WINOLDAP.MOD, WINOA286.MOD, but not WINOA386.MOD
+Support: 3.0, 3.1
+See also: DisableOEMLayer, and Death, Resurrection (chapter 8)
+Example: Uses DisableOEMLayer and EnableOEMLayer to switch into full screen
+text mode from within a Windows application.
+
+/* OEMLAYER.C */
+#include <windows.h>
+#include <dos.h>
+#include "winio.h" // this in the accompanying disk
+
+/* undocumented functions */
+extern void FAR PASCAL EnableOEMLayer(void);
+extern void FAR PASCAL DisableOEMLayer(void);
+
+#include "checkord.c" // another file that comes with disk
+
+void b800display(char *szDisplay)
+  {
+  unsigned lineofs = 0, chaarofs = 0, scrsel;
+
+  printf("Screen Selector is %04x\n",
+  scrsel = (WORD)GetProcAddress(GetModuleHandle("KERNEL"), "__B800h"));
+
+  for (; *szDisplay; szDisplay++)
+    switch (*szDisplay) {
+      case '\r' : charofs = 0; break;
+      case '\n' : lineofs += 160; break;
+      default :
+        *(WORD FAR *) MK_FP(scrsel, lineofs+charofs) = 
+                    0xe00 | *szDisplay;
+         charofs += 2;
+      }
+  }
+
+int main()
+  {
+  // Ord/name check
+  if (! (CheckOrdName("EnableOEMLayer", "USER", 3)) &&
+          (CheckOrdName("DisableOEMLayer", "USER", 4)))
+    return 0;
+
+  DisableOEMLayer();
+  b800display("\n"
+     "The OEM layer has been disabled, and normal Windows\r\n"
+     "keyboard and display handling have been suspended./\r\n"
+     "Direct writes to b800:0 are being used to display this,\r\n"
+     "and a call to Int 16h will be used to get your keystroke.\r\n"
+     "\r\n"
+     "Press a key to return.");
+
+  _asm {
+     mov ah, 0
+     int 16h
+  }
+
+  EnableOEMLayer();
+
+  printf("\n\nProgram terminated.");
+
+  return 0;
+  }
+
+---------------------------------------------------------------------
+
+From: christb@infmuc (Christian Barmala)
+Subject: Re: Direct to video memory write under Windows
+
+1.	Use WinG
+
+2.	If you still want to access Video Memory be aware, that
+	you don't address SEGMENT:OFFSET, but SELECTOR:OFFSET.
+	You can create such a selector for instance with DPMI
+	services. Luckily  Windows 3.1 exports some predefined
+	selectors like "_C000" and guess what they map?
+
+-----------------------------------------------------------------------
+
+From: brent@aimla.com (Brent Burley)
+Subject: Re: Direct to video memory write under Windows
+
+In article <2DqFqc1w165w@slama.pub.hr> slama@slama.pub.hr (Davor Slamnig) writes:
+|>        Well, I see that DISPDIB.DLL is in my \windows\system directory, and
+|>        that it contains two functions, DISPLAYDIBEX and DISPLAYDIB.
+|>        But BC++ 3.1 doesn't provide any information on their usage.
+|> 
+|>        Can anybody explain DISPLAYDIB in few precise words?
+|>        Or do I have to buy something?
+
+DisplayDib is described in the Microsoft Windows Multimedia
+Programmer's Reference.  This is the only formal description I know
+of.  The Video for Windows SDK includes an updated DISPDIB.DLL and
+DISPDIB.H that have some enhancements that are not documented.  But
+it's all pretty easy to figure out.
+
+If you have success with this, please post your experience.  I'd like
+more people to start using it so Microsoft will get the idea and
+document and promote it better.
+
+I've included DISPDIB.H to give you an idea.
+
+Here is the way that I call it:
+
+BOOLEAN VgaSwitch(int on)
+	// on = 0:turn off, 1:turn on, -1: read state
+{
+	static BOOLEAN vgastatus = FALSE;
+	BOOLEAN prevstatus;
+	WORD flags;
+
+	if (on == -1) return vgastatus;
+
+	prevstatus = vgastatus;
+	if (on != vgastatus) {
+		if (on) flags = DISPLAYDIB_MODE_320x200x8 | DISPLAYDIB_BEGIN
+#ifdef DEBUG
+		// If you don't do this, the debugger won't be able to run
+		// But it's probably bad to leave it in production code
+		 | DISPLAYDIB_DONTLOCKTASK
+#endif
+		;
+		else flags = DISPLAYDIB_END | DISPLAYDIB_NOWAIT;
+		if (DisplayDib(NULL, NULL, flags)) {
+			MessageBox(NULL, "Can't switch to VGA mode", "", MB_ICONEXCLAMATION);
+			on = FALSE;
+		}
+		vgastatus = on;
+	}
+	return prevstatus;
+}
+
+Init()
+{
+	...
+
+	WORD __A000H;
+
+	VgaSwitch(1);
+	if (VgaSwitch(-1) == 0) return 0;
+
+	// init physical display
+#define GET_SEL(name) \
+	((WORD) (LOWORD(GetProcAddress(GetModuleHandle("KERNEL"), name))))
+#ifndef MK_FP // from dos.h
+#define MK_FP( seg,ofs )( (void _seg * )( seg ) +( void near * )( ofs ))
+#endif
+	__A000H = GET_SEL("__A000H");
+	Display.data = (unsigned char *) MK_FP(__A000H, 0);
+
+	...
+}
+
+---------------------------------------------------------------------------
+
+From: brent@aimla.com (Brent Burley)
+Subject: Re: DisplayDib (VGA mode 13h in Windows)
+
+In article <T0DJqc1w165w@slama.pub.hr>, slama@slama.pub.hr (Davor Slamnig) writes:
+|>     Question 1: Where does DisplayDib get the palette information
+|>     (if DISPLAYDIB_NOPALETTE is not set)? The BITMAPINFOHEADER struct
+|>     doesn't contain palette info:
+
+If NOPALETTE is set, the palette is not set.  It could have been set with a
+previous call to DisplayDib or by using BIOS calls or writing to the palette
+registers directly.  Personally, I prefer to use the BIOS calls.
+
+The initial state of the palette is undefined, though it may actually get the
+Windows system palette or the current Windows palette if it has one.  I'm not
+really sure - best to assume its unknown.
+
+|>     Question 2: The DISPDIB.DLL supplied in DISPDIB.EXE is smaller
+|>     (4400 bytes) than the one I have on my system (5744 bytes). It contains
+|>     just the DisplayDib function, and "my" DLL has DisplayDibEx, too.
+|>     What does DisplayDibEx do?
+
+The one I use I got from the Video for Windows SDK.  It is 7168 bytes and is
+dated 11/19/93.  It seems to do a better job recovering from program
+exceptions and critical errors that previous versions.
+
+DisplayDibEx allows you to blit an image at an X,Y offset.  Thus you can do
+sprite like things.  But I don't use it since I write directly to video
+memory.
+
+|>     Question 3: Where can I get comprehensive information concerning
+|>     DISPDIB.DLL functions? Could somebody post and/or e-mail it to me?
+
+There is a short description in the Multimedia Programmer's Reference.  There
+is also a mention in the article "Animation in Windows" on the Developer's
+Library CD.  I've heard rumor that it will be documented in the next WinG
+release.  But the best source of info is the header file and experimentation.
+
+Some tips:
+1) Make sure you have a mono monitor for debugging.
+2) Set the DONT_LOCK_TASK flag in your debug versions.
+3) Call Yield() before DisplayDib() if you want to switch to VGA at the
+beginning of your program.  Otherwise you won't get mouse input.  And don't
+ask me why.
+4) Use the exported variable __A0000 to access the VGA frame buffer.
+
+------------------------------------------------------------------------
+
+From: brent@aimla.com (Brent Burley)
+Subject: Re: Direct to video memory write under Windows
+
+In article <2gsgqc1w165w@slama.pub.hr>, slama@slama.pub.hr (Davor Slamnig) writes:
+|> brent@aimla.com (Brent Burley) writes:
+|> 
+|>     If Chicago supports DisplayDib, and doesn't include Death and
+|>     Resurrection, then DisplayDib is rewritten to use two new
+|>     undocumented Chicago functions.
+
+A guy from Microsoft told me that they have reworked DisplayDib
+considerably to get it to work properly under Chicago and that
+Death/Resurrection will no longer be available.
+
+I have also been told by someone who has the Chicago beta that
+DisplayDib still works fine.
+
+Summary:  Death/Resurrection are undocumented - all bets are off.
+DisplayDib _is_ documented and will continue to be available in
+Chicago.
+
+--------------------------------------------------------------------
+
+From: scottco@lynx.cs.washington.edu (Scott C. Cottrille)
+Subject: Re: Direct to video memory write under Windows
+
+Davor Slamnig (slama@slama.pub.hr) wrote:
+: brent@aimla.com (Brent Burley) writes:
+
+: > Death/Resurrection to use mode 13h in Windows is a BAD thing.
+: > Use DisplayDib().  This is reliable, supported, works on all
+: > systems, and will work under Chicago.  Death/Resurrection is
+: > not/does not/will not.
+: > 
+: > DisplayDib is used by Microsoft for Video for Windows.  It is
+: > also recommended by Microsoft as the _only_ way to switch to 
+: > Mode X and write to video memory from Windows.
+
+:     Since I have no info on the usage of DisplayDib, I disassembled
+:     parts of DISPDIB.DLL. And guess what - it uses Death and
+:     Resurrection. So it can't be more reliable than them.
+
+:     If Chicago supports DisplayDib, and doesn't include Death and
+:     Resurrection, then DisplayDib is rewritten to use two new
+:     undocumented Chicago functions.
+
+:     Here are two excerpts from DISPDIB.DLL. Notice the characteristic 6
+:     zero args to Resurrection:
+:  ...
+:   cs:0344 50             push   ax
+:   cs:0345 8BF8           mov    di,ax                        
+:   cs:0347 9A67206F04     call   046F:2067       ;Death
+:  ...
+:   cs:04C3 50             push   ax                           
+:   cs:04C4 6A00           push   0000                         
+:   cs:04C6 6A00           push   0000                         
+:   cs:04C8 6A00           push   0000                         
+:   cs:04CA 6A00           push   0000                         
+:   cs:04CC 6A00           push   0000                         
+:   cs:04CE 6A00           push   0000                         
+:   cs:04D0 8BF0           mov    si,ax                        
+:   cs:04D2 9A8E206F04     call   046F:208E       ;Resurrection
+:  ...
+
+:     Still, I'd like to have some information on DisplayDib and DisplayDibEx
+:     usage. An exact pointer to a ftp site, filenames & paths would be nice,
+:     or better yet some posted/mailed info. The DisplayDib args, at least.
+
+: Slama
+
+try ftp.microsoft.com, \Softlib\MSLFILES\dispdib.exe.  There is a header file
+that prototypes DisplayDib (but not DisplayDibEx, but I don't know what else
+you'd need).  The header file is not real verbose, but you can glean the
+information you want from it. 
+
+-------------------------------------------------------------------------
+
+/****************************************************************************/
+/*                                                                          */
+/*        DISPDIB.H - Include file for DisplayDib() function.               */
+/*                                                                          */
+/*        Note: You must include WINDOWS.H before including this file.      */
+/*                                                                          */
+/*        Copyright (c) 1990-1993, Microsoft Corp.  All rights reserved.    */
+/*                                                                          */
+/****************************************************************************/
+
+// DisplayDib() error return codes
+#define DISPLAYDIB_NOERROR          0x0000  // success
+#define DISPLAYDIB_NOTSUPPORTED     0x0001  // function not supported
+#define DISPLAYDIB_INVALIDDIB       0x0002  // null or invalid DIB header
+#define DISPLAYDIB_INVALIDFORMAT    0x0003  // invalid DIB format
+#define DISPLAYDIB_INVALIDTASK      0x0004  // not called from current task
+
+// flags for <wFlags> parameter of DisplayDib()
+#define DISPLAYDIB_NOPALETTE        0x0010  // don't set palette
+#define DISPLAYDIB_NOCENTER         0x0020  // don't center image
+#define DISPLAYDIB_NOWAIT           0x0040  // don't wait before returning
+#define DISPLAYDIB_NOIMAGE          0x0080  // don't draw image
+#define DISPLAYDIB_ZOOM2            0x0100  // stretch by 2
+#define DISPLAYDIB_DONTLOCKTASK     0x0200  // don't lock current task
+#define DISPLAYDIB_TEST             0x0400  // testing the command
+#define DISPLAYDIB_NOFLIP           0x0800  // dont page flip
+#define DISPLAYDIB_BEGIN            0x8000  // start of multiple calls
+#define DISPLAYDIB_END              0x4000  // end of multiple calls
+
+#define DISPLAYDIB_MODE             0x000F  // mask for display mode
+#define DISPLAYDIB_MODE_DEFAULT     0x0000  // default display mode
+#define DISPLAYDIB_MODE_320x200x8   0x0001  // 320-by-200
+#define DISPLAYDIB_MODE_320x240x8   0x0005  // 320-by-240
+
+// function prototypes
+#ifdef __cplusplus
+extern "C" {
+#endif
+UINT FAR PASCAL DisplayDib(LPBITMAPINFOHEADER lpbi, LPSTR lpBits, WORD wFlags);
+UINT FAR PASCAL DisplayDibEx(LPBITMAPINFOHEADER lpbi, int x, int y, LPSTR lpBits, WORD wFlags);
+#ifdef __cplusplus
+}
+#endif
+
+#define DisplayDibBegin() DisplayDib(NULL, NULL, DISPLAYDIB_BEGIN)
+#define DisplayDibEnd()   DisplayDib(NULL, NULL, DISPLAYDIB_END)
+
+--------------------------------------------------------------------------
+
+/*
+   ddib.c
+
+   DisplayDib demo
+   Davor Slamnig (slama@lama.pub.hr)
+   11/94
+
+   Gets screen address selector from kernel, enters DisplayDib
+   NOWAIT mode, copies prepared buffer to screen memory.
+   On keypress returns to Windows GUI.
+
+   BC++ 3.1, large model
+
+   Create DISPDIB.LIB import library for
+   WINDOWS\SYSTEM\DISPDIB.DLL using the Import lib utility.
+   Add DISPDIB.LIB to project.
+*/
+
+#if !defined(__COMPACT__)
+# if !defined(__LARGE__)
+#  if !defined(__HUGE__)
+#   error Large data model required.
+#  endif
+# endif
+#endif
+
+#include <windows.h>
+#include "dispdib.h"
+//#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define BALL_W    8
+#define YLEN      18
+
+char szAppName[] = "DisplayDib";
+HWND Hwnd;
+char Str[1000];
+unsigned char *W_a000h;
+unsigned char *Back_buf;
+unsigned char Ball[] = {
+   0, 0, 9, 9, 9, 9, 0, 0,
+   0, 9, 9, 9, 9, 9, 9, 0,
+   9, 9,11, 9, 9, 9, 9, 9,
+   9, 9, 9, 9, 9, 9, 1, 9,
+   9, 9, 9, 9, 9, 9, 1, 9,
+   9, 9, 9, 9, 9, 1, 1, 9,
+   0, 9, 9, 1, 1, 1, 9, 0,
+   0, 0, 9, 9, 9, 9, 0, 0,
+};
+int Y[YLEN] = {
+   20, 21, 23, 26, 30, 35, 41, 48, 56, 65,
+   75, 86, 98, 111, 126, 142, 159, 177
+};
+
+BITMAPINFOHEADER Bmih;
+int Bouncing = 0;
+
+void put_sprite(int x, int y, int w, int h, unsigned char *bmap)
+{
+   unsigned char *dest;
+
+   for(dest = Back_buf + y * 320 + x;
+      h > 0;
+      --h, bmap += w, dest += 320)
+
+      memcpy(dest, bmap, w);
+}
+
+void bounce_loop(void)
+{
+   int x = 0, ydx = 0, xdir = 1, ydir = 1;
+   MSG msg;
+
+   while(Bouncing){
+      memset(Back_buf, 0, 64000U);
+      put_sprite(x, Y[ydx], BALL_W, BALL_W, Ball);
+      memcpy(W_a000h, Back_buf, 64000U);
+
+      if(x >= 319 - BALL_W)
+         xdir = -4;
+      else if(x <= 0)
+         xdir = 4;
+
+      if(ydx >= YLEN - 1)
+         ydir = -1;
+      else if(ydx <= 0)
+         ydir = 1;
+
+      x += xdir;
+      ydx += ydir;
+
+      if(PeekMessage(&msg, Hwnd, 0, 0xffff, PM_REMOVE)){
+         TranslateMessage(&msg);
+         DispatchMessage(&msg);
+      }
+   }
+}
+
+void WVGA_init(void)
+{
+   unsigned scrsel;
+   HMODULE hKERNEL;
+   char KERNELname[200];
+
+   hKERNEL = GetModuleHandle("KERNEL");
+   GetModuleFileName(hKERNEL, KERNELname, 200);
+   scrsel = (unsigned)GetProcAddress(hKERNEL, "__A000h");
+   W_a000h = (unsigned char *)MAKELP(scrsel, 0);
+}
+
+void start_ddib(void)
+{
+   size_t size;
+
+   memset(&Bmih, 0, size = sizeof(BITMAPINFOHEADER));
+
+   Bmih.biSize = size;
+   Bmih.biPlanes = 1;
+   Bmih.biBitCount = 8;
+   Bmih.biCompression = BI_RGB;
+
+   DisplayDib(&Bmih, NULL,
+               DISPLAYDIB_NOPALETTE |
+               DISPLAYDIB_NOCENTER |
+               DISPLAYDIB_NOWAIT |
+               DISPLAYDIB_BEGIN |
+               DISPLAYDIB_MODE_320x200x8);
+}
+
+void end_ddib(void)
+{
+   DisplayDib(&Bmih, NULL, DISPLAYDIB_NOWAIT | DISPLAYDIB_END);
+}
+
+long FAR PASCAL _export WndProc (HWND hwnd, UINT message, UINT wParam,
+                                                          LONG lParam)
+{
+   HDC hdc;
+   PAINTSTRUCT ps;
+   RECT rect;
+
+   switch(message){
+   case WM_CREATE:
+      WVGA_init();
+      if((Back_buf = (unsigned char*)malloc(64000U)) == NULL){
+         MessageBox(NULL, "Can't alloc background buffer", "DDIB",
+            MB_OK);
+         PostMessage(Hwnd, WM_DESTROY, NULL, NULL);
+      }
+      break;
+   case WM_KEYDOWN:
+      if(!Bouncing){
+         Bouncing = 1;
+         start_ddib();
+         bounce_loop();
+      }
+      else{
+         Bouncing = 0;
+         end_ddib();
+      }
+      return 0;
+   case WM_KILLFOCUS:
+   case WM_SYSKEYDOWN:
+      if(Bouncing){
+         Bouncing = 0;
+         end_ddib();
+         return 0;
+      }
+      break;
+   case WM_PAINT:
+      if(!Bouncing){
+         hdc = BeginPaint (hwnd, &ps);
+         SetBkMode(hdc, TRANSPARENT);
+         SetTextColor(hdc, RGB(255, 255, 255));
+         GetClientRect (hwnd, &rect);
+         DrawText (hdc,
+         "\n\nDisplayDib Test\n\n\nDavor Slamnig, 11/94\
+\n\nPress any key to start...",
+         -1, &rect, DT_CENTER);
+         EndPaint (hwnd, &ps);
+      }
+      return 0;
+   case WM_DESTROY:
+      PostQuitMessage(0);
+      return 0 ;
+   }
+
+   return DefWindowProc (hwnd, message, wParam, lParam) ;
+}
+
+int PASCAL WinMain(HANDLE hInstance, HANDLE hPrevInstance,
+                    LPSTR lpszCmdParam, int nCmdShow)
+{
+   MSG msg;
+   WNDCLASS wndclass;
+
+   if(hPrevInstance)
+      return msg.wParam;
+
+   wndclass.style = CS_HREDRAW | CS_VREDRAW;
+   wndclass.lpfnWndProc = WndProc;
+   wndclass.cbClsExtra = 0;
+   wndclass.cbWndExtra = 0;
+   wndclass.hInstance = hInstance;
+   wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+   wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+   wndclass.hbrBackground = GetStockObject(BLACK_BRUSH);
+   wndclass.lpszMenuName = NULL;
+   wndclass.lpszClassName = szAppName;
+
+   RegisterClass (&wndclass);
+
+   Hwnd = CreateWindow(szAppName, szAppName, WS_OVERLAPPEDWINDOW,
+            CW_USEDEFAULT, CW_USEDEFAULT, 460, 200, NULL, NULL,
+            hInstance, NULL);
+
+   ShowWindow(Hwnd, nCmdShow);
+   UpdateWindow(Hwnd);
+
+   while(GetMessage(&msg, NULL, 0, 0)){
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
+   }
+
+   return msg.wParam;
+}
+
+-------------------------- end of code -------------------------
+
+
+

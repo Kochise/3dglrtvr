@@ -1,0 +1,24 @@
+#
+# This makefile has only been tested with Borland C++ 2.0 to date, and
+# assumes that a Borland compiler will be used; you may need to edit this
+# file before using it with a non-Borland compiler.
+#
+
+.autodepend
+
+CC          = bcc -c -ml -O -Z -d -r -G -a -2
+LINK        = tlink /x /c /yx
+LINK_DEBUG  = /v
+DEPENDFILES = tgedemo.obj
+
+
+.asm.obj:
+        $(ASM) $<
+.cpp.obj:
+        $(CC) $<
+.c.obj:
+        $(CC) $<
+
+
+tgedemo.exe:  $(DEPENDFILES)
+     $(LINK) c0l.obj tgedemo.obj, tgedemo.exe,, cl.lib ..\lib\bcl.lib

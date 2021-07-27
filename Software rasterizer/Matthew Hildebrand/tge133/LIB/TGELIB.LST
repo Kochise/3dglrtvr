@@ -1,0 +1,13 @@
++tgefuncs	&
++tgesetup	&
++clip		&
++fixfont	&
++varfont	&
++tgemouse	&
++mouseptr	&
++newmouse	&
++scale		&
++palette	&
++rawfile	&
++pcxfile        &
++replace

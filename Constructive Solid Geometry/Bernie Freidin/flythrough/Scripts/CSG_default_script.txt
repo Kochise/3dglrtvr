@@ -1,0 +1,6 @@
+# HCSG MODELER TEST SCRIPT
+# this just runs a startup test script...
+
+	RUNSCRIPT "Scripts/spiraltest2.txt"
+
+RETURN

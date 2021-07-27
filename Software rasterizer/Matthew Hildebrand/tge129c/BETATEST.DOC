@@ -1,0 +1,37 @@
+
+                             *** ATTENTION ***
+
+
+Please note that this version of TGE (1.29·C) is a PUBLIC BETA version.  It
+contains known bugs, and is not yet entirely completed.  TGE 1.30 will be
+released when the problems in TGE 1.29·C (detailed below) are rectified.
+
+
+The following known bugs exist at present:
+   - Only part of the screen can be accessed in Cirrus or Paradise SVGA
+     modes.
+   - In Tseng ET4000 SVGA modes, graphics input such as getImage() and
+     getPixel() is not done correctly.
+
+
+Aside from fixing the above bugs, I plan to take the following steps prior
+to the release of TGE 1.30:
+   - Updating the demo to reflect TGE's new features.
+   - Inclusion of a font editor/creator.
+   - Support for saving and loading images in RAW format.
+   - Native support for PCX files.
+   - Implementation of a putLineInv_mem_copy routine for more speed.
+   - Creation of a new font format, allowing characters of varying sizes
+     and colour fonts.
+   - Inclusion of some colour palette fading and rotation routines.
+If time is short, some of the larger changes may be held over until a later
+release.
+
+
+If you have any comments or suggestions, I would appreciate hearing them.
+Also, I would like to extend my thanks to all members of the TGE beta team
+for their time and assistance.
+
+
+Matthew Hildebrand
+Fidonet 1:247/128.2

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Intro3D", "Intro3D\Intro3D.vcxproj", "{8EB36326-338F-42AE-80A7-CCEF3682FF47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		DebugSSE|Win32 = DebugSSE|Win32
+		Release|Win32 = Release|Win32
+		ReleaseSSE|Win32 = ReleaseSSE|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.Debug|Win32.Build.0 = Debug|Win32
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.DebugSSE|Win32.ActiveCfg = DebugSSE|Win32
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.DebugSSE|Win32.Build.0 = DebugSSE|Win32
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.Release|Win32.ActiveCfg = Release|Win32
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.Release|Win32.Build.0 = Release|Win32
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.ReleaseSSE|Win32.ActiveCfg = ReleaseSSE|Win32
+		{8EB36326-338F-42AE-80A7-CCEF3682FF47}.ReleaseSSE|Win32.Build.0 = ReleaseSSE|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

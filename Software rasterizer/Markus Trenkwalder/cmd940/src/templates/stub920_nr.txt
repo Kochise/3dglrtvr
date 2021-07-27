@@ -1,0 +1,10 @@
+	void :NAME:(:PARAMLIST:)
+	{
+		struct {
+			int id__;
+			:SPARAMLIST:
+		} p__;
+		p__.id__ = :ID:;
+		:ASSIGNMENTS:
+		cmd940i::write_rb->write(&p__, sizeof(p__));
+	}

@@ -1,0 +1,101 @@
+This development log for the Earth Screen Saver begins on
+August 11th, 2002 with the development of version 3.0 from
+2.0a.  Prior development was almost entirely derivative of
+Home Planet and merited only brief mention in the README.TXT.
+
+2002 August 11
+
+Integrated "Scream Saver" library for easier testing.  This
+involved the addition of files screamsv.c and screamsv.h, as
+well as the addition of the Scream Saver menu, "SCREAMSV" to
+the resource file.
+
+Fixed anachronisms in code dating from 16-bit days.  For the
+moment, I fixed only those which the compiler (Monkey C 5.0)
+complained about (for example, _cdecl in the externals from
+SCRNSAVE.LIB); others remain which do no harm and occasion no
+natters.
+
+Changed year format to display full four digit year number.
+
+Replaced topographic map with NASA cloudless Earth image.  I built
+a 2048×1024 image from the original 8192×4096 NASA image, reducing
+the full colour image to a palette of 117 colours as required by
+the rendering code.  Then, using Paint Shop Pro, I created a custom
+palette with "subdued" versions of the shades in slots 0-116 and
+the day side shades in 128-244.  This image was then imported into
+the resource file as IDB_NASA_DS.
+
+Made a 128×64 pixel thumbnail of the NASA cloudless Earth image
+for the DLG_CREDITS dialogue, imported as IDB_NASA_NIGHT, and
+updated DLG_CREDITS to use it, changing the text to cite the
+NASA image instead of the NOAA topographic map used previously.
+
+Fixed screen saver logic to be restartable for debugging under
+Scream Saver (this isn't necessary when run as an actual system
+screen saver).  This involved the usual chasing down of ratty
+pre-initialised static variables which must be re-initialised
+when the screen saver is restarted from the test jig.
+
+2002 August 12
+
+Added an imageUp flag in Earth.c which is set when a new Earth
+image has been painted and cleared when a new image is being
+prepared.  The timer tick code which updates the date and time
+now suppresses painting the update unless this flag is set,
+which avoids a Microsoft-style "now you see it, now you don't"
+flash of the date and time, immediately erased when the image
+is painted.  Now the date and time will commence updating only
+after the image appears.
+
+Created a 2048×1024 night side image, also reduced to a palette
+of 117 colours, and imported as IDB_NASA_NIGHT.  This will be used
+to synthesise a day/night image when that mode is selected.
+
+Changed the version to 3.0 in all the various places it lurks.
+
+Added a check box to the configuration dialogue to control whether
+city lights should be shown on the night side of the globe.  The
+global BOOL controlling this is "nightLights".
+
+Added logic to fill in night side pixels from the night image.
+Rather than add lots of ugly and inefficient conditionals to
+moveterm() in Viewfrom.c, I wrote a new moveterm_dayNight()
+which is optimised for this case and simply have moveterm()
+invoke it if nightLights is set.
+
+Cleaned up a bunch more 16-bit anachronisms: NEAR, __huge,
+_fmemcpy, etc.  These were previously fixed with definitions
+in Sunclock.h--now they're fixed in the source code and the
+definitions have been removed.
+
+2006 July 19
+
+Posted to Visual Studio .NET.  I had to manually remove an include of
+"ver.h" from the earthscr.rc file to get the resources to compile,
+and add comctl32.lib and scrnsave.lib to the Linker/Inputs list as
+they'd been lost in translation from Monkey C 5.0.  Some statements
+in the Earthscr.def are now obsolete and generated warnings, so I
+removed 'em.
+
+Changed the version number in the configuration dialogue to 3.1, and updated
+the VS_VERSION_INFO resource item accordingly.
+
+Modified the Makesrc.bat script to include the Earthscr.sln and Earthscr.vcproj
+files in the source archive instead of the .dsp and .dsw files from the
+earlier version of Monkey C.
+
+Added a note in Readme.txt to invite the user to check the original Web page
+for the program to verify that they have the most recent release.
+
+2006 July 21
+
+Modified the settings load and store code in Scrnsave.c to use the registry
+instead of a private section of the CONTROL.INI, which cannot be accessed on
+machines where the user does not have administrator privilege.
+
+Moved the weekday names in the string table to a named block called
+idsWeekdays which starts at 5000.
+
+Moved the formats in the string table to a block starting at
+3000 named idsFormats.

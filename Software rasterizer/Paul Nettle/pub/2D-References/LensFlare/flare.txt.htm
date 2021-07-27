@@ -1,0 +1,84 @@
+<html><head><meta http-equiv=Content-Type content='text/html; charset=UTF-8'></head>
+From milod@netcom.com Sun May 04 18:37:43 1997
+Newsgroups: comp.graphics.algorithms
+Path: diana.ibernet.es!minerva.ibernet.es!hunter.premier.net!nntp.uio.no!news-feed.inet.tele.dk!cpk-news-hub1.bbnplanet.com!news.bbnplanet.com!news-peer.sprintlink.net!news.sprintlink.net!Sprint!ix.netcom.com!milod
+From: milod@netcom.com (John DiCamillo)
+Subject: Re: lense flares
+Message-ID: <milodE9o0uv.5po@netcom.com>
+Organization: Netcom On-Line Services
+X-Newsreader: NN version 6.5.0 CURRENT #9
+References: <5k5q08$goq$1@news02.btx.dtag.de> <336A7CBC.1CFB@cs.purdue.edu> <336c55ce.1833507@192.168.100.1>
+Date: Sun, 4 May 1997 16:37:43 GMT
+Lines: 67
+Sender: milod@netcom16.netcom.com
+Xref: diana.ibernet.es comp.graphics.algorithms:6429
+
+s@vr.xs4all.nl (Sander (System Shadow) van Rossen) writes:
+>On Fri, 02 May 1997 18:46:04 -0500, Cory Bloyd <bloydcg@cs.purdue.edu>
+>wrote:
+
+>>Uwe Maurer wrote:
+>>> 
+>>> Hi,
+>>> I would like to know how the lense flares are done
+>>> when you look into the sun, like in Turok and Privateer II.
+>>
+>> I'd bet that the flares in P2 are prerendered bitmaps that are blitted
+>>with tranparency.  Probably by way of a color blending lookup table.  P2
+>>uses alot of index color blending for some pretty nifty effects.  The
+>>flares look very nice and the algo the use to move them around relative
+>>to the star works well,
+
+>and would this algo be?? could you please tell us?
+
+The flare placement algorithm is really quite trivial.  The hard part
+is making the flares themselves look convincing.
+
+1) Choose a location for the flare in screen coordinates (xf, yf)
+2) Compute a vector from the flare point to the camera origin (i.e.
+   screen center): Vf = ((x0 - xf), (y0 - yf))
+3) Place the "main" flare (i.e. the largest flare bitmap) at the
+   flare point (xf, yf).
+4) For each additional flare, scale the position along the vector
+   from the flare point to the camera origin:
+     sub_flare[n] = flare_pos + (vector * scale[n]);
+
+You will need as many scale values as secondary flares.  You can
+choose whatever scale values you think look good, but you will
+want some greater than 1 and some less than 1.  I happen to use
+(0.4, 0.5, 1.1, 1.2, 1.4), but I just pulled those numbers out
+of thin air.  You might also want to use a negative scale value
+to place a small flare on the "outside" of the main flare.
+
+>>but having only one image for each flare make it
+>>look really static.  I haven't seen Turok.
+
+Right.  In a physical lens system, each flare is a reflection of
+the main light source, and is shaped and colored by that light
+source.  In addition, the flare will tend to expose tiny irregular-
+ities in the antireflective lens coating.  These will appear as
+fuzz or noise in the flare image that moves only when the flare
+moves.
+
+In most games, the flare-producing light source is the sun, or a
+very powerful explosion such as a nuclear fireball.  Fortunately,
+these sources are mostly round and white, which allows us to get
+away with using static flare bitmaps.  It would be interesting to
+try using animated sprites to simulate lens defects and source
+variability.  However, this is a pretty minor effect, and the extra
+bitmaps are probably not worth it.
+
+I'd be more interested in a cheap way to simulate the big flare,
+which is a fade from white to transparent that covers about half
+the display area.  Given a 3D accelerator with bilinear filtering
+and alpha-blending, you could maybe stretch and blend a smallish
+bitmap across most of the display to get the effect.  But I don't
+know of a good way to do it in software without killing performance.
+
+-- 
+    ciao,
+    milo
+================================================================
+    John DiCamillo                         Fiery the Angels Fell 
+    milod@netcom.com       Deep thunder rode around their shores
+

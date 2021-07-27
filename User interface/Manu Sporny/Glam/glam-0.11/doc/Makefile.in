@@ -1,0 +1,22 @@
+default: all
+
+# Include common definitions.
+include @GLAMROOTDIR@/Makefile.base
+
+# Subdirectories used for recursion through the source tree.
+SUBDIRS = handbook
+
+include @GLAMROOTDIR@/config/recursive.mk
+
+docs: 
+	mkdir -p @GLAMROOTDIR@/doc/html/libglam
+	${DOCTOOL} -d @GLAMROOTDIR@/doc/html/libglam -A -H -u -v -a -M -S \
+		`find ../src/libglam -name "*.h"`
+
+include @GLAMROOTDIR@/Makefile.base
+
+all: ${SUBDIRS} docs
+
+clean: 
+	@${MAKE} RECURSIVE_TARGET="clean" recursive
+	rm -rf @GLAMROOTDIR@/html

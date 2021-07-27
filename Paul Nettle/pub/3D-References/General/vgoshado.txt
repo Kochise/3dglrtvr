@@ -1,6 +1,0 @@
-    - vgoshado 0.70b -
-   -= Vector/VERTIGO =-
- The Realtime Shadow FAQ.
- A comprehensive tutorial
-   on many old and new
-realtime shadow algorithms.

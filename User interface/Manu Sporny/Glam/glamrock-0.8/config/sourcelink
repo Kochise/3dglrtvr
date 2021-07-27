@@ -1,0 +1,30 @@
+#! /bin/sh
+# Create symbolic links for library public interfaces
+echo Creating symbolic links to source build directory...
+
+# Variables
+LN_S='ln -s' 
+TARGETDIR=$1
+shift
+LPIFILES=$@
+UPDATE_OCCURRED=0
+
+# Check for a include directory named $TARGETDIR and create it if it
+# does not exist.
+if test ! -d $TARGETDIR; then
+   echo Creating directory $TARGETDIR...
+   mkdir $TARGETDIR
+fi
+
+# Create a link to the public interface files
+for lpifile in $LPIFILES; do
+   if test ! -L $TARGETDIR/$lpifile; then
+      echo Creating $TARGETDIR/$lpifile
+      $LN_S $PWD/$lpifile $TARGETDIR/$lpifile
+      UPDATE_OCCURRED=1
+   fi
+done
+
+if test UPDATE_OCCURRED = 0; then
+   echo All library pubilc interface links are up to date.
+fi

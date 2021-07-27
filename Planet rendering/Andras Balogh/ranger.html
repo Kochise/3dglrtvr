@@ -1,0 +1,400 @@
+<HTML>
+<HEAD>
+<TITLE>Ranger Mk2</TITLE>
+</HEAD>
+<BODY 
+	TEXT="#000000" 
+	BGCOLOR="#ffffff" 
+	LINK="#0000ff" 
+	VLINK="#0000ff" 
+	ALINK="#0000ff"
+>
+<FONT FACE="Verdana">
+
+<!------------------------------------------------------------->
+<H1>
+Ranger Mk II. experimental terrain rendering engine
+</H1>
+<I><A HREF="download/ranger_mk2_binary.zip" tppabs="http://web.interware.hu/bandi/download/ranger_mk2_binary.zip">Latest build: 11/11/2003</A><BR></I>
+<!------------------------------------------------------------->
+<A NAME="News"><H2>News:</H2></A>
+<P>
+<TABLE BORDER="1" BGCOLOR="#FAFAFA">
+<TR>
+<TD><I><B>03/15/2005:</B></I></TD>
+<TD>
+This demo is getting pretty old, and I still get a lot of positive feedback from people looking at it! This feels great! Thank you guys! :)
+Also, I uploaded a fixed binary package, as the program used UPX compressed executables which seems to crash on Windows XP SP2.
+Now I also had a chance to see my program on an ATI card and the fonts are broken too. This (together with tons of other problems)
+won't be addressed in the near future. Maybe in Ranger Mk. III. ;)
+</TD>
+</TR>
+
+<TR>
+<TD><I><B>12/01/2003:</B></I></TD>
+<TD>
+Found a job, meaning that I won't have time to work on this terrain technology for a while...
+</TD>
+</TR>
+<TR>
+<TD><I><B>11/11/2003:</B></I></TD>
+<TD>
+Released full soure code for the project! Added support for embedded quadtree data layout and indexing (does not yet work with detail geometry, though). This version also features some minor fixes and changes.
+</TD>
+</TR>
+<TR>
+<TD><I><B>10/01/2003:</B></I></TD>
+<TD>
+First public release of the engine, binary version only.
+</TD>
+</TR>
+</TABLE>
+</P>
+<!------------------------------------------------------------->
+<A NAME="Overview"><H2>Overview:</H2></A>
+<P>
+This technology demo renders vast landscapes with an incredible
+amount of detail in real-time. The accurate per pixel shading of
+the terrain ensures that you can see every little feature of the
+surface, even at extreme distances!
+</P>
+<UL>
+<LI>Base map is the 160Km x 160Km elevation data of the Puget
+Sound area (Washington State, USA)
+<LI>Visibility range well over 200Km (practically unlimited)
+<LI>Yet, very detailed geometry (2.5m horizontal resolution everywhere)
+<LI>Original low resolution dataset is enhanced with
+procedural detail created with <A HREF="http://www.noisemachine.com/">Perlin Noise</A>
+(hey, I'm the guy who <A HREF="http://mrl.nyu.edu/~perlin/noise/">fixed the Improved Noise reference implementation</A> (see note in red)! :)
+<LI>Resulting in an effective geometrical resolution of 65537x65537 vertices
+(and could be greater)
+<LI>Diffuse bump mapped surface results in even better perceived resolution
+</UL>
+<P>
+And this demo is just the tip of the iceberg! It shows the basic
+ideas implemented on GeForce3 class hardware.
+For details on a number of possible improvements over this demo,
+see the <A HREF="#Technology">technology</A> section!
+</P>
+
+<!------------------------------------------------------------->
+<A NAME="Screenshots"><H2>Screenshots:</H2></A>
+<P>
+It is really best to see the demo in motion, but in case
+you can't check it out, here are some stills from the engine
+(click on the thumbnails to see a larger image):
+</P>
+
+<TABLE BORDER="1" BGCOLOR="#EEEEEE">
+<TR>
+<TD><A HREF="screenshots/scr00001.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00001.jpg"><IMG SRC="screenshots/thumbnails/th00001.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00001.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00002.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00002.jpg"><IMG SRC="screenshots/thumbnails/th00002.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00002.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00003.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00003.jpg"><IMG SRC="screenshots/thumbnails/th00003.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00003.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00004.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00004.jpg"><IMG SRC="screenshots/thumbnails/th00004.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00004.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00005.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00005.jpg"><IMG SRC="screenshots/thumbnails/th00005.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00005.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+</TR>
+
+<TR>
+<TD><A HREF="screenshots/scr00006.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00006.jpg"><IMG SRC="screenshots/thumbnails/th00006.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00006.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00007.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00007.jpg"><IMG SRC="screenshots/thumbnails/th00007.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00007.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00008.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00008.jpg"><IMG SRC="screenshots/thumbnails/th00008.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00008.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00009.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00009.jpg"><IMG SRC="screenshots/thumbnails/th00009.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00009.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00010.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00010.jpg"><IMG SRC="screenshots/thumbnails/th00010.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00010.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+</TR>
+
+<TR>
+<TD><A HREF="screenshots/scr00011.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00011.jpg"><IMG SRC="screenshots/thumbnails/th00011.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00011.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00012.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00012.jpg"><IMG SRC="screenshots/thumbnails/th00012.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00012.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00013.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00013.jpg"><IMG SRC="screenshots/thumbnails/th00013.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00013.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00014.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00014.jpg"><IMG SRC="screenshots/thumbnails/th00014.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00014.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00015.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00015.jpg"><IMG SRC="screenshots/thumbnails/th00015.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00015.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+</TR>
+
+<TR>
+<TD><A HREF="screenshots/scr00016.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00016.jpg"><IMG SRC="screenshots/thumbnails/th00016.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00016.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00017.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00017.jpg"><IMG SRC="screenshots/thumbnails/th00017.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00017.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00018.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00018.jpg"><IMG SRC="screenshots/thumbnails/th00018.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00018.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00019.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00019.jpg"><IMG SRC="screenshots/thumbnails/th00019.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00019.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+<TD><A HREF="screenshots/scr00020.jpg" tppabs="http://web.interware.hu/bandi/screenshots/scr00020.jpg"><IMG SRC="screenshots/thumbnails/th00020.jpg" tppabs="http://web.interware.hu/bandi/screenshots/thumbnails/th00020.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A></TD>
+</TR>
+
+</TABLE>
+
+<P>
+Since there are no trees, buildings or other identifiable
+objects in the scene, it is very hard to actually tell the
+scale of the terrain. But note the tiny details visible on
+the images! You can see mountains a hundred kilometer away,
+yet you can still see the small clods at your feet! To have
+a better feel for the scale of the terrain look at the
+videos below!
+</P>
+
+<!------------------------------------------------------------->
+<A NAME="Video"><H2>Video:</H2></A>
+<P>
+For those of you who can't run this demo, I've also provided a couple
+of short video clips. These clips were created using the
+<A HREF="http://www.divx.com/">DivX</A> MPEG-4 encoder (version 5.03).
+You can download the necessary codec from <A HREF="download/DivX51Bundle.exe" tppabs="http://web.interware.hu/bandi/download/DivX51Bundle.exe">here</A>.
+I have also included one
+<A HREF="video/ranger00.mpg" tppabs="http://web.interware.hu/bandi/video/ranger00.mpg">low resolution MPEG-1 video (320x240, 52 secs, 12.2 MB)</A>
+for those who can't run <A HREF="http://www.divx.com/">DivX</A> on their machines.
+The first video is worth looking at even if you can run the demo on your computer,
+because it features an interesting camera animation not included in the demo.
+</P>
+
+<TABLE BORDER="3" BGCOLOR="#EEEEEE">
+
+<TR>
+<TD>
+<A HREF="video/ranger00.avi" tppabs="http://web.interware.hu/bandi/video/ranger00.avi"><IMG SRC="video/ranger00.jpg" tppabs="http://web.interware.hu/bandi/video/ranger00.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A><BR>
+<A HREF="video/ranger00.avi" tppabs="http://web.interware.hu/bandi/video/ranger00.avi">52 secs, 10 MB</A><BR>
+</TD>
+<TD>
+<A HREF="video/ranger01.avi" tppabs="http://web.interware.hu/bandi/video/ranger01.avi"><IMG SRC="video/ranger01.jpg" tppabs="http://web.interware.hu/bandi/video/ranger01.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A><BR>
+<A HREF="video/ranger01.avi" tppabs="http://web.interware.hu/bandi/video/ranger01.avi">12 secs, 3.5 MB</A><BR>
+</TD>
+<TD>
+<A HREF="video/ranger02.avi" tppabs="http://web.interware.hu/bandi/video/ranger02.avi"><IMG SRC="video/ranger02.jpg" tppabs="http://web.interware.hu/bandi/video/ranger02.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A><BR>
+<A HREF="video/ranger02.avi" tppabs="http://web.interware.hu/bandi/video/ranger02.avi">20 secs, 4.9 MB</A><BR>
+</TD>
+</TR>
+<TR>
+<TD>
+<A HREF="video/ranger03.avi" tppabs="http://web.interware.hu/bandi/video/ranger03.avi"><IMG SRC="video/ranger03.jpg" tppabs="http://web.interware.hu/bandi/video/ranger03.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A><BR>
+<A HREF="video/ranger03.avi" tppabs="http://web.interware.hu/bandi/video/ranger03.avi">8 secs, 1.8 MB</A><BR>
+</TD>
+<TD>
+<A HREF="video/ranger04.avi" tppabs="http://web.interware.hu/bandi/video/ranger04.avi"><IMG SRC="video/ranger04.jpg" tppabs="http://web.interware.hu/bandi/video/ranger04.jpg" WIDTH=160 HEIGHT=120 BORDER=0></A><BR>
+<A HREF="video/ranger04.avi" tppabs="http://web.interware.hu/bandi/video/ranger04.avi">6 secs, 2.2 MB</A><BR>
+</TD>
+</TR>
+
+</TABLE>
+
+<P>
+Note that due to the small resolution and lossy compression these video
+clips look far worse than the real demo. Also note that these clips were
+recorded at a constant 30 frames per second, but this has nothing to do
+with the actual rendering performance. The real thing runs smoother and
+looks nicer! :)
+</P>
+
+<!------------------------------------------------------------->
+<A NAME="Installation"><H2>Installation:</H2></A>
+<P>
+You can <A HREF="download/ranger_mk2_binary.zip" tppabs="http://web.interware.hu/bandi/download/ranger_mk2_binary.zip">download the demo here</A>
+(3.3MB). Just unzip the contents of this package to a directory and run
+"ranger.bat" to start the demo! For detailed instructions see the
+accompanying readme file.
+</P>
+<P>
+Important! As of now, this demo will run at full quality only on
+GeForce3 or better <A HREF="http://www.nvidia.com/">nVidia</A> GPUs.
+<A HREF="http://www.ati.com/">ATi Technologies</A> and other vendors are
+not supported at the moment. This means that on those cards the renderer
+will default to wireframe mode. The reason for this is that I have to use
+some advanced functions that are only available through vendor specific
+extensions. Since my computer is equipped with a GeForce4, I have developed
+the rendering path for nVidia GPUs. There are also standard (ie. not vendor
+specific) methods for doing the required calculations (using the
+fragment program or the GLSL) but that functionality is only supported
+by the newest crop of graphics accelerators (GeForce FX, Radeon9500
+and above).<BR>
+Even in compatibility mode, the demo assumes decent OpenGL support. Since
+this is a research project, there are no fallback mechanisms. If the
+required functionality (like the VBO) is not supported by the driver,
+the demo will quit immediately.
+</P>
+<P>
+Although the demo might run with some older drivers, for optimal
+performance it is strongly recommended to run this program with the
+latest video dirvers installed! The reason is that the engine
+utilizes some recent technologies, which might not be fully
+optimized in older drivers (if supported at all). I have tested
+this demo with the WHQL approved Detonator 45.23 drivers.
+My development/test machine is an AthlonXP 1800+ with 512MB RAM 
+running Windows XP. Hardware graphics acceleration is provided by
+a GeForce4 Ti4200. Performance depends on a lot of things. With the
+default settings, running the demo at 1152x864 gives between 40
+and 70+ FPS, depending on scene complexity. One notable fact is
+that with these settings the demo is always fillrate limited,
+meaning that the videocard is the bottleneck, not the CPU!
+</P>
+<P>
+Please don't forget that this is experimental software and although I've
+done my best to make this demo as robust as possible, I can't guarantee
+that it will work as expected. I had very limited possibility for
+testing (mainly my own computer). Of course, if you find that something
+does not work, you should let me know and I'll see if I can do something
+about it!
+</P>
+<P>
+<I>
+Known Issues:
+<UL>
+<LI>The VBO implementation in the Detonator driver version 44.03 is buggy,
+causing an access violation whenever the desktop resolution is changed from
+within the demo. This problem can be solved by installing the latest drivers.
+<LI>If you can see strange stripes over the terrain, chances are your driver's
+image quality is set to "High Performance". This setting results in negligible
+speedup at the price of very bad image quality. So it is recommended to use
+the default "Quality" setting instead.
+<LI>When changing monitor resolution from within the engine, the video
+mode with the highest refresh rate is selected automatically. On
+machines with an old monitor and a new video card it might be possible
+that a refresh rate is reported as usable by the operating system,
+when in fact the monitor does not support it. The workaround is to set
+the windows desktop to the desired resolution and refresh rate, then
+start the demo at desktop resolution (this way it won't try to change
+frequency).
+</UL>
+</I>
+</P>
+<!------------------------------------------------------------->
+<A NAME="Usage"><H2>Usage instructions:</H2></A>
+<P>
+After installation, double-click on "ranger.bat" to start the demo.
+By default, the demo will start in desktop resolution. If you want
+to run the program in some other resolution, you can edit the
+"scripts/main.lua" file, or change the desktop/window size at
+runtime from the console. Upon first startup the program will
+need to precompute and cache some data, this may take some time.
+After initialization, the program loads a flythrough camera animation.
+You can adjust playback speed with the PageUp/PageDown keys and
+stop/restart the animation at any time by pressing space. When the
+animation is stopped, you can look and move around the terrain freely,
+by using the mouse. The control is similar to most first-person games.
+There are also a couple of keyboard bindings. For more information on
+these refer to the <A HREF="download/ranger_readme.txt" tppabs="http://web.interware.hu/bandi/download/ranger_readme.txt">readme</A> file. This
+text file is also included in the package for offline reading. You can
+exit the demo at any time by pressing Esc, or typing "Quit();" in the
+console.
+<BR>
+<BR>
+Have fun!!
+</P>
+
+<!------------------------------------------------------------->
+<A NAME="Technology"><H2>Technology:</H2></A>
+<P>
+The terrain engine is based on an enhanced version of the
+<A HREF="http://www.gvu.gatech.edu/people/peter.lindstrom/software/soar/">SOAR</A>
+(Stateless One-pass Adaptive Refinement) algorithm (see my
+<A HREF="download/detailed_terrain.pdf" tppabs="http://web.interware.hu/bandi/download/detailed_terrain.pdf">thesis</A> for details).
+SOAR is an advanced view-dependent CLOD (Continuous Level of Detail)
+mesh generation technique. This means that the surface is approximated
+at runtime with as few triangles as possible, avoiding unnecessary data
+processing. SOAR generates a new mesh from scratch each frame, based
+on the viewer's actual position and orientation, so it deals easily with
+very fast camera movement and rotation (unlike
+<A HREF="http://www.llnl.gov/graphics/ROAM">ROAM</A> for example).
+I've modified the original algorithm in many ways, most importantly
+added support for embedding practically unlimited levels of detail
+geometry by interpolating and displacing the original surface.
+The tricky part of course was to do this with some kind of LOD
+computation and without breaking mesh continuity (i.e. without
+introducing T-junctions in the mesh).<BR>
+Coupled with this mesh generation algorithm is a novel approach
+to terrain shading. This technique ensures pixel perfect shading
+of this massively detailed surface. A compressed form of the
+surface normal vector is calculated for every pixel, and then the
+corresponding incoming radiance is computed via a dependent texture
+lookup (so basically an irradiance map is used). This enables doing
+some very realistic lighting effects. Note that the demo does not
+fully utilize this capability right now (only a simple, static
+irradiance map is used).<BR>
+In short, this technique could be thought of as a kind of displacement
+mapping combined with accurate per pixel lighting.
+</P>
+
+<P>
+Although this is a CLOD terrain engine (and such engines tend to
+be CPU limited), it's pretty fast, as it is limited by fillrate
+most of the time. Still, there is plenty of room for improvement
+even on the CPU side. The performance of the mesh refinement
+algorithm is currently limited by the poor locality of the memory
+access. Implementing the interleaved quadtree data layout (as
+described in the original SOAR paper by P. Lindstrom and V.
+Pascucci) would result in much more coherent memory accesses.
+This cache friendly technique would result in a relative speedup
+even with in-core-rendering of low-res terrain, but would also
+enable real-time rendering of much bigger datasets (possibly
+paging in the data from disk).
+</P>
+<P>
+And here are a couple of other things that would certainly make
+this demo much more enjoyable, but I just didn't have time to
+implement them (maybe in a future release):
+<UL>
+<LI>Better sky, with sun and other celestial bodies.
+<LI>Weather effects like rain, snow, wind (sandstorm), volumetric fog.
+<LI>Time of day simulation (night, dawn, etc).
+<LI>More realistic lighting using Rayleigh and Mie light scattering.
+<LI>Dense plant coverage (trees, bushes, grass). Considering the
+scale of the terrain, this is gonna be a very challenging task,
+even with imposters.
+<LI>Lakes, rivers with dynamic waves and true reflections.
+</UL>
+Well, I could go on for pages, as the list is really endless!
+As you can probably see, there is no time to rest! :)
+</P>
+
+<P>
+Also, this demo is not just about terrain rendering! At the
+heart of this demo lies a quite sophisticated framework. The
+renderer is just a separate module (terrain.dll) loaded by
+the framework (loader.exe) at runtime. The whole system is
+component based, the framework being the glue between the
+components. It also provides basic services like window,
+input handling, messaging, scripting, MP3 decoding, audio
+playback and such! Developing a software this way has many
+advantages. The component model offers true binary
+encapsulation, meaning that different components can be
+developed and used independently. Modules can be loaded at
+runtime, even the game logics could be swapped on the fly!
+</P>
+
+<P>
+The framework currently uses the following open, cross-platform and free libraries: 
+<UL>
+<LI><A HREF="http://www.opengl.org/">OpenGL</A> - Industry standard graphics library.
+<LI><A HREF="http://www.openal.org/">OpenAL</A> - 3D audio library.
+<LI><A HREF="http://www.lua.org/">Lua</A> - Powerful embedded scripting language.
+<LI><A HREF="http://www.gzip.org/zlib/">Zlib</A> - For compression/decompression.
+<LI><A HREF="http://www.libpng.org/">LibPNG</A> - Reads/writes Portable Network Graphics images.
+</UL>
+</P>
+
+
+<!------------------------------------------------------------->
+<A NAME="Source"><H2>Source code:</H2></A>
+<P>
+The <A HREF="download/ranger_mk2_source.zip" tppabs="http://web.interware.hu/bandi/download/ranger_mk2_source.zip">full source code</A> is available for download! It contains the source for the framework and the terrain rendering module. I also provide a <A HREF="download/ranger_mk2_supplemental.zip" tppabs="http://web.interware.hu/bandi/download/ranger_mk2_supplemental.zip">supplemental package</A> containing the precompiled binaries and headers for the required libraries.
+</P>
+<P>
+You can do whatever you want with the code, free of charge, but if you use it for something cool, I'd really love to know about it!
+</P>
+<P>
+And as always, I encourage everyone to have a look at my <A HREF="download/detailed_terrain.pdf" tppabs="http://web.interware.hu/bandi/download/detailed_terrain.pdf">thesis</A>. It explains in detail the ideas and algorithms used in this project.
+</P>
+
+<!------------------------------------------------------------->
+<A NAME="About"><H2>About me:</H2></A>
+<P>
+You can visit my personal pages <A HREF="index.html" tppabs="http://web.interware.hu/bandi/index.html">here</A>.<BR>
+If you are interested, have a look at my resume (available in 
+<A HREF="cv.html" tppabs="http://web.interware.hu/bandi/cv.html">HTML</A> or <A HREF="cv.pdf" tppabs="http://web.interware.hu/bandi/cv.pdf">PDF</A> format).<BR>
+And if you've any questions or comments, feel free to
+<A HREF="mailto:andras.balogh@gmx.net">contact me</A>!<BR>
+Any feedback is welcome!!
+</P>
+<P>
+Cheers,<BR>
+<BR>
+<I>Andras Balogh</I>
+</P>
+</FONT>
+</BODY>
+</HTML>

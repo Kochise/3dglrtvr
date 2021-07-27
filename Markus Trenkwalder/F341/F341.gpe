@@ -1,7 +1,0 @@
-#!/bin/sh
-
-./F341.bin
-
-cd /usr/gp2x
-sync
-exec /usr/gp2x/gp2xmenu

@@ -1,0 +1,50 @@
+
+v0.3
+
+	LIGHTING
+		- spotlight
+		- conicspotlight
+
+	SCENE
+		- add Create* for each object
+
+	LINALG
+		- add *= avec matrix, vector, base
+
+	IMAGE
+		- 'pixelperunit' parameter to avoid non-realistic aspect ratios
+
+v0.4
+
+	REFLECTION
+
+	SURFACEDATA
+		- ajouter coeff de réflection
+
+v0.5
+
+	REFRACTION
+
+	SURFACEDATA
+		- ajouter coeff de transparence
+
+v0.6
+
+	ALL OBJECTS
+
+	POLYNOM
+		- 4th degreesolve
+		- nth degree solve
+
+    
+v0.8
+
+	MORE MATERIALS
+    
+v0.9
+
+	ANTIALIASING
+    
+	SCRIPTING
+
+	

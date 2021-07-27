@@ -1,0 +1,14 @@
+
+	This file is a listing of all the code that is useless
+	It could be either old code that should be removed/changed
+	Or recent code, or a may-be feature. It is supposed to
+	Be classified in some sort of way :)
+
+	FUTURE 
+		- InstanciateFromStream and SyntaxException will be used with the script parser
+		- everything that has to do with refraction index (should be renamed)
+		- everything concerning Lights other than diffuselight
+		- Row3d may be used. One day. I just wanted a full algebra.
+
+	OLD
+		- ?

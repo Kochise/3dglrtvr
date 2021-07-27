@@ -1,0 +1,533 @@
+Quaternions and Orthogonal 4x4 Real Matrices
+
+Henry G. Baker
+
+June and October, 1996
+
+Copyright (c) 1996 by Henry G. Baker (hbaker@netcom.com).  All rights reserved.
+
+This file can be found as URL:
+ftp://ftp.netcom.com/pub/hb/hbaker/quaternion/orthogonal-4x4.txt
+
+This ASCII note is best read with a _fixed-width font_.
+
+
+Abstract
+--------
+
+We show constructively how to represent the action vO of an
+_arbitrary_ 4x4 real special (det(O)=1) orthogonal matrix O on a
+4-vector v as a triple quaternion product AvB.  This representation is
+unique only up to the sign of A and B, since AvB = (-A)v(-B).
+
+We thus expose the intimate relation between 4x4 real orthogonal
+matrices and quaternions.
+
+Notation
+--------
+
+Since this is an ascii text file, we are forced to severely curtail
+the use of mathematical notations.  About the only symbols that will
+be needed are the usual (TeX) symbols "^" for superscript and "_" for
+subscript.  However, we will _not_ be making use of the TeX grouping
+brackets "{}", but will instead use parentheses.  We use "/=" for _not
+equal_. 
+
+Unless otherwise noted, all matrices in this memo will be _square_.
+
+If M is a matrix, then M_ij is the ij'th element of M.  The notation
+(M_ij) means the matrix constructed from the elements M_ij, where i,j
+range over the number of rows and columns of M, respectively.  Thus,
+M=(M_ij).
+
+The _transpose_ of a matrix M is the matrix M' = (M_ji).
+
+                 [W X]    [W Y]
+The transpose of [Y Z] is [X Z].
+
+If z is a complex number, then z* is the complex _conjugate_ of z --
+i.e., if z=x+iy, then z* = x-iy.
+
+We denote the _determinant_ of the matrix M by det(M), or, when
+writing out the matrix explicitly, by using "|" brackets instead of
+"[]" brackets.
+
+The determinant of
+
+[W X]        [W X]      |W X|
+[Y Z] is det([Y Z]), or |Y Z|, whose value is WZ-XY.
+
+The _inverse_ of a matrix M (assuming that it has one, i.e.,
+det(M)/=0) is M^-1 -- i.e, M M^-1 = M^-1 M = I, where I is the
+_identity_ matrix of the same size as M.
+
+The inverse of
+
+    [W X]               [ Z -X]
+M = [Y Z] is (1/det(M)) [-Y  W].
+
+A _diagonal_ matrix is a matrix whose only non-zero entries are on the
+main diagonal -- i.e., if M is diagonal, then M_ij=0 for i/=j.  We
+will use the notation diag(x,y) for a 2x2 diagonal matrix whose
+non-zero elements along the main diagonal are x and y.  The 2x2
+identity matrix is
+
+            [a 0]
+diag(a,b) = [0 b].
+
+
+Orthogonal Matrices
+-------------------
+
+An _orthogonal_ matrix O is a nonsingular (det(O)/=0) _real_ matrix
+such that O^-1 = O' -- i.e., its inverse is equal to its transpose.
+
+Trivial properties of orthogonal matrices:
+
+* the transpose and inverse of an orthogonal matrix are themselves
+  orthogonal.
+
+* the product of two or more orthogonal matrices (of the same size) is
+  orthogonal.
+
+* the determinant of an orthogonal matrix is +/- 1.
+
+The proof of this last property is as follows.  If O is orthogonal, then
+OO'=I, hence det(OO')=det(O)det(O')=det(O)det(O)=det(O)^2=det(I)=1.
+Since O is real, so is det(O), so det(O) = +/- 1.
+
+
+Quaternions
+-----------
+
+For our purposes, we will define _quaternions_ as 4x4 real matrices of the form
+
+             [ a  b  c  d]
+             [-b  a -d  c]
+             [-c  d  a -b]
+Q(a,b,c,d) = [-d -c  b  a].
+
+Thus, a quaternion Q(a,b,c,d) is determined by 4 real parameters --
+a,b,c,d.
+
+The set of quaternions is _closed_ under matrix multiplication.
+
+The set of quaternions is also closed under _arbitrary_ special
+orthogonal transformations: O Q(a,b,c,d) O' is also a quaternion, for
+_any_ special orthogonal 4x4 matrix O (det(O)=1).
+
+The _conjugate_ Q'(a,b,c,d) of a quaternion Q(a,b,c,d) is simply the
+_transpose_ of the corresponding matrix -- i.e.,
+
+Q'(a,b,c,d) = Q(a,-b,-c,-d)
+
+              [a -b -c -d]
+              [b  a  d -c]
+              [c -d  a  b]
+            = [d  c -b  a].
+
+The _norm_ of a quaternion Q(a,b,c,d) is the square root of the
+_determinant_ of the corresponding matrix:
+
+det(Q(a,b,c,d)) = (a^2 + b^2 + c^2 + d^2)^2
+
+norm(Q(a,b,c,d)) = a^2 + b^2 + c^2 + d^2.
+
+Note that norm(Q1 Q2) = norm(Q1) norm(Q2), and that norm(Q') = norm(Q).
+
+Note also that if norm(Q(a,b,c,d)) = 1, then the 4x4 matrix
+corresponding to Q(a,b,c,d) is orthogonal.
+
+Note that if c=cos(alpha) and s=sin(alpha), then
+
+             [ c  s  0  0]
+             [-s  c  0  0]
+             [ 0  0  c -s]
+Q(c,s,0,0) = [ 0  0  s  c]
+
+Define the matrix function flip(M) = C M' C', where
+C=diag(1,-1,-1,-1), i.e.,
+
+    [1  0  0  0]
+    [0 -1  0  0]
+    [0  0 -1  0]
+C = [0  0  0 -1]
+
+If Q(a,b,c,d) is a quaternion, then Qf(a,b,c,d)=flip(Q(a,b,c,d)) is a
+4x4 'flipped' matrix
+
+Qf(a,b,c,d) = C Q(a,b,c,d)' C', where C = diag(1,-1,-1,-1)
+
+              [ a  b  c  d]
+              [-b  a  d -c]
+              [-c -d  a  b]
+            = [-d  c -b  a].
+
+(If you compare the matrices of Qf(a,b,c,d) and Q(a,b,c,d), you will
+see that Qf = Q', except that the first row and first column have be
+negated, leaving the first row and column unchanged.)
+
+The reason for defining the 'flipped' matrix Qf(a,b,c,d) is as follows.
+
+Consider the operation of the matrix Q(a,b,c,d) on the 4-element row
+vector v = [w x y z]:
+
+[ w  x  y  z] [ a  b  c  d]
+              [-b  a -d  c]
+              [-c  d  a -b]
+              [-d -c  b  a]
+
+We note that we can derive the same information by considering the
+first row of Q(w,x,y,z) Q(a,b,c,d):
+
+[ w  x  y  z] [ a  b  c  d]
+[-x  w -z  y] [-b  a -d  c]
+[-y  z  w -x] [-c  d  a -b]
+[-z -y  x  w] [-d -c  b  a].
+
+Now consider the same quaternion Q(a,b,c,d), but now operating _from
+the left_ of Q(w,x,y,z):
+
+[ a  b  c  d] [ w  x  y  z]
+[-b  a -d  c] [-x  w -z  y]
+[-c  d  a -b] [-y  z  w -x]
+[-d -c  b  a] [-z -y  x  w]
+
+In order to compute the effect of this operation on the row vector
+[w x y z], we must multiply on the _right_ by Qf(a,b,c,d):
+
+[ w  x  y  z] [ a  b  c  d]
+              [-b  a  d -c]
+              [-c -d  a  b]
+              [-d  c -b  a].
+
+In other words, to get the effect of Q(a,b,c,d)Q(w,x,y,z), we must
+compute [w x y z] Qf(a,b,c,d).
+
+Using the concept of 'flipped' quaternion matrices, we can now
+represent the effect of the quaternion triple product
+Q(a,b,c,d)Q(w,x,y,z)Q(e,f,g,h) as
+
+[w x y z] Q(e,f,g,h) Qf(a,b,c,d) =
+
+[w x y z] Qf(a,b,c,d) Q(e,f,g,h)
+
+We note that the associativity of quaternion multiplication guarantees
+that Q(e,f,g,h) and Qf(a,b,c,d) _commute_, i.e., they have the same
+eigenvectors.
+
+In short, the concept of 'flipped' matrices Qf allows us to convert
+bilateral quaternion triple products into unilateral matrix products.
+
+
+Representing 4x4 Special Orthogonal Matrices by Quaternions
+-----------------------------------------------------------
+
+If O is a 4x4 _special_ orthogonal matrix, then OO'=I and det(O)=1.  O
+has _four_ (not necessarily distinct) eigenvalues: l1, l2, l3, l4, and
+we can arrange them in 2 pairs of complex conjugates: l1=l2* and
+l3=l4*.  So, by Schur's Decomposition Theorem, we can factor the
+orthogonal matrix O as
+
+O = U P U',
+
+where U is a 4x4 special orthogonal matrix, and where P can be made to
+have the form:
+
+    [ c1  s1   0   0]
+    [-s1  c1   0   0]
+    [  0   0  c2  s2]
+P = [  0   0 -s2  c2],
+
+where c1=realpart(l1)=realpart(l2), s1=imagpart(l1)=-imagpart(l2),
+c2=realpart(l3)=realpart(l4), s1=imagpart(l3)=-imagpart(l4).
+
+Clearly, c1=cos(alpha), s1=sin(alpha), c2=cos(beta), s2=sin(beta), for
+some real angles alpha, beta.
+
+Unfortunately, unless c1=c2 and s1=-s2, P is _not_ a quaternion itself,
+nor is it a product of quaternions, since quaternions are closed under
+multiplication.  However, P _can_ be factored as the product of a
+quaternion and a 'flipped' quaternion
+
+P = Qf Q = P1f P2.
+
+Let c3=cos((alpha+beta)/2), s3=sin((alpha+beta)/2),
+c4=cos((alpha-beta)/2), s4=sin((alpha-beta)/2).  Then
+
+P = Qf(c3,s3,0,0) Q(c4,s4,0,0)
+  = Qf(cos((alpha+beta)/2),sin((alpha+beta)/2),0,0)
+    Q(cos((alpha-beta)/2),sin((alpha-beta/2)),0,0)
+  = P1f P2.
+
+In short, the action vP of the matrix P on the vector v=[w,x,y,z] can
+be simulated by the quaternion triple product
+
+Q(c3,s3,0,0) Q(w,x,y,z) Q(c4,s4,0,0).
+
+We must now take U into account.  For Schur,
+
+O = U P U'
+  = U P1f P2 U'
+  = U P1f U' U P2 U'
+  = (U P1f U') (U P2 U')
+  = Af B,
+
+where A = flip(Af) = flip(U P1f U') and B = U P2 U'.
+
+Now, B is a quaternion, since the special orthogonal transformation U
+converts the quaternion P2=Q(c4,s4,0,0) into another quaternion.
+
+Furthermore, A is also a quaternion, as
+
+A = flip(U P1f U')
+  = C (U P1f U')' C'
+  = C U'' P1f' U' C'
+  = C U (C P1' C')' U' C'
+  = C U C'' P1'' C' U' C'
+  = C U C' P1 C U' C'    (remember, C=C', since C is diagonal)
+  = flip(U)' P1 flip(U)
+  = flip(U)' Q(c3,s3,0,0) flip(U)
+
+Therefore, since flip(U) preserves orthogonality of U, this orthogonal
+transform preserves the quaternionness of P1=Q(c3,s3,0,0), and hence A
+is also a quaternion.
+
+
+Rotations in 4 Dimensions and in 3 Dimensions
+---------------------------------------------
+
+The Schur factorization given above of the special orthogonal matrix O
+shows a major difference between rotations in 3 dimensions and
+rotations in 4 dimensions:
+
+   A general rotation in 4 dimensions consists of two, independent,
+   commutative rotations about two orthogonal fixed _planes_.  I.e.,
+   instead of a basic 4D rotation having a fixed _axis_, as in 3D, it
+   has a fixed _plane_.
+
+Consider the operation of the matrix U above as a _change of basis_ to
+a new basis in which the first rotation rotates 1,i about the j,k
+'axis' (i.e., holding the j,k plane constant), while the second
+rotation rotates j,k about the 1,i 'axis' (i.e., holding the 1,i plane
+constant).  Furthermore, every vector in the subspace 1,i is
+perpendicular (orthogonal) to every vector in the subspace j,k, so the
+two subspaces are orthogonal.  In other words, the matrix P above
+factors as follows:
+
+    [ c1  s1   0   0]   [ c1 s1  0  0] [1  0   0   0]
+    [-s1  c1   0   0]   [-s1 c1  0  0] [0  1   0   0]
+    [  0   0  c2  s2]   [  0  0  1  0] [0  0  c2  s2]
+P = [  0   0 -s2  c2] = [  0  0  0  1] [0  0 -s2  c2]
+
+                        [1  0   0   0] [ c1 s1  0  0]
+                        [0  1   0   0] [-s1 c1  0  0]
+                        [0  0  c2  s2] [  0  0  1  0]
+                      = [0  0 -s2  c2] [  0  0  0  1]
+
+                      = P2 P1 = P1 P2
+
+We can now better understand the usage of quaternions for rotations in
+3 dimensions.  When manipulating 3D vectors, we typically identify 3D
+space with the subspace Q(0,x,y,z), where x,y,z are the coordinates of
+a 3D space point (or vector).  In order to perform a rotation on this
+3D subspace, we do a 4D rotation that preserves the 'plane' 1,n, where
+n is a vector indicating the 3D axis of the 3D rotation.  Since our 3D
+rotation will preserve a plane, the angle 'alpha' in the decomposition
+above will be _zero_, and hence the quaternion decomposition will look
+like
+
+Q(c3,s3,0,0) Q(0,x,y,z) Q(c4,s4,0,0)
+ = Q(cos(beta/2),sin(beta/2),0,0) Q(0,x,y,z) Q(cos(-beta/2),sin(-beta/2),0,0)
+ = Q(cos(beta/2),sin(beta/2),0,0) Q(0,x,y,z) Q(cos(beta/2),-sin(beta/2),0,0)
+ = Q(cos(beta/2),sin(beta/2),0,0) Q(0,x,y,z) Q(cos(beta/2),sin(beta/2),0,0)'
+
+which becomes a classical quaternion expression R Q R' for 3D rotation
+after changing the basis back to the original basis by means of the
+special orthogonal matrix U.
+
+
+Decomposition of 4x4 Special Orthogonal O into Quaternions
+----------------------------------------------------------
+
+Although the Schur decomposition given above works, and Schur
+decompositions are readily available in matrix libraries -- e.g.,
+MATLAB, there is an easier way (suggested by Shoemake) to decompose a
+given special orthogonal matrix O into quaternions.  Let
+
+    [o11 o12 o13 o14]
+    [o21 o22 o23 o24]
+    [o31 o32 o33 o34]
+O = [o41 o42 o43 o44]
+
+Then let Q1 = Q(o11,o12,o13,o14) (i.e., construct a quaternion Q1 from
+the first row of the given matrix O), and let P = O (Q1)^-1 = O/Q1.
+Then
+                       [1   0   0   0]
+                       [0 p22 p23 p24]
+                       [0 p32 p33 p34]
+P = O (Q1)^-1 = O/Q1 = [0 p42 p43 p44],
+
+i.e., P holds the first coordinate fixed and has a special orthogonal
+3x3 submatrix -- i.e., a 3x3 rotation matrix -- and P Q1 = O.
+
+We can now use a standard technique (e.g., [Salamin79]) to extract the
+angle alpha and axis n from this 3x3 rotation matrix, and use them to
+construct a quaternion Q2 which implements this same rotation.  But
+then the mapping of 4D vector v by the matrix O is computed by
+
+vO = v(P Q1)
+   = (vP) Q1
+   = (Q2 v Q2') Q1
+   = Q2 v (Q2' Q1)
+   = A v B, where
+
+A = Q2 and B = (Q2' Q1) are the quaternions we have been seeking.
+
+
+Computing the Planar 'Axes' of the 4D Rotation AvB
+--------------------------------------------------
+
+Given two arbitrary unit quaternions A,B, we would like to determine
+the two orthogonal rotations that implement the general 4D rotation
+AvB about the two orthogonal 'axis' planes.
+
+Any unit quaternion A can be written in the form exp(alpha n), where
+alpha is a real number and n is a 'pure' unit quaternion n=Q(0,x,y,z)
+where x^2+y^2+z^2=1.  Furthermore, we define
+
+exp(alpha n) = cos(alpha) + n sin(alpha)
+             = Q(cos(alpha),x sin(alpha),y sin(alpha),z sin(alpha))
+
+Let A = exp(gamma a) and B = exp(delta b).
+
+Then
+
+A = exp(gamma a)
+  = exp((gamma+delta)/2 a) exp((gamma-delta)/2 a)
+  = exp(alpha a) exp(beta a)
+
+and
+
+B = exp(-(gamma-delta)/2 b) exp((gamma+delta)/2 b)
+  = exp(-beta b) exp(alpha b)
+
+by setting
+
+alpha = gamma+delta/2 and
+beta  = gamma-delta/2.
+
+Then
+
+AvB = exp(gamma a) v exp(delta b)
+    = exp(alpha a) exp(beta a) v exp(-beta b) exp(alpha b)
+    = A1 A2 v B2 B1
+    = A2 A1 v B1 B2
+
+(A1 commutes with A2 because both are in the complex subfield Q(a),
+and B1 commutes with B2 because both are in the complex subfield
+Q(b).)
+
+Now consider the map v |-> A1 v B1 = exp(alpha a) v exp(alpha b).
+The point 0 maps to A1 0 B1 = 0, so this map fixes the origin.
+The point a-b maps to A1 (a-b) B1 = a-b, so this map fixes a-b.
+The point 1+ab maps to A1 (1+ab) B1 = 1+ab, so this map fixes 1+ab.
+Thus, the map v |-> (A1 v B1) fixes the plane defined by the 3 points:
+0, a-b, 1+ab.
+
+Also consider the map v |-> A2 v B2 = exp(beta a) v exp(-beta b).
+The point 0 maps to A2 0 B2 = 0, so this map also fixes the origin.
+The point a+b maps to A2 (a+b) B2 = a+b, so this map fixes a+b.
+The point 1-ab maps to A2 (1-ab) B2 = 1-ab, so this map fixes 1-ab.
+Thus, the map v |-> (A2 v B2) fixes the plane defined by the 3 points:
+0, a+b, 1-ab.
+
+Now the 4D vector a-b is orthogonal to a+b, becaue a-b and a+b are the
+diagonals of a rhombus; similar reasoning proves that 1+ab is
+orthogonal to 1-ab.
+
+If P,Q are two quaternions, then their inner product <P,Q> is the
+scalar part of P Q', which is zero if the quaternions are orthogonal,
+i.e., P Q' + Q P' = 0 if P,Q are orthogonal.
+
+We now prove that 1-ab is orthogonal to a+b:
+
+(a+b)(1-ab)'+(1-ab)(a+b)' = (a+b)(1-b'a')+(1-ab)(-a-b)
+                          = (a+b)(1-ba)+(ab-1)(a+b)
+                          = a+b-aba-bba+aba+abb-a-b
+                          = -bba+abb
+                          = a-a
+                          = 0
+
+Similarly, 1+ab is orthogonal to a+b, 1+ab is orthogonal to a-b, and
+1-ab is orthogonal to a-b.
+
+(a+b)(1+ab)'+(1+ab)(a+b)' = (a+b)(1+b'a')+(1+ab)(-a-b)
+                          = (a+b)(1+ba)+(1+ab)(-a-b)
+                          = a+b+aba+bba-a-b-aba-abb
+                          = bba-abb
+                          = -a+a
+                          = 0
+
+(a-b)(1-ab)'+(1-ab)(a-b)' = (a-b)(1-ba)+(1-ab)(-a+b)
+                          = a-b-aba+bba-a+b+aba-abb
+                          = bba-abb
+                          = -a+a
+                          = 0
+
+(a-b)(1+ab)'+(1+ab)(a-b)' = (a-b)(1+ba)+(1+ab)(-a+b)
+                          = a-b+aba-bba-a+b-aba+abb
+                          = -bba+abb
+                          = a-a
+                          = 0
+
+Therefore, we have shown that the map v |-> AvB can be factored into
+the composition of the map v |-> A1 v B1 and the map v |-> A2 v B2.
+Furthermore, the first map rotates about the 'axis' plane defined by
+the points 0, a-b, 1+ab, while the second map rotates about the 'axis'
+plane defined by the points 0, a+b, 1-ab, and the two 'axis' planes
+are orthogonal to one another.
+
+The pure vectors a,b may be computed from A,B as follows:
+
+A = cos(gamma) + a sin(gamma), so Re(A) = (A+A')/2, and
+
+a = (A-Re(A))/sqrt(1-Re(A)^2); similarly, Re(B) = (B+B')/2, and
+
+b = (B-Re(B))/sqrt(1-Re(B)^2).
+
+
+Conclusions
+-----------
+
+Given an arbitrary 4x4 special orthogonal matrix O (det(O)=1), we have
+shown two different ways to construct unit quaternions A,B from O,
+such that the action vO of the matrix O on the 4-vector v=[w,x,y,z] is
+the same as the quaternion triple product A Q(w,x,y,z) B.
+
+Furthermore, we have shown how to factor this triple product into the
+product A1 A2 Q(w,x,y,z) B2 B1, so that the inner mapping fixes one
+'axis plane' and the outer mapping fixes an orthogonal 'axis plane'.
+Finally, we have shown how to compute 3 points on each of these axis
+planes.
+
+References
+----------
+
+Coxeter, H.S.M.  Regular Complex Polytopes, 2nd Ed.  Cambridge
+University Press, Cambridge, 1991.  ISBN 0-521-39490-2.  (Especially
+Chapter 6: "The geometry of quaternions".)
+
+Eves, Howard.  Elementary Matrix Theory.  Dover Publications, Inc.,
+New York, 1966.  ISBN 0-486-63946-0.
+
+Neumann, Peter M., Stoy, Gabrielle A., and Thompson, Edward C.  Groups
+and Geometry.  Oxford University Press, 1994.  ISBN 0-19-853451-5.
+Especially Chapter 16: "Complex numbers and quaternions".
+
+Salamin, Eugene.  "Application of Quaternions to Computation with
+Rotations".  Stanford AI Lab. Internal Working Paper, 1979.  On the
+World-Wide Web at
+ftp://ftp.netcom.com/pub/hb/hbaker/quaternion/stanfordaiwp79-salamin.ps.gz
+(also .dvi.gz).
+

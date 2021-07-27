@@ -1,0 +1,14 @@
+The following ASM code will convert quickly from a floating point value
+to a 16.16 fixed point number.
+
+This code comes complements of Chris Babcock (a.k.a. "VOR")
+
+
+
+i_bignum  dq        04238000000000000h
+
+FADD   [i_bignum]
+...
+FSTP  [qword ptr i_temp]
+...
+MOV  eax,[dword ptr i_temp]   ; eax = 16.16

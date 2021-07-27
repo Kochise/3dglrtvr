@@ -1,0 +1,4 @@
+Source code for interpolating 3DS spline,
+including quaternions interpolation.
+Written by Timur Davidenko (aka Adept/Esteem)
+Version 1.3.

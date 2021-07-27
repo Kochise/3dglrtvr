@@ -1,0 +1,3 @@
+Source code for interpolating 3DS spline!!!
+Written by Timur Davidenko (aka Adept/Esteem)
+Version 1.2, case with 2 keys spline added.

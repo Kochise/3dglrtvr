@@ -1,0 +1,10 @@
+The Graphics Engine 1.33 - TGE is a very
+fast VGA/SVGA graphics library for C/C++
+programmers.  TGE has such features as a
+powerful library of graphical and mouse
+interface functions, device-independence,
+support for loadable drivers and fonts,
+virtual screens, viewports and advanced
+clipping, output modes, PCX support,
+virtual coordinates, bitmap scaling,
+definable mouse pointers, and more.

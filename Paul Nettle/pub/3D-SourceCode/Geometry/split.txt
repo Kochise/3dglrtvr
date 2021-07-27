@@ -1,6 +1,0 @@
-
-Source excerpt given to me by Chris Babcock (a.k.a. "VOR") for splitting
-polygons for use in BSP creation.
-
-This is simply an excerpt from his code, and he warrants that you may
-or may not find this useful.  :)

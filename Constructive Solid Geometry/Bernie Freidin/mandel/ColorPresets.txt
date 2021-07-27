@@ -1,0 +1,94 @@
+// Color gradient presets
+// NOTE: Default LAYER-1 gradient will be the first entry
+// NOTE: Default LAYER-2 gradient will be the fourth entry
+
+"The Happy Hippie Rainbow" 7
+0.0 0 0 0
+0.5 0 0 1
+0.7 0 1 1
+0.75 .5 .9 .5
+0.8 1 1 0
+0.9 1 0 0
+1.0 .1 0 0
+"Dark Shiny Red Metal" 7
+0.0 0 0 0
+0.7 1 0 0
+0.75 1 .5 0
+0.8 0 0 0
+0.85 1 .5 0
+0.9 1 1 1
+1.0 .1 0 0
+"Dark Shiny Blue Metal" 7
+0.0 0 0 0
+0.7 0 0 1
+0.75 0 .5 1
+0.8 0 0 0
+0.85 0 .5 1
+0.9 1 1 1
+1.0 0 0 .1
+"Black->Blue->White" 3
+0.0 0 0 0
+0.5 0 0 1
+1.0 1 1 1
+"Black->Green->White" 3
+0.0 0 0 0
+0.8 0 1 0
+1.0 1 1 1
+"Black->Red->White" 3
+0.0 0 0 0
+0.5 1 0 0
+1.0 1 1 1
+"Black->Cyan->White" 3
+0.0 0 0 0
+0.8 0 1 1
+1.0 1 1 1
+"Black->Magenta->White" 3
+0.0 0 0 0
+0.5 1 0 1
+1.0 1 1 1
+"Black->Yellow->White" 3
+0.0 0 0 0
+0.8 1 1 0
+1.0 1 1 1
+"Grayscale (Black->White)" 2
+0.0 0 0 0
+1.0 1 1 1
+"Grayscale (White->Black)" 2
+0.0 1 1 1
+1.0 0 0 0
+"Black->Red->Yellow->Black" 4
+0.0 0 0 0
+0.5 1 0 0
+0.9 1 1 0
+1.0 .1 .1 0
+"Black->Green->Yellow->Black" 4
+0.0 0 0 0
+0.7 0 1 0
+0.9 1 1 0
+1.0 .1 .1 0
+"Black->Blue->Cyan->Black" 4
+0.0 0 0 0
+0.5 0 0 1
+0.9 0 1 1
+1.0 0 .1 .1
+"Red->Black" 2
+0.0 1 0 0
+1.0 .1 0 0
+"Green->Black" 2
+0.0 0 1 0
+1.0 0 .1 0
+"Blue->Black" 2
+0.0 0 0 1
+1.0 0 0 .1
+"Cyan->Black" 2
+0.0 0 1 1
+1.0 0 .1 .1
+"Magenta->Black" 2
+0.0 1 0 1
+1.0 .1 0 .1
+"Yellow->Black" 2
+0.0 1 1 0
+1.0 .1 .1 0
+"Black and White" 2
+0.0 1 1 1
+1.1 1 1 1

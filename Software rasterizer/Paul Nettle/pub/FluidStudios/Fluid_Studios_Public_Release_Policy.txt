@@ -1,0 +1,27 @@
+-------------------------------------------------------------------------------
+Fluid Studios Public Release Policy                           December 22, 2000
+
+                                                           www.FluidStudios.com
+-------------------------------------------------------------------------------
+
+Fluid Studios will be periodically releasing non-critical portions of its
+technology. These releases will come in various shapes and sizes. They may
+be in the form of source code, or technical papers, or both.
+
+Our policy is quite simple. We will release whatever we deem useful and fit for
+public release.  We will not release any critical portions of the Fluid Studios
+technology (this includes all proprietary technology which makes Fluid Studios
+unique among its competitors.)
+
+All releases are free of charge and may be used freely for commercial and
+non-commercial use. We do require that credit is given, and that modified
+versions of the source code or technical papers are not distributed without
+clear documentation on how to obtain the original. All software and
+documentation is released as-is with no warrantee (implied or otherwise.)
+
+Note that some of the documents released here are pre-existing documents that
+were written by the founder of Fluid Studios, Paul Nettle. These documents are
+not being released, but merely re-distributed by Fluid Studios.
+
+- END OF DOCUMENT -
+

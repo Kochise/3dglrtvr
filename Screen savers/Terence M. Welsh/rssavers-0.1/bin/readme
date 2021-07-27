@@ -1,0 +1,81 @@
+Really Slick Screensavers
+http://www.reallyslick.com
+
+
+This is freeware licensed under the Gnu GPL, so there is no support
+available for it, but feel free to send comments and suggestions to
+me (Terry).  Contact information is available on my website.
+
+
+
+Questions or problems:
+
+Please check the FAQ at http://www.reallyslick.com/faq.html
+
+
+
+Dependencies:
+
+Skyrocket requires OpenAL for sound, and it will not function without
+the OpenAL runtime installed.  If you do not already have the
+OpenAL runtime installed, you can install it by running OpenALwEAX.exe.
+The version of OpenAL32.dll that was distributed with previous versions
+of Skyrocket is extremely old and will not work with the most current
+version of Skyrocket.
+
+
+
+Installing:
+
+Extract the files from this .zip file using your favorite zip 
+program (you should have already gotten that far or you wouldn't be 
+reading this).
+
+Place the .scr file(s) in the directory containing all your other 
+.scr files.  This directory varies between versions of Windows, but 
+it's probably something like "Windows\System32\"  
+
+3.  Open your "Display Properties" window by right-clicking on your 
+desktop background.  Click on the "Screen Saver" tab and select your
+new screensaver.
+
+
+
+Keyboard controls for all savers:
+
+s - Toggle statistics
+
+
+
+Extra controls for Skyrocket:
+
+Skyrocket has the following special controls.
+
+f - Pause the fireworks (particle physics stops updating)
+g - Slow motion fireworks (slows down the particle physics)
+c - Pause the camera (camera stops moving)
+n - New camera view
+m - Toggle mouse camera control
+    Left mouse button = accelerate
+    Right mouse button = deccelerate
+
+types of explosions to launch:
+1 - Sphere
+2 - Split sphere
+3 - Three-colored sphere
+4 - Ring
+5 - Double sphere
+6 - Sphere and ring
+7 - Streamers
+8 - Meteors
+9 - Streamers and little sphere
+0 - Meteors and little sphere
+q - Streamers inside sphere
+w - Meteors inside sphere
+e - Cluster of sphere explosions
+r - Cluster of streamer explosions
+t - Cluster of meteor explosions
+y - Little firecrackers
+u - Bees
+i - Loud boom
+o - Spinner

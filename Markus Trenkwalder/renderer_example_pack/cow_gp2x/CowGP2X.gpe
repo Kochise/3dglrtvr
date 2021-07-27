@@ -1,7 +1,0 @@
-#!/bin/sh
-
-./CowGP2X.bin
-
-cd /usr/gp2x
-sync
-exec /usr/gp2x/gp2xmenu

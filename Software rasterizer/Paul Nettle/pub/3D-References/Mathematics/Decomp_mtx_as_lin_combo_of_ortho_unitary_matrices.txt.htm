@@ -1,0 +1,144 @@
+<html><head><meta http-equiv=Content-Type content='text/html; charset=UTF-8'></head>
+Newsgroups: comp.graphics.algorithms,sci.math.num-analysis,sci.math,sci.math.research
+From: hbaker@netcom.com (Henry Baker)
+Subject: Decomp mtx as lin combo of ortho/unitary mtx's
+Sender: hbaker@netcom.com (Henry G. Baker)
+Organization: nil
+Date: Mon, 10 Jun 1996 05:42:00 GMT
+
+I recently posted a question asking how to decompose an arbitrary
+real (complex) square matrix into a linear combination of
+orthogonal (unitary) matrices.  Here is the answer to my own question.
+
+Consider the real (complex) square matrix M.  Compute its singular value
+decomposition M=USV', where U,V' are orthogonal (unitary) and
+S=diag(s1,s2,s3,...) is a diagonal matrix of real nonnegative numbers
+s1 >= s2 >= s3 >= ... >= 0.
+
+Then S can be expressed as a linear combination of <= n (n = # rows/columns
+of M) diagonal matrices whose diagonal elements consist solely of +/- 1's.
+(E.g., consider expressing the vector [s1,s2,s3,...] as a linear combination
+of linearly independent Walsh functions, which consist of functions whose
+range is the 2-element set {+1,-1}.  See Gonzalez&Wintz, Digital Image
+Processing.)  Thus,
+
+S = t1 S1 + t2 S2 + t3 S3 + ...
+
+where Si are these diagonal matrices of +/- 1's, and ti are computed
+from the singular values si.  det(Si)= +/- 1, and each Si is orthogonal.
+
+Then we are done, since
+
+M = USV' = U (t1 S1 + t2 S2 + t3 S3 + ...) V' =
+
+  = t1 U S1 V' + t2 U S2 V' + t3 U S3 V' + ...
+
+Now since the Si are all orthogonal (unitary), each of the terms
+U Si V' becomes an orthogonal (unitary) matrix Ui, hence we have the
+decomposition:
+
+M = t1 U1 + t2 U2 + t3 U3 + ...
+
+Example (using MATLAB).  Consider
+
+    [1     2]
+M = [3     4]
+
+    [0.4046    0.9145]
+U = [0.9145   -0.4046]
+
+    [5.4650         0]
+S = [     0    0.3660]
+
+    [0.5760   -0.8174]
+V = [0.8174    0.5760]
+
+So, s1 = 5.4650 and s2 = 0.3660.
+
+Let
+
+     [1     0]
+S1 = [0     1]
+
+     [1     0]
+S2 = [0    -1]
+
+Then t1 = (s1+s2)/2 = 2.9155 and t2 = (s1-s2)/2 = 2.5495.
+
+Then,
+
+U1 = U S1 V' =
+
+  [-0.5145    0.8575]
+  [ 0.8575    0.5145]
+
+t1 U1 =
+
+  [-1.5000    2.5000]
+  [ 2.5000    1.5000]
+
+and
+
+U2 = U S2 V' =
+
+  [0.9806   -0.1961]
+  [0.1961    0.9806]
+
+t2 U2 =
+
+  [2.5000   -0.5000]
+  [0.5000    2.5000]
+
+
+and M = t1 U1 + t2 U2.
+
+Clearly, we can re-sort the ti in terms of decreasing absolute values and
+throw away any terms with ti=0, so the first few terms produce an
+orthogonal (complex) approximation to the given matrix M.
+
+The extension of this method to non-square matrices is straight-forward.
+
+Using this scheme, and the scheme of
+
+ftp://ftp.netcom.com/pub/hb/hbaker/quaternion/unitary-2x2.txt
+
+one can express any linear function f(v) of complex 2-element vectors
+as either a 2x2 complex matrix-vector product, or a sum
+
+f(v) = AvB + CvD,
+
+where A,B,C,D are quaternions and AvB, CvD are quaternion triple products.
+(The real coefficients ti of the terms can be folded into either the left
+or right (or some combination) of the constant quaternions.)
+
+Similarly, one can express any linear function g(v) of real 4-element
+vectors as either a 4x4 real matrix-vector product, or a sum
+
+g(v) = AvB + CvD + EvF + GvH,
+
+where A,B,C,D,E,F,G,H are quaternions and AvB, CvD, etc., are quaternion
+triple products.
+
+For example, if q = w+xi+yj+zk is a quaternion, then
+
+conjugate(q) = w-xi+yj+zk
+
+             = (-1/2) (q + iqi + jqj + kqk)
+
+Furthermore, any matrix-vector product of a constant 4x4 matrix with
+a variable vector can be similar implemented by means of this quaternion
+decomposition, including the 'homogeneous coordinate' products typically
+used in computer graphics, robotics, spacecraft, etc.
+
+This method is a good one for converting a rotation matrix into a quaternion
+product, since a the singular values of a rotation matrix are likely to be
+very close to one another, and to 1, and therefore the first term in the
+sum should be the largest term, by far.  I believe that using the first
+term of this method will produce the 'least squares' approximation to
+the 'closest' orthogonal (unitary) matrix to the given matrix M.
+
+-- 
+www/ftp directory:
+ftp://ftp.netcom.com/pub/hb/hbaker/home.html
+
+

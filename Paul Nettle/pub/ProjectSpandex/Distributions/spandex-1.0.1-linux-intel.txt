@@ -1,6 +1,0 @@
-
-Project Spandex v1.0.0 - Linux/X port
-
-An internet-wide project for 3D development.
-
-Project Spandex is maintained at www.grafix3d.dyn.ml.org

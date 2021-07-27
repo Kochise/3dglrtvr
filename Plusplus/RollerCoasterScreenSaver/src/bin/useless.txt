@@ -1,5 +1,0 @@
-This file is useless.
-It's here, because some stupid archive manager
-doesn't create a directory if it's empty, even
-if this directory is included in the archive.
-Grrr....

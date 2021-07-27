@@ -1,0 +1,13 @@
+TODO for xcruiser
+$Id: TODO,v 1.1.1.1.2.2 2003/01/26 18:29:18 euske Exp $
+
+  * rendering with filetype-depenent color
+  * launching external viewer
+  * locking on a certain directory
+  * hiding upper-level entries to avoid confusion
+  * cut/copy/paste file or pathname
+
+  1. Navigation with given pathnames.
+  2. Chase symbolic links automatically.
+  3. Full screen mode / Root window mode.
+  4. Auto demonstration.

@@ -1,0 +1,51 @@
+// Input structure to the vertex program
+// Parameters are bound to specific hardware registers to match what the application sends
+struct PerVertexInput {
+	float4 Position : POSITION; // Position in model space
+	float3 Normal : NORMAL; // Normal in model space
+};
+
+// Structure output by the vertex program
+// Parameters are bound to specific hardware registers, so that the fragment processor knows where to access them
+struct Output {
+	float4 Position : POSITION; // Position in clip space
+	float4 DiffuseLight : COLOR0; // Diffuse light
+	float4 SpecularLight : COLOR1; // Specular light
+};
+
+Output main ( PerVertexInput IN, uniform float4x4 ModelViewProj, uniform float3 LightPos, uniform float3 EyePos, uniform float Kd, uniform float Ks, uniform float Shininess )
+{
+	Output OUT;
+	float diffuse = 0;
+	float specular = 0;
+
+	// Transform the position from model space to clip space:
+	OUT.Position = mul ( ModelViewProj, IN.Position );
+
+	// Compute the light vector:
+	// Normalized vector from vertex to light position
+	float3 L = normalize ( LightPos - IN.Position.xyz );
+	
+	// Compute the diffuse light:
+	// Dot product between the light vector and the vertex normal, clamped to zero
+	diffuse = Kd * max ( 0, dot ( L, IN.Normal ) );
+	OUT.DiffuseLight.xyz = diffuse.xxx;
+
+	// Compute the view vector:
+	// Normalized vector from vertex to eye position
+	float3 V = normalize ( EyePos - IN.Position.xyz );
+
+	// Compute half-angle vector:
+	// Normalized sum of the light vector and view vector
+	float3 H = normalize ( L + V );
+
+	// Compute the final light:
+	// Dot product between the half-angle vector and the vertex normal, clamped to zero
+	// and raised to the power of the specular exponent (or shininess)
+	specular = Ks * ( diffuse > 0 ? pow ( max ( dot ( H, IN.Normal ), 0 ), Shininess ) : 0 );
+	OUT.SpecularLight.xyz = specular.xxx;
+
+	// Build and execute: You should see the diffusely and specularly lit, textured model
+
+	return OUT;
+}

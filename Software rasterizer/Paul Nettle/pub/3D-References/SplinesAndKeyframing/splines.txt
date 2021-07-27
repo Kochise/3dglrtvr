@@ -1,0 +1,8 @@
+spotlight info 1.02 by digisnap
+-------------------------------
+the spotlight 64k intro from
+mekka/symposium 1997 by funk!
+now supports gus, sb, awe and
+vesa 2.0. Includes description
+how to code animation tracks
+using SPLINES and QUATERNIONS.

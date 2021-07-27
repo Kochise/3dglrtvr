@@ -1,8 +1,0 @@
-
-For a doxygen documentation of the SoftPixel Engine look at:
-
-"http://softpixelengine.sourceforge.net/docu/index.html"
-
-or
-
-"http://www.hlc-games.de/"

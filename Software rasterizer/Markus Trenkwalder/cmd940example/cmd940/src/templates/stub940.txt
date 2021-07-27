@@ -1,0 +1,10 @@
+	static void _:NAME:()
+	{
+		struct {
+			:SPARAMLIST:
+		} p__;
+		
+		cmd940i::read_rb->read(&p__, sizeof(p__));
+		:RETTYPE: r = :NAME:(:CALLLIST:);
+		cmd940i::write_rb->write(&r, sizeof(r));
+	}

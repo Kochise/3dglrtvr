@@ -1,0 +1,175 @@
+glam (0.11-1) unstable; urgency=low
+
+  * Added detailed handbook and API documentation to release.
+
+ -- Manu Sporny <msporny@zenmachine.org>  Wed, 31 Dec 2003 10:20:42 -0500
+
+glam (0.10-4) unstable; urgency=low
+
+  * Fixed solid font height measurement.
+  * Menuitems are correctly set in comboboxes.
+
+ -- David Longley <dlongley@vt.edu>  Thu, 20 Nov 2003 16:35:33 -0500
+
+glam (0.10-3) unstable; urgency=low
+
+  * Added thread locking to all text measuring.
+  * GmTextWidget goes through the font manager to do text measuring.
+  * Menu displays prettified.
+  * Text positioning and label positioning updates for buttons.
+  * TextPointSize changed to TextSize because size is in GL units.
+  * Text offsets altered, offset refers to justification now.
+  * GmPage default layout is set to list layout.
+  * Various bug fixes.
+
+ -- David Longley <dlongley@vt.edu>  Tue, 18 Nov 2003 20:12:37 -0500
+
+glam (0.10-2) unstable; urgency=low
+
+  * Icon cache fixed so that svg renderers and texture ids are
+    cached rather than GmIcons.
+  * Table color bug fix.
+  * relayout() call added
+  * Action model changed so that object id's are included in actions.
+  * Minor bug fixes.
+
+ -- David Longley <dlongley@vt.edu>  Tue, 11 Nov 2003 19:31:56 -0500
+
+glam (0.10-1) unstable; urgency=low
+
+  * Major work for labels so they do not overflow the components they are placed within.
+  * Font manager work to reduce memory usage.
+  * Converted all use of "char*"s to C++ "string"s
+  * Overhaul of tool tip code in an effort to make rich tooltip areas
+  * Added thread-safety code to font manager.
+  * Added drag and drop support to architecture
+  * Added GmTextField class to architecture
+  * Huge speed improvements by selectively pushing the correct OpenGL attributes
+  * Many fixes to scrollable pane to enable simultaneous addition/scrolling of area
+  * Added OpenGL x and y coordinates to mouse event
+  * Continuing improvements for extent calculation for objects
+  * Slew of other small bug fixes
+
+ -- Manu Sporny <msporny@zenmachine.org>  Thu, 16 Oct 2003 11:36:57 -0400
+
+glam (0.9-3) unstable; urgency=low
+
+  * Now multiple focus listeners can be used to listen to the focus actions of any 
+    interactive widget.
+  * GmContainer, GmMenu, GmExpandableListItem, picking, and focus architecture improvements and fixes.
+  * New SVG icons, one used for infobox closure.
+  * General updates, fixes, and optimizations.
+
+ -- David Longley <dlongley@vt.edu>  Thu,  2 Oct 2003 14:44:52 -0400
+
+glam (0.9-2) unstable; urgency=low
+
+  * General updates, segfault fixes, and optimizations.
+  * Keyboard events are now distributed in the same way mouse events are distributed.
+  * Major updates and fixes to focus architecture (including new focus status types).
+  * Preliminary keyboard handling implemented (tabbing through containers, focused 
+    widgets receive keyboard events, menus can use spacebar for selection).
+  * Added timestamps to events.
+  * Changed all occurrences of Arial.ttf to Vera.ttf.
+
+ -- Gray Carper (xRhino, Inc.) <gcarper@xrhino.com>  Wed, 17 Sep 2003 11:53:59 -0400
+
+glam (0.9-1) unstable; urgency=low
+
+  * Text overhaul; textured text is now standard.
+  * New resizeable Table widget implemented - Mike Johnson.
+  * New focus architecture implemented.
+  * Coordinate types removed, setAbsoluteGeometry() removed.
+  * Display list standardization and bug fixes.
+  * Fixed the infamous "giant B" text bug and other text bugs.
+  * General updates and bug fixes.
+
+ -- Manu Sporny <msporny@zenmachine.org>  Mon,  8 Sep 2003 19:12:24 -0400
+
+glam (0.8-2) unstable; urgency=low
+
+  * Slider/Scrollbar, other widgets completed.
+  * Text positioning bug fixes, etc.
+  * New layouts created.
+
+ -- David Longley <dlongley@vt.edu>  Fri, 25 Jul 2003 13:20:48 -0400
+
+glam (0.8-1) unstable; urgency=low
+
+  * New listener/action architecture replaces old user and widget
+    event handling.
+  * A standard for widget rendering has been adopted and implemented.
+  * Setting widget relative geometry has been standardized.
+  * Key press/release, mouse movement/wheel events now distributed.
+  * Icon cache is now used.
+
+ -- David Longley <dlongley@vt.edu>  Mon, 30 Jun 2003 16:06:54 -0400
+
+glam (0.7-3) unstable; urgency=low
+
+  * applyLayout call has been replaced with more meaningful name
+  * layoutInGLArea and layoutInGLVolume are the replacement methods
+
+ -- David Longley <dlongley@vt.edu>  Thu,  5 Jun 2003 09:50:09 -0400
+
+glam (0.7-2) unstable; urgency=low
+
+  * Fixed font loading seg fault bugs - David Longley
+  * Added default font for when font file doesn't load - David Longley
+  * Layout managers added - David Longley
+
+ -- David Longley <dlongley@vt.edu>  Wed, 28 May 2003 15:22:34 -0400
+
+glam (0.7-1) unstable; urgency=low
+
+  * Documentation updates - David Longley
+  * Added option file parsing and initialization - Manu Sporny
+  * Added dynamic scrollbar creation - Chris Glasnapp
+
+ -- Manu Sporny <msporny@zenmachine.org>  Fri, 23 May 2003 10:30:21 -0400
+
+glam (0.6-2) unstable; urgency=low
+
+  * Fixed documentation building bugs.
+
+ -- Manu Sporny <msporny@zenmachine.org>  Fri,  2 May 2003 09:24:39 -0400
+
+glam (0.6-1) unstable; urgency=low
+
+  * New documentation building support.
+  * Added GLAM handbook.
+  * Added installation of SVG icons.
+  * New components: listboxes, tooltips, multi-row icon bars, expandable list items,
+    scrollbars, slider buttons.
+  * More modifications to the event model, including more complete mouse drag support
+    and expanded WidgetEvent capabilities.  
+
+ -- Gray Carper <gcarper@xrhino.com>  Fri, 25 Apr 2003 11:16:15 -0400
+
+glam (0.5-1) unstable; urgency=low
+
+  * Added support for menus, radio button groups, button bars, etc
+  * Widget event code has been massively updated
+
+ -- Manu Sporny <msporny@zenmachine.org>  Fri, 11 Apr 2003 14:52:32 -0400
+
+glam (0.4-1) unstable; urgency=low
+
+  * Added Animation support for all visual components
+  * Improved font rendering immensely (Gray Carper)
+
+ -- Manu Sporny <msporny@zenmachine.org>  Fri,  7 Mar 2003 13:52:09 -0500
+
+glam (0.3-1) unstable; urgency=low
+
+  * Added a huge number of features to the library. Components, containers,
+    preliminary animation, curve editing, etc.
+
+ -- Manu Sporny <msporny@zenmachine.org>  Thu, 20 Feb 2003 11:03:26 -0500
+
+glam (0.1-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Manu Sporny <msporny@zenmachine.org>  Fri, 24 Jan 2003 16:23:28 -0500
+

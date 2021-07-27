@@ -1,0 +1,86 @@
+<TITLE>Readme</TITLE>
+<DIV ms_positioning="text2D" Design_Time_Lock="True" style="LEFT: 8px; POSITION: absolute; TOP: 8px; Design_Time_Lock: True">
+	<P><U><STRONG>Summary</STRONG></U></P>
+	<P>
+		swShader is a shader emulator using soft-wiring technology to get maximum 
+		performance on a Pentium III compatible CPU.</P>
+	<P><STRONG><U>Newest Version</U></STRONG></P>
+	<P>This is a pre-alpha version.</P>
+	<P>Please check <A href="http://sourceforge.net/projects/sw-shader">http://sourceforge.net/projects/sw-shader</A>&nbsp;for 
+		newer versions. You can also look in the CVS repository for the last version 
+		tagged as stable or release.</P>
+	<P><STRONG><U>Demo</U></STRONG></P>
+	<P>The demo requires Windows 98/XP and a Pentium III compatible processor. Athlon 
+		Thunderbird processors do not support the SSE instructions which are crucial 
+		for good performance, and no 3DNow! version is available yet nor planned.</P>
+	<P>Execute the application at your own risk. For more disclaimer information please 
+		refer to License.txt.</P>
+	<P><U><STRONG>Compilation</STRONG></U></P>
+	<P>
+		This library and demo was developed with Visual&nbsp;C++ .NET&nbsp;and has 
+		project and workspace files for this compiler included. Should you have any 
+		problems compiling the code with this compiler, please mail me at <A href="mailto:nicolas@capens.net">
+			nicolas@capens.net</A>. Project files for other compilers might&nbsp;be 
+		included but I can't give you support for them.</P>
+	<P><STRONG><U>Interface Documentation</U></STRONG></P>
+	<P>Because I strive for compatibility with DirectX shaders, the interface also 
+		shows lots of similarities. With a good knowledge of DirectX and 3D graphics 
+		theory, the use of swShader should be self-explanatory. For details please read 
+		the demo source code.</P>
+	<P><EM>More documentation will be added at an appropriate time. Please report problems 
+			so I know what needs attention.</EM></P>
+	<P><STRONG><U>Design &amp; Technology</U></STRONG></P>
+	<P>Interpreters for&nbsp;shaders&nbsp;are horribly slow because of the thousands of 
+		control statements and the redundant memory accesses. It is also often not 
+		optimized with SIMD instructions which can boost performance by a factor of 
+		about&nbsp;four. swShader solves both problems by&nbsp;compiling shader 
+		instruction&nbsp;to optimized&nbsp;x86 instructions. The control statements can 
+		be eliminated by compiling the shader for a specific render state, and storing 
+		it in a cache.</P>
+	<P>swShader is powered by a&nbsp;run-time assembler called SoftWire, also written 
+		by&nbsp;Nicolas Capens. For the latest version of SoftWire please check <A href="http://sourceforge.net/projects/softwire">
+			http://sourceforge.net/projects/softwire</A>. It features run-time 
+		intrinsics, which allows to conveniently&nbsp;convert any shader instruction as 
+		an x86 assembly block. It is possible to do register allocation and peephole 
+		optimizations without multiple passes. In the future, automatic sheduling could 
+		be added.</P>
+	<P><EM>More documentation will be added at an appropriate time. Please report problems 
+			so I know what needs attention.</EM></P>
+	<P><U><STRONG>License Conditions</STRONG></U></P>
+	<P>
+		All swShader header and source files fall under the LGPL (License.txt)&nbsp;and 
+		are Copyright 2002-2003 Nicolas Capens.</P>
+	<P>
+		The license allows you to keep the source code to your project closed, provided 
+		that you do not modify any of swShader's files.&nbsp;This&nbsp;does not apply 
+		to deriving from swShader's classes in your own files. When making changes 
+		to&nbsp;swShader's files, you have to make them public.&nbsp;Remember 
+		to&nbsp;always give the right credit where due. This can be done by mentioning 
+		my name in your credits list and providing a link to the original&nbsp;swShader 
+		source code (e.g. <A href="http://sw-shader.sourceforge.net">http://sw-shader.sourceforge.net</A>).</P>
+	<P><EM>For commercial use of swShader a fair reward would be highly appreciated!</EM></P>
+	<P>Don't hesitate to contact me and show what you've created with swShader!</P>
+	<P><U><STRONG>Bugs &amp; Feature Requests</STRONG></U></P>
+	<P>
+		swShader&nbsp;is a work-in-progress, so every kind of feedback is welcome, good 
+		or bad. I'm also always willing to help you out if you don't get something 
+		working.&nbsp;Contact me via e-mail at <A href="mailto:nicolas@capens.net">nicolas@capens.net</A>&nbsp;or 
+		report problems on the sourceforge project page.</P>
+	<P><U><STRONG>Credits &amp;Acknowledgements</STRONG></U></P>
+	<P>Special thanks to:</P>
+	<UL>
+		<LI>
+			Alec Panovici, creator of the CppCC parser generator (<A href="http://cppcc.sourceforge.net/">http://cppcc.sourceforge.net/</A>
+		).
+		<LI>
+		The Independent JPEG Group.
+		<LI>
+			Everyone at <A href="http://www.flipcode.com">www.flipcode.com</A>
+		who has helped me directly or indirectly to make this project possible.
+		<LI>
+			Anyone who reported bugs or suggested useful features.</LI></UL>
+	<P>If you believe this list is incomplete or incorrect, please contact me and 
+		I'll&nbsp;rectify it immediately!</P>
+	<P><center>Copyright (C) 2002-2003 Nicolas Capens - <A href="mailto:nicolas@capens.net">nicolas@capens.net</A></center>
+	<P></P>
+</DIV>

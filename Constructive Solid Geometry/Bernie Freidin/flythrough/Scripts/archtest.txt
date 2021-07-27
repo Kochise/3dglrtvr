@@ -1,0 +1,36 @@
+# archway test script
+# (c) Bernie Freidin 1999
+
+	// main room
+
+DEPTH=1
+AXIS=Y
+SHAPE "cube"=[(-1,-1)(-1,1)(1,1)(1,-1)]
+BBOX=[-9,0,-9,9,6,9] CSGADD "cube"
+DEPTH=2
+BBOX=[-6,0,-6,6,2.5,6] CSGADD "cube"
+
+	// archways
+
+DEPTH=3
+REGULARPOLY1 *=[180,360/32,17]
+AXIS=X
+BBOX=[-6,-1.9,-9,6,2,-3.1] CSGADD *
+BBOX=[-6,-1.9,-2.9,6,2,-1.1] CSGADD *
+BBOX=[-6,-1.9,-.9,6,2,.9] CSGADD *
+BBOX=[-6,-1.9,1.1,6,2,2.9] CSGADD *
+BBOX=[-6,-1.9,3.1,6,2,9] CSGADD *
+AXIS=Z
+BBOX=[-9,-1.9,-6,-3.1,2,6] CSGADD *
+BBOX=[-2.9,-1.9,-6,-1.1,2,6] CSGADD *
+BBOX=[-.9,-1.9,-6,.9,2,6] CSGADD *
+BBOX=[1.1,-1.9,-6,2.9,2,6] CSGADD *
+BBOX=[3.1,-1.9,-6,9,2,6] CSGADD *
+
+DEPTH=2
+AXIS=Y
+BBOX=[-7,.6,-7,7,.9,7] CSGADD "cube"
+
+	// that's it!!
+
+RETURN

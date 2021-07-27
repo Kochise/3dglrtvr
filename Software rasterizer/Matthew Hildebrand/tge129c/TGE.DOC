@@ -1,0 +1,2139 @@
+
+
+
+
+
+              The Graphics Engine version 1.29·C Documentation
+                        *** PUBLIC BETA VERSION ***
+                              August 20, 1993
+
+       The Graphics Engine software and manual are copyright (c) 1993
+                by Matthew Hildebrand.  All rights reserved.
+
+
+
+
+Topics covered in this document:
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     INTRODUCTION
+     WHY USE TGE?
+     SYSTEM REQUIREMENTS
+     PACKING LIST
+     RELEASE NOTES FOR VERSION 1.29·C
+     FUNDAMENTALS OF GRAPHICS PROGRAMMING
+     INCORPORATING TGE
+     TGE'S GRAPHICAL FUNCTION SET
+     VIEWPORTS AND CLIPPING
+     VIRTUAL COORDINATES
+     VIRTUAL SCREENS
+     GRAPHICAL OUTPUT MODES
+     FONTS
+     BITMAP MANIPULATION
+     USING THE MOUSE
+     TGE'S MOUSE FUNCTION SET
+     CREATING FONTS
+     USING THE PCX2RAW UTILITY
+     TERMS OF USAGE AND DISTRIBUTION
+     CONTACTING THE AUTHOR
+     OBTAINING THE NEWEST VERSION OF TGE
+     REVISION HISTORY
+     KNOWN PROBLEMS USING TGE
+     ACKNOWLEDGEMENT
+     LEGAL MUMBO JUMBO
+
+
+
+
+INTRODUCTION
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     The Graphics Engine is the result of my efforts to construct a library
+     of routines designed to make writing C/C++ graphics applications
+     easier.  I have used it in my own programs with excellent results.
+ 
+     TGE allows the DOS programmer to easily access many graphics modes,
+     without having to do special coding for each; the complications
+     involved with supporting more than one graphics mode are removed.  TGE
+     also provides remarkable flexibility and expandability through its
+     modular design.
+
+
+
+WHY USE TGE?
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     TGE provides a simple, standard interface with which programs may
+     access a powerful library of graphical functions.
+
+     TGE supports device-independence using loadable drivers, loadable
+     fonts, viewports, virtual screens, graphics output using COPY, AND,
+     NOT, OR, and XOR, bitmap scaling, and interrupt-driven definable mouse
+     pointer services.  It has a large number of mouse routines, an
+     extensive graphical function set, and a virtual coordinate system to
+     make device-independence easier.
+
+     TGE's use of loadable graphics drivers means that all code and data
+     necessary to handle a certain graphics mode is stored in a disk file.
+     When a program runs, this file will be loaded into memory and the code
+     it contains will be made available.  Consequently:
+          - Support for more graphics modes may be added simply by creating
+     more drivers; programs need not be recompiled.
+          - Since the code to manage the specifics of each mode is
+     contained in the drivers, the main program needs not concern itself
+     with what mode it is operating in.  The same code can work in any
+     graphics mode.
+          - Memory is saved for programs which support many graphics modes.
+     Instead of keeping the code and data necessary for each in memory at
+     all times, only the memory required for one driver is used.
+
+     When writing drivers, it is not necessary to write assembly code for
+     every graphical function that TGE supports.  For instance, if a
+     certain driver does not contain a line-drawing routine, TGE will
+     substitute a default routine.  Therefore, the programmer needs not
+     waste time writing assembly code which will seldom or never be used,
+     thus slashing development time.  Essentially, no matter what a
+     particular driver contains, the entire set of TGE's graphical
+     functions will be available.
+
+     In addition to essential graphical functions, TGE also includes
+     interrupt-driven definable mouse pointer services, as well as a large
+     number of functions to interface with the mouse driver.
+
+     The names of the graphical functions, such as "putImage" and
+     "filledRect" may easily be changed to suit individual preferences.
+
+     TGE is powerful, fast, and cheap.  Upgrades are free.
+
+
+
+SYSTEM REQUIREMENTS
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     TGE is a C/C++ programmer's library.  As such, it requires a C or C++
+     compiler of some sort to work with it.  TGE was written and tested
+     with Borland C++ 2.0 and Turbo C 2.0; it should work with other C/C++
+     compilers as well.
+
+     The drivers that come with TGE are written using 80386 instructions.
+     They therefore cannot be used on a processor older than the 386 unless
+     they are modified first.
+
+     Loadable drivers must be written in assembly language.  In order to
+     write drivers, an assembler will be required.
+
+     The font and virtual coordinate systems are written in C++, not C. In
+     order to use loadable fonts or VCOORD.H, a C++ compiler will be
+     required.
+
+
+
+PACKING LIST
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     The current version of TGE consists of the following files:
+
+     TGE.DOC             TGE documentation
+     TGEDEMO.EXE         TGE demo program
+     320X200.DRV         Driver for VGA 320x200x256
+     320X240.DRV         Driver for VGA 320x240x256
+     320X400.DRV         Driver for VGA 320x400x256
+     360X480.DRV         Driver for VGA 360x480x256
+     640X480.DRV         Driver for SuperVGA/VESA 640x480x256 
+     800X600.DRV         Driver for SuperVGA/VESA 800x600x256 
+     1024X768.DRV        Driver for SuperVGA/VESA 1024x768x256 
+     8X8.FNT             8x8 font definition file
+     8X14.FNT            8x14 font definition file
+     8X16.FNT            8x16 font definition file
+     SIMPLE.CPP          A skeleton TGE program showing interface basics
+     PCX2RAW.ARJ         Image format translation utility and its source
+                         code
+          PCX2RAW.EXE    Executable version
+          PCX2RAW.CPP    Source for above
+          PCX.CPP        PCX routines
+          TYPES.H        Some handy typedefs
+     SOURCE.ARJ          Full source code
+          TGE.H          TGE header file
+          TGE.C          Main C file
+          TGEDEMO.CPP    Source for TGEDEMO.EXE
+          CLIP.C         Supplementary clipping routines
+          TGEFONT.H      Header file for TGE fonts
+          TGEFONT.CPP    TGE font support (C++ only)
+          TGEMOUSE.H     Mouse header file
+          TGEMOUSE.ASM   Various mouse routines
+          MOUSEPTR.C     Definable mouse pointer support
+          NEWMOUSE.ASM   More definable pointer support
+          VCOORD.H       Virtual coordinate system header file (C++ only)
+          SCALE.C        Bitmap scaling routine
+          320X200.ASM    320x200x256 source
+          320X240.ASM    320x240x256 source
+          320X400.ASM    320x400x256 source
+          360X480.ASM    360x480x256 source
+          640X480.ASM    640x480x256 source
+          800X600.ASM    800x600x256 source
+          1024X768.ASM   1024x768x256 source
+          SHELL.ASM      Skeleton driver source; use this file as a basis
+                         in making custom drivers
+     REGISTER.FRM        Registration form
+     BETATEST.DOC        Information regarding 1.29·C as a public beta
+                         release
+     FILE_ID.DIZ         Archive description file used by some BBSs
+
+
+     If you did not receive all of these files, you have an illegal copy of
+     The Graphics Engine.
+
+
+
+RELEASE NOTES FOR VERSION 1.29·C
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     THIS VERSION OF TGE IS A PUBLIC BETA VERSION.  It contains a few known
+     bugs, and it is not yet entirely completed.  TGE 1.30 will be released
+     when 1.29·C is debugged and completed.  In the interim, 1.29·C should
+     be stable enough for most purposes.
+
+     **IMPORTANT**:  TGE will no longer save and restore the palette during
+     text/graphics switches.  Also, setBlockPalette() and getBlockPalette()
+     now have a slightly different argument list; refer to the
+     documentation for these functions for details.
+
+     Now for the nifty new stuff:
+        - Support for virtual screens of varying sizes.
+        - A virtual coordinate system to ease the task of dealing with
+          multiple resolutions.
+        - Output using COPY, AND, NOT, OR, and XOR (even to virtual
+          screens).
+        - Input and output need not operate on the same place; ie., it is
+          possible to input from a virtual screen and output to the real
+          screen, perform both input and output on a virtual screen, etc..
+        - There is now an input viewport and an output viewport, which
+          operate independently.  (ie. the input viewport is used for input
+          operations such as getImage(), while the output viewport is used
+          for output operations such as drawRect().)
+        - The functions imageSizeDim(), putLineInv(), and vertLine() have
+          been added.
+        - There is now a bitmap scaling feature, via scaleBitmap().
+        - The PCX2RAW utility and the font file structure are now
+          documented.  (Oops...)
+
+     The drivers used with this release are not compatible with those from
+     version 1.20 or older, since many changes have been made to the driver
+     structure in order to allow for these new features.
+
+
+
+FUNDAMENTALS OF GRAPHICS PROGRAMMING
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     A graphics screen is composed of thousands or even hundreds of
+     thousands of coloured dots called "pixels".  Each pixel is referenced
+     according to its offset, in coordinate form, from the upper-left of
+     the screen:  (0,0), or the "origin".  The 'x' of a pixel's (x,y)
+     location signifies the column number, and the 'y' signifies the row
+     number; for example, a 640x480 screen would have (0,0) in the upper-
+     left and (639,479) in the lower-right.
+
+     Each of these pixels has a colour which is recorded as a number,
+     ranging from 0..255 in 256-colour modes.  Each of these numbers is an
+     index into a table of colours which the video card maintains:  the
+     "palette".  The palette is what determines which colour is represented
+     by certain numbers; for instance, what colour is colour number 196?
+     Blue?  Green?  Purple?  It depends on the current setting of the
+     palette register for colour number 196.
+
+     Each of these palette registers consists of three components:  the
+     red, green, and blue values, each of which is in the range 0..255. All
+     the displayable colours are composed of these three primary colours in
+     some proportion.  For instance, a purple would have lots of red and
+     blue, but little or no green.
+
+     The palette can be a powerful tool, as changing palette register, say,
+     48, causes all pixels on-screen with the value of 48 to instantly
+     change to the new colour.  It is important to keep in mind that the
+     palette is a global palette; ie. it affects the entire screen.
+
+     That's all there is to it!
+
+
+
+INCORPORATING TGE
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     Incorporating TGE into a program is an easy process involving three
+     simple steps.
+
+
+     First, the header file TGE.H must be #included into any source file
+     which accesses any of TGE's routines.  TGE.C must be compiled, and the
+     resulting .OBJ file linked into the .EXE file.
+
+     Second, a graphics driver MUST be loaded before any code or data
+     contained in the driver is accessed; results are undefined if this
+     step is not taken.  Code to load a driver might look like this:
+
+          if (loadGraphDriver(drvFileName) != TGE_SUCCESS)
+          {
+            printf("Error loading %s, aborting.\n\n", drvFileName);
+            exit(1);
+          }
+          else
+            atexit(unloadGraphDriver);
+
+     The function loadGraphDriver() must be called.  As its only parameter,
+     it takes a string consisting of the file name (which may include any
+     valid DOS path) of the driver to be loaded.  It returns a success
+     code:  TGE_SUCCESS if the loading was successful, or one of
+     TGE_OPEN_ERR (file not found), TGE_FORMAT_ERR (file is not a valid TGE
+     driver), TGE_ALLOC_ERR (out of memory), and TGE_FILE_ERR (general file
+     I/O error) if an error occurred.  These macros are defined in TGE.H.
+
+     Third, after TGE's graphical functions are no longer needed (usually
+     just before a program exit), the function unloadGraphDriver() should
+     be called.  It takes no parameters, and returns nothing.  It simply
+     frees the memory taken up by a driver after it has been loaded.  (With
+     some compilers it is not necessary to call this function, but it's
+     safer to call it just to be sure.)  It is often a good idea to place
+     unloadGraphDriver() in the atexit() queue.
+
+
+     Note that the initGraphics() function must be called to enter graphics
+     mode; for more information, see the next section.  Information on
+     incorporating TGE's mouse routines may be found in the section
+     entitled USING THE MOUSE.
+
+
+
+TGE'S GRAPHICAL FUNCTION SET
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     After a driver has been loaded, all of TGE's graphical functions can
+     be accessed.  To call a function, simply execute
+
+          functionName(parameter list);
+
+     where "functionName" is the name of the desired function (eg. "line"
+     or "filledRect") and "parameter list" is all parameters to that
+     function, if any.
+
+     A complete list of TGE's graphical functions follows.
+
+
+ *** Function:      initGraphics()
+     Syntax:        void huge initGraphics(void);
+     Purpose:       Initialize graphics mode.
+     Parameters:    None.
+     Return value:  1 on success or 0 on error.
+     Remarks:       None.
+     See also:      deInitGraphics()
+
+ *** Function:      deInitGraphics()
+     Syntax:        void deInitGraphics(void);
+     Purpose:       Revert to 80x25 colour text mode.
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       None.
+     See also:      initGraphics()
+
+ *** Function:      putImage()
+     Syntax:        void huge putImage(int x, int y, void far *image);
+     Purpose:       Place a bitmap, or image, onto the screen.
+     Parameters:    The bitmap contained in 'image' will be placed onto the
+                    screen with its upper-left coordinate at ('x','y').
+     Return value:  None.
+     Remarks:            Clipping is performed; the image may be placed
+                    entirely on-screen, partially on-screen, or entirely
+                    off-screen.
+                         This function is declared as huge so that it will
+                    work properly when called from within an interrupt
+                    service routine.
+     See also:      putImageInv(), getImage(), imageSize(), putLine(),
+                    putLineInv(), getLine()
+
+ *** Function:      putImageInv()
+     Syntax:        void huge putImageInv(int x, int y, void far *image);
+     Purpose:       Place a bitmap, or image, on the screen.
+     Parameters:    The bitmap contained in 'image' will be placed onto the
+                    screen with its upper-left coordinate at ('x','y').
+     Return value:  None.
+     Remarks:            Clipping is performed; the image may be placed
+                    entirely on-screen, partially on-screen, or entirely
+                    off-screen.    putImageInv() differs from putImage()
+                    only in that it allows for transparent, or invisible,
+                    colours.  If any pixel in the image buffer has a value
+                    of zero, the corresponding pixel on-screen will not be
+                    modified.  Using putImageInv() can avoid having black
+                    borders around non-rectangular shapes.
+                         This function is declared as huge so that it will
+                    work properly when called from within an interrupt
+                    service routine.
+     See also:      putImage(), getImage(), imageSize(), putLineInv(),
+                    putLine(), getLine()
+
+ *** Function:      getImage()
+     Syntax:        void huge getImage(int ulx, int uly, int lrx, int lry,
+                    void far *image);
+     Purpose:       Copy the specified rectangular portion of the screen to
+                    memory.
+     Parameters:    The portion of the screen with its upper-left
+                    coordinate at ('ulx','uly') and its lower-left
+                    coordinate at ('lrx','lry') will be copied into the
+                    previously allocated memory region at 'image' (see
+                    imageSize()).
+     Return value:  None.
+     Remarks:            Clipping is performed.  Note that only the portion
+                    of the specified region which lies within the current
+                    viewport will be placed in the image buffer by
+                    getImage().  Be careful not to assume that a getImage()
+                    image has off-screen data in it.
+                         This function is declared as huge so that it will
+                    work properly when called from within an interrupt
+                    service routine.
+     See also:      putImage(), putImageInv(), imageSize(), getLine(),
+                    putLine(), putLineInv()
+
+ *** Function:      imageSize()
+     Syntax:        unsigned long imageSize(int ulx, int uly, int lrx, int
+                    lry);
+     Purpose:       Determine the amount of memory required to hold a
+                    rectangular portion of the screen.
+     Parameters:    imageSize() will calculate the amount of memory
+                    required to hold the porion of the screen whose upper-
+                    left coordinate is ('ulx','uly') and whose lower-left
+                    coordinate is ('lrx','lry').
+     Return value:  imageSize returns an unsigned long containing the size
+                    of the area in bytes.
+     Remarks:            Clipping is performed.
+                         imageSize() is designed for use with putImage(),
+                    putImageInv(), and getImage().  To use it with
+                    putLine() and getLine(), subtract 4 from the value it
+                    returns.  (Image buffers have four bytes of dimension
+                    information in them; line buffers do not.)
+     See also:      imageSizeDim(), putImage(), putImageInv(), getImage(),
+                    putLine(), getLine()
+
+ *** Function:      imageSizeDim()
+     Syntax:        unsigned long imageSizeDim(unsigned wide, unsigned
+                    deep);
+     Purpose:       Determine the amount of memory required to hold a
+                    rectangular portion of the screen.
+     Parameters:    imageSize() will calculate the amount of memory
+                    required to hold the porion of the screen with width
+                    'wide' and depth 'deep'.
+     Return value:  imageSize returns an unsigned long containing the size
+                    of the area in bytes.
+     Remarks:            Clipping is not performed.
+                         imageSizeDim() is designed for use with
+                    putImage(), putImageInv(), and getImage().  To use it
+                    with putLine() and getLine(), subtract 4 from the value
+                    it returns.  (Image buffers have four bytes of
+                    dimension information in them; line buffers do not.)
+     See also:      imageSize(), putImage(), putImageInv(), getImage(),
+                    putLine(), getLine()
+
+ *** Function:      putLine()
+     Syntax:        void putLine(int lineNum, int xOff, int lineLen, void
+                    far *buf);
+     Purpose:       Place one horizontal line of image data on the screen.
+     Parameters:    The one-line bitmap contained in 'buf', of 'lineLen'
+                    pixels, will be placed on-screen starting at
+                    ('xOff','lineNum').
+     Return value:  None.
+     Remarks:       No clipping is performed.  Results are undefined if any
+                    coordinate on the line is off-screen.
+     See also:      putLineInv(), getLine(), putImage(), putImageInv(),
+                    getImage()
+
+ *** Function:      putLineInv()
+     Syntax:        void putLineInv(int lineNum, int xOff, int lineLen,
+                    void far *buf);
+     Purpose:       Place one horizontal line of image data on the screen,
+                    leaving a pixel unchanged if the corresponding pixel in
+                    the source buffer has a value of zero.  This function
+                    is the single-line equivalent to putImageInv().
+     Parameters:    The one-line bitmap contained in 'buf', of 'lineLen'
+                    pixels, will be placed on-screen starting at
+                    ('xOff','lineNum').
+     Return value:  None.
+     Remarks:       No clipping is performed.  Results are undefined if any
+                    coordinate on the line is off-screen.
+     See also:      putLine(), getLine(), putImage(), putImageInv(),
+                    getImage()
+
+ *** Function:      getLine()
+     Syntax:        void getLine(int lineNum, int xOff, int lineLen, void
+                    far *buf);
+     Purpose:       Copy one horizontal line from the screen to memory.
+     Parameters:    The horizontal line whose left coordinate is
+                    ('xOff','lineNum') and whose length is 'lineLen' pixels
+                    will be copied into the previously allocated memory
+                    region at 'buf'.
+     Return value:  None.
+     Remarks:       No clipping is performed.  Results are undefined if any
+                    coordinate on the line is off-screen.
+     See also:      putLine(), putLineInv(), putImage(), putImageInv(),
+                    getImage()
+
+ *** Function:      putPixel()
+     Syntax:        void putPixel(int x, int y, unsigned colour);
+     Purpose:       Place a single pixel on-screen.
+     Parameters:    The pixel located at ('x','y') will be set to the
+                    colour 'colour'.
+     Return value:  None.
+     Remarks:       Clipping is not performed; see clipPoint() and
+                    pointOnScreen() for details on clipping pixels.
+     See also:      getPixel()
+
+ *** Function:      getPixel()
+     Syntax:        unsigned getPixel(int x, int y);
+     Purpose:       Return the value of a pixel.
+     Parameters:    The value of the pixel at ('x','y') is returned.
+     Return value:  The value of the pixel at (x,y) is returned.
+     Remarks:       Clipping is not performed; see clipPoint() and
+                    pointOnScreen() for details on clipping pixels.
+     See also:      putPixel()
+
+ *** Function:      line()
+     Syntax:        void line(int x1, int y1, int x2, int y2, unsigned
+                    colour);
+     Purpose:       Draw a line between two points.
+     Parameters:    The line will be drawn joining ('x1','y1') and
+                    ('x2','y2') in the colour 'colour'.
+     Return value:  None.
+     Remarks:       Clipping is not performed; see clipLine() for details
+                    on clipping lines.
+     See also:      horizLine(), vertLine()
+
+ *** Function:      horizLine()
+     Syntax:        void horizLine(int y, int x1, int x2, unsigned colour);
+     Purpose:       Draw a horizontal line between two points.
+     Parameters:    The line will be drawn between ('x1','y') and
+                    ('x2','y') in the colour contained in colour.
+     Return value:  None.
+     Remarks:            Clipping is not performed.
+                         'x1' must be less than or equal to 'x2'.
+     See also:      vertLine(), line()
+
+ *** Function:      vertLine()
+     Syntax:        void vertLine(int x, int y1, int y2, unsigned colour);
+     Purpose:       Draw a vertical line between two points.
+     Parameters:    The line will be drawn between ('x','y1') and
+                    ('x','y2') in the colour contained in colour.
+     Return value:  None.
+     Remarks:            Clipping is not performed.
+                         'y1' must be less than or equal to 'y2'.
+     See also:      horizLine(), line()
+
+ *** Function:      drawRect()
+     Syntax:        void drawRect(int ulx, int uly, int lrx, int lry,
+                    unsigned colour);
+     Purpose:       Draw a rectangle.
+     Parameters:    The rectangle will be drawn with its upper-left
+                    coordinates at ('ulx','uly') and its lower-left
+                    coordinates at ('lrx','lry'), in the colour 'colour'.
+     Return value:  None.
+     Remarks:       Clipping is performed.
+     See also:      filledRect()
+
+ *** Function:      filledRect()
+     Syntax:        void filledRect(int ulx, int uly, int lrx, int lry,
+                    unsigned colour);
+     Purpose:       Draw a filled rectangle.
+     Parameters:    The rectangle will be drawn with its upper-left
+                    coordinates at ('ulx','uly') and its lower-left
+                    coordinates at ('lrx','lry'), in the colour 'colour'.
+     Return value:  None.
+     Remarks:       Clipping is not performed; see clipFilledRect() for
+                    details on clipping filledRects.
+     See also:      drawRect()
+
+ *** Function:      setPaletteReg()
+     Syntax:        void setPaletteReg(unsigned palReg, unsigned char red,
+                    unsigned char green, unsigned char blue);
+     Purpose:       Set a palette register.
+     Parameters:    The red, green, and blue components of the palette
+                    register palReg will be set to 'red', 'green', and
+                    'blue' respectively.
+     Return value:  None.
+     Remarks:       Each of the colour components ('red', 'green', 'blue')
+                    should be in the range 0..255, not 0..63 as would be
+                    the case using a stock VGA.  The drivers will take care
+                    of converting 8-bit to 6-bit palette resolution if
+                    necessary.
+     See also:      getPaletteReg(), setBlockPalette(), getBlockPalette()
+
+ *** Function:      getPaletteReg()
+     Syntax:        void getPaletteReg(unsigned palReg, unsigned char far
+                    *red, unsigned char far *green, unsigned char far
+                    *blue);
+     Purpose:       Return the current settings of a palette register.
+     Parameters:    The red, green, and blue contents of the palette
+                    register palReg will be stored in 'red', 'green', and
+                    'blue' respectively.
+     Return value:  The red, green, and blue components of the palette
+                    register are returned in 'red', 'green', and 'blue'.
+     Remarks:       Each of the colour components ('red', 'green', 'blue')
+                    are in the range 0..255, not 0..63 as would be the case
+                    using a stock VGA card.  The drivers will take care of
+                    converting 8-bit to 6-bit palette resolution if
+                    necessary.
+     See also:      setPaletteReg(), setBlockPalette(), getBlockPalette()
+
+ *** Function:      setBlockPalette()
+     Syntax:        void setBlockPalette(unsigned firstReg, unsigned
+                    lastReg, void far *data);
+     Purpose:       Set a block of palette registers.
+     Parameters:    The palette registers starting at 'firstReg' and ending
+                    at 'lastReg' will be set to the values contained in
+                    'data'.
+     Return value:  None.
+     Remarks:            The memory region at 'data' is organised in groups
+                    of three bytes; each group corresponds to one palette
+                    register, and each group is made up of, in order, the
+                    red, green, and blue components.  The first group is
+                    for the first register, the second for the second, and
+                    so on.
+                         Each of the colour components (red, green, blue)
+                    should be in the range 0..255, not 0..63 as would be
+                    the case using a stock VGA.  The drivers will take care
+                    of converting 8-bit to 6-bit palette resolution if
+                    necessary.
+                         Results are undefined if 'lastReg' is less than
+                    'firstReg'.
+     See also:      getBlockPalette(), setPaletteReg(), getPaletteReg()
+
+ *** Function:      getBlockPalette()
+     Syntax:        void getBlockPalette(unsigned firstReg, unsigned
+                    lastReg, void far *data);
+     Purpose:       Get the values of a block of palette registers.
+     Parameters:    The values of the palette registers starting at
+                    'firstReg' and ending at 'lastReg' will be stored in
+                    the previously allocated 'data'.
+     Return value:  The values are returned in 'data'.
+     Remarks:            The memory region at 'data' is organised in groups
+                    of three bytes; each group corresponds to one palette
+                    register, and each group is made up of, in order, the
+                    red, green, and blue components.  The first group is
+                    for the first register, the second for the second, and
+                    so on.
+                         Each of the colour components (red, green, blue)
+                    is in the range 0..255, not 0..63 as would be the case
+                    using a stock VGA.  The drivers will take care of
+                    converting 8-bit to 6-bit palette resolution if
+                    necessary.
+                         Results are undefined if 'lastReg' is less than
+                    'firstReg'.
+     See also:      setBlockPalette(), setPaletteReg(), getPaletteReg()
+
+ *** Function:      clearGraphics()
+     Syntax:        void clearGraphics(unsigned colour);
+     Purpose:       Clear the screen.
+     Parameters:    The screen will be cleared to the colour 'colour'.
+     Return value:  None.
+     Remarks:       This function clears the entire screen, not just the
+                    current viewport.
+     See also:      filledRect()
+
+ *** Function:      ellipse()
+     Syntax:        void ellipse(int x, int y, int wide, int deep, unsigned
+                    colour);
+     Purpose:       Draw the outline of an ellipse.
+     Parameters:    An ellipse centered at ('x','y') and having width
+                    'wide' and depth 'deep' will be drawn in the colour
+                    'colour'.
+     Return value:  None.
+     Remarks:       Clipping is performed.
+     See also:      filledEllipse(), circle(), filledCircle()
+
+ *** Function:      filledEllipse()
+     Syntax:        void filledEllipse(x, int y, int wide, int deep,
+                    unsigned colour);
+     Purpose:       Draw a filled ellipse.
+     Parameters:    An ellipse centered at ('x','y') and having width
+                    'wide' and depth 'deep' will be drawn in the colour
+                    'colour'.
+     Return value:  None.
+     Remarks:       Clipping is performed.
+     See also:      ellipse(), filledCircle(), circle()
+
+ *** Function:      circle()
+     Syntax:        void circle(int x, int y, int radius, unsigned colour);
+     Purpose:       Draw the outline of a circle.
+     Parameters:    A circle centered at ('x','y') and having radius
+                    'radius' will be drawn in the colour 'colour'.
+     Return value:  None.
+     Remarks:            Clipping is performed.
+                         The 'radius' parameter is the radius in pixels
+                    measured horizontally.  Although there will be no
+                    difference in modes with square pixels, it will make a
+                    difference in other modes; to ensure accurate drawing
+                    of the circle with the given radius, make certain that
+                    the radius is measured horizontally.
+                         TGE uses an all-integer approach to coordinate
+                    scaling to ensure that the drawn shape will be circular
+                    in modes without square pixels.
+     See also:      filledCircle(), filledEllipse(), ellipse()
+
+ *** Function:      filledCircle()
+     Syntax:        void filledCircle(int x, int y, int radius, unsigned
+                    colour);
+     Purpose:       Draw a filled circle.
+     Parameters:    A circle centered at ('x','y') and having radius
+                    'radius' will be drawn in the colour 'colour'.
+     Return value:  None.
+     Remarks:            Clipping is performed.
+                         The 'radius' parameter is the radius in pixels
+                    measured horizontally.  Although there will be no
+                    difference in modes with square pixels, it will make a
+                    difference in other modes; to ensure accurate drawing
+                    of the circle with the given radius, make certain that
+                    the radius is measured horizontally.
+                         TGE uses an all-integer approach to coordinate
+                    scaling to ensure that the drawn shape will be circular
+                    in modes without square pixels.
+     See also:      circle(), ellipse(), filledEllipse()
+
+ *** Function:      fillRegion()
+     Syntax:        void fillRegion(int x, int y, unsigned colour);
+     Purpose:       Floods a region of the screen with the specified
+                    colour.
+     Parameters:    The fill will begin at the seed point ('x','y'), and
+                    will fill with the colour 'colour'.
+     Return value:  None.
+     Remarks:            The region to be filled is bounded by any colour
+                    not equal to the colour at ('x','y'); ie., the region
+                    to be filled consists of one colour only.
+                         Clipping is performed.
+     See also:      None.
+
+ *** Function:      colourCloseTo()
+     Syntax:        unsigned colourCloseTo(unsigned char red, unsigned char
+                    green, unsigned char blue);
+     Purpose:       Given a 24-bit colour, find the colour from the current
+                    palette which most closely matches it.
+     Parameters:    The 24-bit colour is defined by the 'red', 'green', and
+                    'blue' parameters.
+     Return value:  Returns the colour which most closely matches the
+                    specified 24-bit colour.
+     Remarks:       None.
+     See also:      colourCloseToX()
+
+ *** Function:      colourCloseToX()
+     Syntax:        unsigned colourCloseToX(unsigned char red, unsigned
+                    char green, unsigned char blue, unsigned
+                    colourExclude);
+     Purpose:       Given a 24-bit colour, find the colour from the current
+                    palette which most closely matches it, with the
+                    specified colour disallowed from the search.
+     Parameters:    The 24-bit colour is defined by the 'red', 'green', and
+                    'blue' parameters.  The colour 'colourExclude' is
+                    excluded from the search, and so will never be
+                    returned.
+     Return value:  Returns the colour which most closely matches the
+                    specified 24-bit colour.
+     Remarks:       Excluding zero from a search will ensure that the
+                    returned colour will be visible when it is used as part
+                    of a bitmap displayed using putImageInv().
+     See also:      colourCloseTo()
+
+
+     Note that since these function names are actually macros, they may
+     easily be changed to suit individual preferences by editing TGE.H.
+
+
+
+VIEWPORTS AND CLIPPING
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     A viewport is a rectangular region on the screen to which output is
+     clipped, so that graphics output will appear only within that region.
+     By default, this region is the entire screen; however, it can be set
+     to any portion of the screen.  (Note that when a viewport is in use,
+     coordinates are absolute, not relative to the viewport.)
+
+     TGE now supports two viewports simultaneously:  an input viewport and
+     an output viewport.  This feature was added primarily so that virtual
+     screens (see the VIRTUAL SCREENS section) and the real screen could be
+     used simultaneously, though it may have other uses as well.  The
+     following functions are used to get and set the current input and
+     output viewports:
+
+ *** Function:      setInputViewport()
+     Syntax:        void setInputViewport(int ulx, int uly, int lrx, int lry);
+     Purpose:       Set the defining coordinates of the current input
+                    viewport.
+     Parameters:    The upper-left corner of the input viewport will be set to
+                    ('ulx','uly'), and the lower-right corner to
+                    ('lrx','lry').
+     Return value:  None.
+     Remarks:       It is assumed that 'ulx'<'lrx' and that 'uly'<'lry'.
+     See also:      setOutputViewport(), setViewport(), getInputViewport(),
+                    getOutputViewport()
+
+ *** Function:      setOutputViewport()
+     Syntax:        void setOutputViewport(int ulx, int uly, int lrx, int lry);
+     Purpose:       Set the defining coordinates of the current output
+                    viewport.
+     Parameters:    The upper-left corner of the output viewport will be set
+                    to ('ulx','uly'), and the lower-right corner to
+                    ('lrx','lry').
+     Return value:  None.
+     Remarks:       It is assumed that 'ulx'<'lrx' and that 'uly'<'lry'.
+     See also:      setInputViewport(), setViewport(), getOutputViewport(),
+                    getInputViewport()
+
+ *** Function:      setViewport()
+     Syntax:        void setViewport(int ulx, int uly, int lrx, int lry);
+     Purpose:       Set the defining coordinates of the current input and
+                    output viewports.
+     Parameters:    The upper-left corner of the viewports will be set to
+                    ('ulx','uly'), and the lower-right corner to
+                    ('lrx','lry').
+     Return value:  None.
+     Remarks:       It is assumed that 'ulx'<'lrx' and that 'uly'<'lry'.
+     See also:      setInputViewport(), setOutputViewport(),
+                    getInputViewport(), getOutputViewport()
+
+ *** Function:      getInputViewport()
+     Syntax:        void getInputViewport(int *ulx, int *uly, int *lrx, int
+                    *lry);
+     Purpose:       Get the defining coordinates of the current input
+                    viewport.
+     Parameters:    The upper-left corner of the input viewport will be stored
+                    in ('ulx','uly'), and the lower-right corner in
+                    ('lrx','lry').
+     Return value:  None.
+     Remarks:       It is assumed that 'ulx'<'lrx' and that 'uly'<'lry'.
+     See also:      getOutputViewport(), getViewport(), setInputViewport(),
+                    setOutputViewport()
+
+ *** Function:      getOutputViewport()
+     Syntax:        void getOutputViewport(int *ulx, int *uly, int *lrx, int
+                    *lry);
+     Purpose:       Get the defining coordinates of the current output
+                    viewport.
+     Parameters:    The upper-left corner of the output viewport will be
+                    stored in ('ulx','uly'), and the lower-right corner in
+                    ('lrx','lry').
+     Return value:  None.
+     Remarks:       It is assumed that 'ulx'<'lrx' and that 'uly'<'lry'.
+     See also:      setOutputViewport(), getViewport(), getInputViewport(),
+                    getOutputViewport()
+
+
+     Note that not all of TGE's functions will clip to within the current
+     output viewport.  Some of the time-critical graphics primitives, such
+     as putPixel() and line(), do not clip in order to improve execution
+     time.  If it is necessary for such functions to have their output
+     clipped, the following routines may be used:
+
+ *** Function:      clipFilledRect()
+     Syntax:        int clipFilledRect(int *x1, int *y1, int *x2, int *y2);
+     Purpose:       Clip the given filled rectangle to within the current
+                    viewport.
+     Parameters:    The upper-left and lower-right corners of the rectangle
+                    are passed in ('x1','y1') and ('x2','y2').  If clipping
+                    is done, these points will be modified.
+     Return value:  Returns true if the rectangle lies entirely or
+                    partially within the current viewport, or false if it
+                    is entirely outside the current viewport.
+     Remarks:            It does not matter which of the corner coordinates
+                    is passed first; they will be swapped if necessary.
+                         This function is contained in CLIP.C.
+
+ *** Function:      clipLine()
+     Syntax:        int clipLine(int *x1, int *y1, int *x2, int *y2);
+     Purpose:       Clip the given line to within the current viewport.
+     Parameters:    The endpoints of the line are passed in ('x1','y1') and
+                    ('x2','y2').  If clipping is done, these endpoints will
+                    be modified.
+     Return value:  Returns true if the line lies entirely or partially
+                    within the current viewport, or false if it is entirely
+                    outside the current viewport.
+     Remarks:       This function is contained in CLIP.C.
+     See also:      None.
+
+ *** Function:      clipPoint()
+     Syntax:        int clipPoint(int x, int y);
+     Purpose:       Return a flag indicating whether or not the specified
+                    coordinates lie within the current viewport.
+     Parameters:    The point ('x','y') is tested.
+     Return value:  Returns true if ('x','y') is within the current
+                    viewport, or 0 if it isn't.
+     Remarks:       This function is really a macro defined in TGE.H.
+     See also:      None.
+
+ *** Function:      pointOnScreen()
+     Syntax:        int pointOnScreen(int x, int y);
+     Purpose:       Return a flag indicating whether or not the specified
+                    coordinates lie on-screen.
+     Parameters:    The point ('x','y') is tested.
+     Return value:  Returns true if ('x','y') is on-screen, or 0 if it is
+                    off-screen.
+     Remarks:       This function is really a macro defined in TGE.H.
+     See also:      None.
+
+
+     Note that since these function names are actually macros, they may
+     easily be changed to suit individual preferences by editing TGE.H.
+
+
+
+VIRTUAL COORDINATES
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     One of the problems associated with device-independence is that
+     different display modes have different resolutions.  TGE provides a
+     simple way to ease this problem, simply by #including VCOORD.H.  Doing
+     so provides access to a simple yet powerful object-oriented virtual
+     coordinate system.
+
+     For the sake of illustration, assume that you are writing an
+     application which ideally will be run in resolutions as high as
+     1024x768, but can also be run in 320x200.  You want a way to have
+     objects (eg., windows) retain the same sizes and positions on-screen
+     in any graphics mode.  TGE's virtual coordinate system makes it easy.
+     First, create an instance of the virtual coordinate object (I'll call
+     the object virtScreen):
+
+          VirtualCoord virtScreen;
+
+     Then, virtScreen must be configured; I'll assume that the virtual
+     screen is to be 1024x768, and that OUTMAXX and OUTMAXY have been
+     initialized by loading a driver.  (Note that these parameters may be
+     set during the class instantiation by using a different constructor.)
+
+          virtScreen.virtParams(1023, 767);
+          virtScreen.realParams(OUTMAXX, OUTMAXY);
+
+     As an example, assume that you want to draw a light gray rectangle
+     with upper-left coordinate (50,50) and lower-right coordinate
+     (600,600) on the virtual screen.  On, say, a 360x480 screen these
+     values will be quite different; to keep the proportion the same,
+     execute a line like the following:
+
+          drawRect(virtScreen.realX(50), virtScreen.realY(50),
+                   virtScreen.realX(600), virtScreen.realY(600),
+                   colourCloseTo(200,200,200));
+
+     That's all there is to it!  Keep in mind that there are other
+     applications of the VirtualCoord class, aside from a virtual screen;
+     it can also be useful when dealing with portions of the screen, scaled
+     bitmaps, etc..
+
+     A complete list of the VirtualCoord member functions follows.
+
+
+ *** Function:      VirtualCoord::VirtualCoord()
+     Syntax:        VirtualCoord::VirtualCoord(void);
+     Purpose:       Create an instance of the VirtualCoord class.
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       After an instantiation of a VirtualCoord using this
+                    constructor, ensure that the screen dimensions, both
+                    virtual and real, are initialized using the method
+                    illustrated above.
+     See also:      VirtualCoord::VirtualCoord(unsigned, unsigned,
+                    unsigned, unsigned), VirtualCoord::virtParams(unsigned,
+                    unsigned), VirtualCoord::realParams(unsigned, unsigned)
+
+ *** Function:      VirtualCoord::VirtualCoord(unsigned, unsigned,
+                    unsigned, unsigned)
+     Syntax:        VirtualCoord::VirtualCoord(unsigned virtMaxX, unsigned
+                    virtMaxY, unsigned realMaxX, unsigned realMaxY);
+     Purpose:       Create an instance of the VirtualCoord class, and
+                    initialize it.
+     Parameters:    The maximum virtual x-coordinate is set to 'virtMaxX',
+                    and the y-coordinate to 'virtMaxY'.  The maximum real
+                    x-coordinate is set to 'realMaxX', and the y-coordinate
+                    to 'realMaxY'.
+     Return value:  None.
+     Remarks:       Be sure that a driver has been loaded before passing
+                    OUTMAXX and OUTMAXY to this constructor.
+     See also:      VirtualCoord::VirtualCoord(unsigned, unsigned,
+                    unsigned, unsigned), VirtualCoord::virtParams(unsigned,
+                    unsigned), VirtualCoord::realParams(unsigned, unsigned)
+
+ *** Function:      VirtualCoord::virtParams(unsigned, unsigned)
+     Syntax:        void VirtualCoord::virtParams(unsigned virtMaxX,
+                    unsigned virtMaxY);
+     Purpose:       Set the maximum virtual x- and y-coordinates.
+     Parameters:    The maximum virtual x-coordinate is set to 'virtMaxX',
+                    and the maximum y-coordinate to 'virtMaxY'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      VirtualCoord::realParams(unsigned, unsigned),
+                    VirtualCoord::virtParams(unsigned*, unsigned*),
+                    VirtualCoord::realParams(unsigned*, unsigned*)
+
+ *** Function:      VirtualCoord::realParams(unsigned, unsigned)
+     Syntax:        void VirtualCoord::realParams(unsigned virtMaxX,
+                    unsigned virtMaxY);
+     Purpose:       Set the maximum real x- and y-coordinates.
+     Parameters:    The maximum real x-coordinate is set to 'realMaxX', and
+                    the maximum y-coordinate to 'realMaxY'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      VirtualCoord::virtParams(unsigned, unsigned),
+                    VirtualCoord::realParams(unsigned*, unsigned*),
+                    VirtualCoord::virtParams(unsigned*, unsigned*)
+
+ *** Function:      VirtualCoord::virtParams(unsigned*, unsigned*)
+     Syntax:        void VirtualCoord::virtParams(unsigned *virtMaxX,
+                    unsigned *virtMaxY);
+     Purpose:       Get the maximum virtual x- and y-coordinates.
+     Parameters:    The maximum virtual x-coordinate is stored in
+                    'virtMaxX', and the maximum y-coordinate in 'virtMaxY'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      VirtualCoord::realParams(unsigned*, unsigned*),
+                    VirtualCoord::virtParams(unsigned, unsigned),
+                    VirtualCoord::realParams(unsigned, unsigned)
+
+ *** Function:      VirtualCoord::realParams(unsigned*, unsigned*)
+     Syntax:        void VirtualCoord::realParams(unsigned *virtMaxX,
+                    unsigned *virtMaxY);
+     Purpose:       Get the maximum real x- and y-coordinates.
+     Parameters:    The maximum real x-coordinate is stored in 'realMaxX',
+                    and the maximum y-coordinate in 'realMaxY'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      VirtualCoord::virtParams(unsigned*, unsigned*),
+                    VirtualCoord::realParams(unsigned, unsigned),
+                    VirtualCoord::virtParams(unsigned, unsigned)
+
+ *** Function:      VirtualCoord::realCoords()
+     Syntax:        void VirtualCoord::realCoords(unsigned virtX, unsigned
+                    virtY, unsigned *realX, unsigned *realY);
+     Purpose:       Calculate the real (x,y) coordinates given the virtual
+                    coordinates.
+     Parameters:    The real (x,y) coordinates are returned in
+                    ('realX','realY'), and are calculated based on the
+                    virtual (x,y) coordinates ('virtX','virtY').
+     Return value:  None.
+     Remarks:       None.
+     See also:      VirtualCoord::realX(), VirtualCoord::realY(),
+                    VirtualCoord::virtCoords(), VirtualCoord::virtX(),
+                    VirtualCoord::virtY()
+
+ *** Function:      VirtualCoord::realX()
+     Syntax:        unsigned VirtualCoord::realX(unsigned virtX);
+     Purpose:       Calculate the real x-coordinate given the virtual x-
+                    coordinate.
+     Parameters:    The real x-coordinate is returned, calculated based on
+                    the virtual x-coordinate 'virtX'.
+     Return value:  Returns the real x-coordinate.
+     Remarks:       None.
+     See also:      VirtualCoord::realY(), VirtualCoord::realCoords(),
+                    VirtualCoord::virtX(), VirtualCoord::virtY(),
+                    VirtualCoord::virtCoords()
+
+ *** Function:      VirtualCoord::realY()
+     Syntax:        unsigned VirtualCoord::realY(unsigned virtY);
+     Purpose:       Calculate the real y-coordinate given the virtual y-
+                    coordinate.
+     Parameters:    The real y-coordinate is returned, calculated based on
+                    the virtual y-coordinate 'virtY'.
+     Return value:  Returns the real y-coordinate.
+     Remarks:       None.
+     See also:      VirtualCoord::realX(), VirtualCoord::realCoords(),
+                    VirtualCoord::virtY(), VirtualCoord::virtX(),
+                    VirtualCoord::virtCoords()
+
+ *** Function:      VirtualCoord::virtCoords()
+     Syntax:        void VirtualCoord::virtCoords(unsigned realX, unsigned
+                    realY, unsigned *virtX, unsigned *virtY);
+     Purpose:       Calculate the virtual (x,y) coordinates given the real
+                    coordinates.
+     Parameters:    The virtual (x,y) coordinates are returned in
+                    ('virtX','virtY'), and are calculated based on the real
+                    (x,y) coordinate ('realX','realY').
+     Return value:  None.
+     Remarks:       None.
+     See also:      VirtualCoord::virtX(), VirtualCoord::virtY(),
+                    VirtualCoord::realCoords(), VirtualCoord::realX(),
+                    VirtualCoord::realY()
+
+ *** Function:      VirtualCoord::virtX()
+     Syntax:        unsigned VirtualCoord::virtX(unsigned realX);
+     Purpose:       Calculate the virtual x-coordinate given the real x-
+                    coordinate.
+     Parameters:    The virtual x-coordinate is returned, calculated based
+                    on the real x-coordinate 'realX'.
+     Return value:  Returns the virtual x-coordinate.
+     Remarks:       None.
+     See also:      VirtualCoord::virtY(), VirtualCoord::virtCoords(),
+                    VirtualCoord::realX(), VirtualCoord::realY(),
+                    VirtualCoord::realCoords()
+
+ *** Function:      VirtualCoord::virtY()
+     Syntax:        unsigned VirtualCoord::virtY(unsigned realY);
+     Purpose:       Calculate the virtual y-coordinate given the real y-
+                    coordinate.
+     Parameters:    The virtual y-coordinate is returned, calculated based
+                    on the real y-coordinate 'realY'.
+     Return value:  Returns the virtual y-coordinate.
+     Remarks:       None.
+     See also:      VirtualCoord::virtX(), VirtualCoord::virtCoords(),
+                    VirtualCoord::realY(), VirtualCoord::realX(),
+                    VirtualCoord::realCoords()
+
+
+
+VIRTUAL SCREENS
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     In previous releases of TGE, all graphics input and output operations
+     were done on the screen.  Now four different I/O arrangements are
+     available:
+        - Input and output on the real screen.
+        - Input and output on a virtual screen (ie. in memory).
+        - Input from the real screen, and output to a virtual screen.
+        - Input from a virtual screen, and output to the real screen.
+     As well, it is possible to switch between these four I/O modes at any
+     time with one or two simple function calls.
+
+     Virtual screens are useful for such tasks as building complex images
+     off-screen, then displaying them quickly.  Since a virtual screen has
+     exactly the same format as the images used by getImage() and its
+     associated functions, they can be displayed using a putImage() or
+     putImageInv() call, simply by passing the address of the virtual
+     screen as the address of the image to be displayed.
+
+
+     A virtual screen is created using the following function:
+
+ *** Function:      makeVirtScreen()
+     Syntax:        void far *makeVirtScreen(unsigned wide, unsigned deep);
+     Purpose:       Allocate enough RAM to store a virtual screen with the
+                    specified dimensions, then initialize it.
+     Parameters:    A virtual screen with width 'wide' and depth 'deep' (in
+                    pixels) will be created.
+     Return value:  Returns the address of the newly allocated virtual
+                    screen, or NULL if there is not enough memory to create
+                    it.
+     Remarks:            Don't forget to de-allocate (using farfree()) the
+                    memory occupied by a virtual screen when the screen is
+                    no longer needed.
+                         After it is allocated, a virtual screen will
+                    likely be filled with random pixels.  Clearing it using
+                    clearGraphics() is often a good idea (after graphics
+                    output has been set to the virtual screen).
+     See also:      None.
+     
+
+     The functions used to establish input and output to and from real and
+     virtual screens are:
+
+ *** Function:      graphicsAddr()
+     Syntax:        void graphicsAddr(void far *addr);
+     Purpose:       Set the location upon which graphics input and output
+                    will both be performed.
+     Parameters:    If 'addr' is equal to NULL, input and output will be
+                    performed on the real screen; if 'addr' is non-NULL,
+                    input and output will be performed on the virtual
+                    screen pointed to by 'addr'.
+     Return value:  None.
+     Remarks:       This function sets the currently active input and
+                    output viewports to cover the entirety of the virtual
+                    screen.  INMAXX, INMAXY, OUTMAXX, and OUTMAXY are also
+                    changed appropriately.
+     See also:      graphicsInputAddr(), graphicsOutputAddr()
+
+ *** Function:      graphicsInputAddr()
+     Syntax:        void graphicsInputAddr(void far *addr);
+     Purpose:       Set the location upon which graphics input will be
+                    performed.
+     Parameters:    If 'addr' is equal to NULL, input will be performed on
+                    the real screen; if 'addr' is non-NULL, input will be
+                    performed on the virtual screen pointed to by 'addr'.
+     Return value:  None.
+     Remarks:       This function sets the currently active input viewport
+                    to cover the entirety of the virtual screen.  INMAXX
+                    and INMAXY are also changed appropriately.
+     See also:      graphicsOutputAddr(), graphicsAddr()
+
+ *** Function:      graphicsOutputAddr()
+     Syntax:        void graphicsOutputAddr(void far *addr);
+     Purpose:       Set the location upon which graphics output will be
+                    performed.
+     Parameters:    If 'addr' is equal to NULL, output will be performed on
+                    the real screen; if 'addr' is non-NULL, output will be
+                    performed on the virtual screen pointed to by 'addr'.
+     Return value:  None.
+     Remarks:       This function sets the currently active output viewport
+                    to cover the entirety of the virtual screen.  OUTMAXX
+                    and OUTMAXY are also changed appropriately.
+     See also:      graphicsInputAddr(), graphicsAddr()
+
+
+
+GRAPHICAL OUTPUT MODES
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     In previous releases of TGE, all graphics output was copied to the
+     screen.  Now output can be copied, ANDed, NOTed, ORed, or XORed, even
+     to virtual screens.  A description of each of these output modes
+     follows:
+        - COPY:  This mode is the one which will likely be used most
+          frequently.  In this mode, any output is copied directly,
+          overwriting anything which was previously there.
+        - AND:  In this mode, each pixel output is ANDed with the pixel
+          already at the same location.
+        - NOT:  In this mode, each pixel output is NOTed before being
+          output.
+        - OR:  In this mode, each pixel output is ORed with the pixel
+          already at the same location.
+        - XOR:  In this mode, each pixel output is XORed with the pixel
+          already at the same location.
+
+
+     The following function allows selection of the output mode:
+
+ *** Function:      setOutputMode()
+     Syntax:        void setOutputMode(int mode);
+     Purpose:       Select the currently used output mode.
+     Parameters:    The output mode will be set to COPY if 'mode' is
+                    TGE_COPY_PUT, AND if it is TGE_AND_PUT, NOT if it is
+                    TGE_NOT_PUT, OR if it is TGE_OR_PUT, or XOR if it is
+                    TGE_XOR_PUT.  These macros are defined in TGE.H.
+     Return value:  None.
+     Remarks:       The newly chosen output mode will take effect even if
+                    output is directed to a virtual screen.
+     See also:      None.
+
+
+
+FONTS
+ﬂﬂﬂﬂﬂ
+
+     TGE supports loadable fonts, implemented in C++ using the "Font"
+     class.  At present, TGE's fonts are composed of monochrome bitmaps of
+     a single size, using one bitmap for each character.  Both high- and
+     low-ASCII characters are supported.  As well, multiple fonts may be
+     resident in memory simultaneously.
+
+     In order to use a font, an instance of the Font class is necessary. 
+     Assuming instantiation of a Font pointer, font initialization will
+     look something like this:
+
+          Font *systemFont;
+          char systemFontName[] = "8x16.fnt";
+                    .
+                    .
+                    .
+          systemFont = new Font(systemFontName); // load font
+          if (!systemFont || !systemFont->status())
+          {
+            printf("Error loading %s, aborting.\n\n", systemFontName);
+            exit(1);
+          }
+
+     Once a font has been loaded, it may be manipulated via its Font class
+     instance.  A complete list of the Font member functions follows.
+
+
+ *** Function:      Font::Font()
+     Syntax:        Font::Font(char *filename, unsigned char fg=1, unsigned
+                    char bg=0);
+     Purpose:       Load a font, and initiate a Font class for use with it.
+     Parameters:    'filename' is the name of the font data file.  'fg'
+                    (optional) is the colour to be used as the foreground
+                    colour.  'bg' (optional) is the colour to be used as
+                    the background colour.
+     Return value:  None.
+     Remarks:       After an instantiation of a Font, ensure that the
+                    loading and initialization was successful using the
+                    method illustrated above.
+     See also:      Font::~Font()
+
+ *** Function:      Font::~Font()
+     Syntax:        Font::~Font()
+     Purpose:       Free the memory used by a font, and perform any other
+                    clean-up actions when a Font is no longer needed.
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       None.
+     See also:      Font::Font()
+
+ *** Function:      Font::status()
+     Syntax:        inline int Font::status(void);
+     Purpose:       Return a flag indicating whether or not the font
+                    loading and initialization were successful.
+     Parameters:    None.
+     Return value:  Returns 1 if the initialization was successful, or 0 if
+                    it wasn't.
+     Remarks:       None.
+     See also:      None.
+
+ *** Function:      Font::wide(char*)
+     Syntax:        unsigned Font::wide(char *str);
+     Purpose:       Return the width, in pixels, of a string.
+     Parameters:    The string 'str' is analyzed.
+     Return value:  Returns the width of 'str', in pixels.
+     Remarks:       None.
+     See also:      Font::wide(char), Font::deep(char*), Font::deep(char),
+                    Font::maxWide(), Font::maxDeep()
+
+ *** Function:      Font::wide(char)
+     Syntax:        inline unsigned Font::wide(char ch);
+     Purpose:       Return the width, in pixels, of a single character.
+     Parameters:    The character 'ch' is analyzed.
+     Return value:  Returns the width of 'ch', in pixels.
+     Remarks:       None.
+     See also:      Font::wide(char*), Font::deep(char), Font::deep(char*),
+                    Font::maxWide(), Font::maxDeep()
+
+ *** Function:      Font::maxWide(void)
+     Syntax:        inline unsigned maxWide(void);
+     Purpose:       Return the width of the widest character.
+     Parameters:    None.
+     Return value:  Returns the width of the widest character.
+     Remarks:       None.
+     See also:      Font::maxDeep(void), Font::wide(char*),
+                    Font::wide(char), Font::deep(char*), Font::deep(char)
+     
+ *** Function:      Font::deep(char*)
+     Syntax:        unsigned Font::deep(char *str);
+     Purpose:       Return the depth, in pixels, of a string.
+     Parameters:    The string 'str' is analyzed.
+     Return value:  Returns the depth of 'str', in pixels.
+     Remarks:       None.
+     See also:      Font::deep(char), Font::wide(char*), Font::deep(char),
+                    Font::maxDeep(), Font::maxWide()
+
+ *** Function:      Font::deep(char)
+     Syntax:        unsigned Font::deep(char ch);
+     Purpose:       Return the depth, in pixels, of a single character.
+     Parameters:    The character 'ch' is analyzed.
+     Return value:  Returns the depth of 'ch', in pixels.
+     Remarks:       None.
+     See also:      Font::deep(char*), Font::wide(char), Font::wide(char*),
+                    Font::maxWide(), Font::maxDeep()
+
+ *** Function:      Font::maxDeep(void)
+     Syntax:        inline unsigned maxDeep(void);
+     Purpose:       Return the depth of the deepest character.
+     Parameters:    None.
+     Return value:  Returns the depth of the deepest character.
+     Remarks:       None.
+     See also:      Font::maxWide(void), Font::deep(char*),
+                    Font::deep(char), Font::wide(char*), Font::wide(char)
+
+ *** Function:      Font::put(int, int, char*)
+     Syntax:        void Font::put(int x, int y, char *str);
+     Purpose:       Write a string to the screen.
+     Parameters:    The string 'str' will be written starting at ('x','y').
+     Return value:  None.
+     Remarks:       The coordinate passed to this function specifies the
+                    upper-left coordinate of the string.
+     See also:      Font::put(char);
+     
+ *** Function:      Font::put(int, int, char)
+     Syntax:        void Font::put(int x, int y, char ch);
+     Purpose:       Write a single character to the screen.
+     Parameters:    The character 'ch' will be written at ('x','y').
+     Return value:  None.
+     Remarks:       The coordinate passed to this function specifies the
+                    upper-left coordinate of the character.
+     See also:      Font::put(char*);
+
+ *** Function:      Font::foreground(unsigned)
+     Syntax:        inline void Font::foreground(unsigned colour);
+     Purpose:       Set the current foreground colour.
+     Parameters:    The foreground colour will be set to 'colour'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      Font::background(unsigned), Font::foreground(void),
+                    Font::background(void)
+
+ *** Function:      Font::foreground(void)
+     Syntax:        inline unsigned Font::foreground(void);
+     Purpose:       Return the current foreground colour.
+     Parameters:    None.
+     Return value:  Returns the current foreground colour.
+     Remarks:       None.
+     See also:      Font::background(void), Font::foreground(unsigned),
+                    Font::foreground(unsigned)
+
+ *** Function:      Font::background(unsigned)
+     Syntax:        inline void Font::background(unsigned colour);
+     Purpose:       Set the current background colour.
+     Parameters:    The background colour will be set to 'colour'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      Font::foreground(unsigned), Font::background(void),
+                    Font::foreground(void)
+
+ *** Function:      Font::background(void)
+     Syntax:        inline unsigned Font::background(void);
+     Purpose:       Return the current background colour.
+     Parameters:    None.
+     Return value:  Returns the current background colour.
+     Remarks:       None.
+     See also:      Font::foreground(void), Font::background(unsigned),
+                    Font::foreground(unsigned)
+
+
+     Note that, at present, TGE's fonts are designed for use in 256-colour
+     modes only.
+
+
+
+BITMAP MANIPULATION
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     Bitmaps can get boring when all you can do is display them.  TGE now
+     allows bitmaps to be scaled to different sizes, using the following
+     function:
+
+
+ *** Function:      scaleBitmap(void *srcImage, unsigned newWide, unsigned
+                    newDeep, void *destImage)
+     Syntax:        void scaleBitmap();
+     Purpose:       Scale the given bitmap to the specified size, placing
+                    the resulting bitmap in the specified memory region.
+     Parameters:    The image in 'srcImage' will be scaled to be 'newWide'
+                    pixels wide and 'newDeep' pixels deep; the resulting
+                    scaled image will be placed in 'destImage'.
+     Return value:  None.
+     Remarks:       Results are undefined if either 'newWide' or 'newDeep'
+                    is equal to zero.
+     See also:      None.
+
+
+
+USING THE MOUSE
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     TGE now provides support for interrupt-driven, definable mouse
+     pointers.  In order to make use of this feature, some simple steps
+     must be taken.
+
+     The new mouse handler is designed to work in tandem with TGE's
+     graphical functions.  Programs using the new mouse handler must first
+     have successfully initialized graphics mode using TGE.  Both TGE.H and
+     TGEMOUSE.H must be #included into a program using the mouse services.
+
+     The mouse handler has to be initialized.  To do so, one function call
+     is required:
+
+          initNewMouse();
+
+     For more information on initNewMouse(), refer to the mouse functions
+     reference section.
+
+     Next, the mouse driver must be informed of the screen dimensions, like
+     this:
+
+          setHorizLimitsMouse(0, OUTMAXX);
+          setVertLimitsMouse(0, OUTMAXY);
+
+     If desired, the pointer may then be positioned.  To center it on the
+     screen, do this:
+
+          setPosMouse(OUTMAXX/2, OUTMAXY/2);
+
+     A pointer shape must then be selected.  TGE, as shipped, includes two
+     arrow pointers and two target pointers; the file MOUSEPTR.C may easily
+     be modified to allow more.  To select, for instance, the big arrow
+     pointer, do this:
+
+          setupMousePointer(BIG_ARROW_POINTER);
+
+     The macro BIG_ARROW_POINTER is defined in TGEMOUSE.H; it expands to a
+     number which is used by MOUSEPTR.C to identify which bitmap to use. 
+     Note that if exceptionally large (ie. larger than 512 bytes) pointers
+     are used, a change must be made in NEWMOUSE.ASM; see that file for
+     details.
+
+     Once things have been initialized, the use of the new mouse handler
+     over the default driver can essentially be ignored; mouse driver
+     services are obtained in exactly the same way.  The file TGEMOUSE.ASM
+     contains functions to interface to most of the mouse driver's
+     services; they are prototyped in TGEMOUSE.H, also using the macro
+     method which allows function names to be changed simply by editing
+     TGEMOUSE.H.
+
+     Before exiting the program, the function deInitNewMouse() _must_ be
+     called.  It is often a good idea to place deInitNewMouse() in the
+     atexit() queue.
+
+     Note that, since the pointer is drawn using TGE's putImageInv()
+     function, the pointer will only appear when it is within the current
+     viewport.
+
+
+
+TGE'S MOUSE FUNCTION SET
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+ *** Function:      initNewMouse()
+     Syntax:        void initNewMouse(void);
+     Purpose:       Initializes the new mouse handler.
+     Parameters:    The new mouse handler will be configured for use with
+                    TGE.
+     Return value:  None.
+     Remarks:            A graphics driver must have been loaded prior to a
+                    call to initNewMouse().
+                         The new mouse handler requires that a Microsoft or
+                    compatible mouse driver already be resident.  It
+                    assumes that a mouse driver's presence will have been
+                    tested beforehand.
+                         initNewMouse() is really a simple macro; refer to
+                    TGEMOUSE.H for the expansion of initNewMouse(void);
+     See also:      deInitNewMouse(), enableNewMouse(), disableNewMouse()
+
+ *** Function:      deInitNewMouse()
+     Syntax:        void deInitNewMouse(void);
+     Purpose:       Deactivate the new mouse handler, and leave all the
+                    work up to the old driver.
+     Parameters:    None.
+*    Return value:  None.
+     Remarks:       This function must be called prior to program exit if
+                    initNewMouse() had previously been called.
+     See also:      initNewMouse(), enableNewMouse(), disableNewMouse()
+
+ *** Function:      enableNewMouse()
+     Syntax:        void enableNewMouse(void);
+     Purpose:       Reactivate the new mouse handler following a call to
+                    disableNewMouse().
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       None.
+     See also:      disableNewMouse(), initNewMouse(), deInitNewMouse()
+
+ *** Function:      disableNewMouse()
+     Syntax:        void disableNewMouse(void);
+     Purpose:       Temporarily deactivate the new mouse handler, to be
+                    reactivated later by a call to enableNewMouse().
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       Following a call to this function, the new mouse
+                    handler will cease trapping mouse driver interrupts and
+                    moving the pointer.
+     See also:      enableNewMouse(), initNewMouse(), deInitNewMouse()
+
+ *** Function:      resetMouse()
+     Syntax:        int resetMouse(void);
+     Purpose:       Reset the mouse driver and hardware.
+     Parameters:    None.
+     Return value:  1 if mouse driver available, 0 otherwise.
+     Remarks:       Following a call to this function, the mouse pointer is
+                    hidden and positioned at the center of the screen.
+     See also:      softResetMouse(), initNewMouse()
+
+ *** Function:      getButtonsMouse()
+     Syntax:        int getButtonsMouse(void);
+     Purpose:       Return the number of buttons on the mouse.
+     Parameters:    None.
+     Return value:  Returns the number of buttons on the mouse.
+     Remarks:       This function calls resetMouse(), and so the mouse
+                    driver and hardware are re-initialized.
+     See also:      resetMouse()
+
+ *** Function:      showMouse()
+     Syntax:        void showMouse(void);
+     Purpose:       Show the mouse pointer.
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       Calls to showMouse() and hideMouse() are cumulative;
+                    ie., if showMouse() is called twice, hideMouse() must
+                    be called twice to hide the pointer again.
+     See also:      hideMouse()
+
+ *** Function:      hideMouse()
+     Syntax:        void hideMouse(void);
+     Purpose:       Hide the mouse pointer.
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       Calls to showMouse() and hideMouse() are cumulative;
+                    ie., if showMouse() is called twice, hideMouse() must
+                    be called twice to hide the pointer again.
+     See also:      showMouse()
+
+ *** Function:      getPosMouse()
+     Syntax:        void getPosMouse(int far *x, int far *y);
+     Purpose:       Get the current pointer coordinates.
+     Parameters:    The current pointer x- and y-coordinates will be stored
+                    in 'x' and 'y', respectively.
+     Return value:  None.
+     Remarks:       None.
+     See also:      setPosMouse()
+
+ *** Function:      setPosMouse()
+     Syntax:        void setPosMouse(unsigned x, unsigned y);
+     Purpose:       Set the current pointer coordinates.
+     Parameters:    The pointer will be positioned at ('x','y').
+     Return value:  None.
+     Remarks:       None.
+     See also:      getPosMouse()
+
+ *** Function:      buttonMouse()
+     Syntax:        int buttonMouse(void);
+     Purpose:       Return whether or not any of the mouse buttons is down.
+     Parameters:    None.
+     Return value:  Returns true if at least one button is down, or zero if
+                    none of them is down.
+     Remarks:       None.
+     See also:      leftButtonMouse(), rightButtonMouse(),
+                    centerButtonMouse(), waitReleaseMouse()
+
+ *** Function:      leftButtonMouse()
+     Syntax:        int leftButtonMouse(void);
+     Purpose:       Return the status of the left mouse button.
+     Parameters:    None.
+     Return value:  Returns true if the button is down, or zero if it is
+                    up.
+     Remarks:       None.
+     See also:      buttonMouse(), rightButtonMouse(), centerButtonMouse(),
+                    waitReleaseMouse()
+
+ *** Function:      rightButtonMouse()
+     Syntax:        int rightButtonMouse(void);
+     Purpose:       Return the status of the right mouse button.
+     Parameters:    None.
+     Return value:  Returns true if the button is down, or zero if it is
+                    up.
+     Remarks:       None.
+     See also:      buttonMouse(), leftButtonMouse(), centerButtonMouse(),
+                    waitReleaseMouse()
+
+ *** Function:      centerButtonMouse()
+     Syntax:        int centerButtonMouse(void);
+     Purpose:       Return the status of the center mouse button.
+     Parameters:    None.
+     Return value:  Returns true if the button is down, or zero if it is
+                    up.
+     Remarks:       None.
+     See also:      buttonMouse(), leftButtonMouse(), rightButtonMouse(),
+                    waitReleaseMouse()
+
+ *** Function:      buttonPressMouse()
+     Syntax:        unsigned buttonPressMouse(unsigned button, int far *x,
+                    int far *y);
+     Purpose:       Return the number of times the specified button has
+                    been pressed since the last call to this function (with
+                    the same button parameter), and store the coordinates
+                    of the last press.
+     Parameters:    The button 'button' is checked, and may be any of
+                    LEFTBUTTON, RIGHTBUTTON, and CENTERBUTTON, which are
+                    defined in TGEMOUSE.H.  The position of the last press
+                    will be stored in ('x','y').
+     Return value:  Returns the number of times the specified button has
+                    been pressed since the last call to this function (with
+                    the same button parameter).
+     Remarks:       None.
+     See also:      buttonReleaseMouse()
+
+ *** Function:      buttonReleaseMouse()
+     Syntax:        unsigned buttonReleaseMouse(unsigned button, int far
+                    *x, int far *y);
+     Purpose:       Return the number of times the specified button has
+                    been released since the last call to this function
+                    (with the same button parameter), and store the
+                    coordinates of the last press.
+     Parameters:    The button 'button' is checked, and may be any of
+                    LEFTBUTTON, RIGHTBUTTON, and CENTERBUTTON, which are
+                    defined in TGEMOUSE.H.  The position of the last
+                    release will be stored in ('x','y').
+     Return value:  Returns the number of times the specified button has
+                    been released since the last call to this function
+                    (with the same button parameter).
+     Remarks:       None.
+     See also:      buttonPressMouse()
+
+ *** Function:      setHorizLimitsMouse()
+     Syntax:        void setHorizLimitsMouse(unsigned min, unsigned max);
+     Purpose:       Set the minimum and maximum horizontal coordinates for
+                    the pointer.
+     Parameters:    The minimum horizontal coordinate will be set to 'min',
+                    and the maximum to 'max'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      setVertLimitsMouse()
+
+ *** Function:      setVertLimitsMouse()
+     Syntax:        void setVertLimitsMouse(unsigned min, unsigned max);
+     Purpose:       Set the minimum and maximum vertical coordinates for
+                    the pointer.
+     Parameters:    The minimum vertical coordinate will be set to 'min',
+                    and the maximum to 'max'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      setHorizLimitsMouse()
+
+ *** Function:      setPointerMouse()
+     Syntax:        void setPointerMouse(int xOff, int yOff, void far *p);
+     Purpose:       Set the shape of the pointer.
+     Parameters:    The image pointed to by 'p' will be the pointer bitmap. 
+                    ('xOff','yOff') is the offset, relative to the upper-
+                    left corner of the bitmap, of the "hot spot" -- the
+                    pixel where the pointer is actually registered as
+                    being.  (For instance, the standard arrow pointer has
+                    its hot spot in the upper-left, while a crosshairs
+                    pointer would have it towards the middle.)
+     Return value:  None.
+     Remarks:       The mouse pointer should be hidden when a call to this
+                    function is made.
+     See also:      None.
+
+ *** Function:      getSaveSizeMouse()
+     Syntax:        unsigned getSaveSizeMouse(void);
+     Purpose:       Return the size of the buffer necessary to store the
+                    state of the mouse driver.
+     Parameters:    None.
+     Return value:  Returns the size of the buffer.
+     Remarks:       If a program using TGE and the new mouse handling
+                    routines is to run another program, for instance
+                    shelling to DOS, the ensuing procedure should be
+                    followed:  call disableNewMouse(), call
+                    getSaveSizeMouse(), allocate a block of memory with the
+                    size returned by getSaveSizeMouse(), call
+                    saveStateMouse(), run the program, call
+                    restoreStateMouse(), free the block of memory, then
+                    call enableNewMouse().
+     See also:      saveStateMouse(), restoreStateMouse()
+
+ *** Function:      saveStateMouse()
+     Syntax:        void saveStateMouse(void far *buf);
+     Purpose:       Save the current state of the mouse driver.
+     Parameters:    The block of memory pointed to by 'buf' will be used to
+                    store the state data.  Its length should be obtained by
+                    calling getSaveSizeMouse().
+     Return value:  None.
+     Remarks:       If a program using TGE and the new mouse handling
+                    routines is to run another program, for instance
+                    shelling to DOS, the ensuing procedure should be
+                    followed:  call disableNewMouse(), call
+                    getSaveSizeMouse(), allocate a block of memory with the
+                    size returned by getSaveSizeMouse(), call
+                    saveStateMouse(), run the program, call
+                    restoreStateMouse(), free the block of memory, then
+                    call enableNewMouse().
+     See also:      getSaveSizeMouse(), restoreStateMouse()
+
+ *** Function:      restoreStateMouse()
+     Syntax:        void restoreStateMouse(void far *buf);
+     Purpose:       Restore the state of the mouse driver from a buffer
+                    previously filled by saveStateMouse().
+     Parameters:    The block of memory pointed to by 'buf' stores the
+                    state data.
+     Return value:  None.
+     Remarks:       If a program using TGE and the new mouse handling
+                    routines is to run another program, for instance
+                    shelling to DOS, the ensuing procedure should be
+                    followed:  call disableNewMouse(), call
+                    getSaveSizeMouse(), allocate a block of memory with the
+                    size returned by getSaveSizeMouse(), call
+                    saveStateMouse(), run the program, call
+                    restoreStateMouse(), free the block of memory, then
+                    call enableNewMouse().
+     See also:      getSaveSizeMouse, saveStateMouse
+
+ *** Function:      setRatioMouse()
+     Syntax:        void setRatioMouse(unsigned horiz, unsigned vert);
+     Purpose:       Set the mouse sensitivity, in units of mickeys per 8
+                    pixels of pointer movement.  (A mickey is the unit used
+                    to measure mouse movement.)
+     Parameters:    The horizontal mickeys to pixels ratio will be set to
+                    'horiz', and the vertical to 'vert'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      getSensitivityMouse()
+
+ *** Function:      getSensitivityMouse()
+     Syntax:        void getSensitivityMouse(unsigned *horiz, unsigned
+                    *vert, unsigned *doubleSpeed);
+     Purpose:       Get the mouse sensitivity, in units of mickeys per 8
+                    pixels of pointer movement.  (A mickey is the unit used
+                    to measure mouse movement.)  The mouse double speed
+                    threshold (the minimum number of mickeys per second of
+                    motion before pointer movement is doubled) is retrieved
+                    as well.
+     Parameters:    The horizontal mickeys to pixels ratio will be stored
+                    in 'horiz', the vertical in 'vert', and the double
+                    speed threshold in 'doubleSpeed'.
+     Return value:  None.
+     Remarks:       None.
+     See also:      setRatioMouse()
+
+ *** Function:      softResetMouse()
+     Syntax:        void softResetMouse(void);
+     Purpose:       Reset the mouse driver, but not the hardware.
+     Parameters:    None.
+     Return value:  None.
+     Remarks:       This function is equivalent to resetMouse(), except in
+                    that it performs no initialization of the mouse
+                    hardware.
+     See also:      resetMouse()
+
+ *** Function:      waitReleaseMouse()
+     Syntax:        void waitReleaseMouse(int button);
+     Purpose:       If the specified button is not already up, wait until
+                    it is released, then return.
+     Parameters:    The button 'button' is checked, and may be any of
+                    LEFTBUTTON, RIGHTBUTTON, and CENTERBUTTON, which are
+                    defined in TGEMOUSE.H.
+     Return value:  None.
+     Remarks:       None.
+     See also:      buttonMouse(), leftButtonMouse(), rightButtonMouse(),
+                    centerButtonMouse()
+
+
+     Note that since these function names are actually macros, they may
+     easily be changed to suit individual preferences by editing
+     TGEMOUSE.H.
+
+
+
+CREATING FONTS
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     Creating fonts is by no means easy, but the necessary information is
+     outlined below.
+
+     TGE's font definition files must have a certain format, which will be
+     outlined below.  (Note that, at present, a font consists of 256
+     monochrome characters, each with the same dimensions.)
+
+     The font file header consists of three fields of defined length.  The
+     first of these fields is the eight-byte font definition file signature
+     string, which must be "TGEFONT1", without quotes or terminating null
+     character.  The next field is a two-byte unsigned integer which holds
+     the width of a character in pixels.  The last field is also a two-byte
+     integer, holding the depth of a character in pixels.
+
+     The remainder of the file consists of font data.  (If you have done
+     advanced text programming before, you may recognize this data
+     organization as the format used by the video BIOS.)  The characters
+     are stored starting at character 0, all the way up to 255.  Each of
+     the characters is stored starting with the uppermost row, all the way
+     down to the bottom row.  Each row is stored left to right, with the
+     leftmost pixel in the most significant bit of the first byte in the
+     row, and the rightmost pixel in the least significant bit of the last
+     byte in the row.  A 1 bit represents a foreground pixel, while a 0 bit
+     represents a background pixel.  Note that, at present, font row widths
+     must be evenly divisible by 8; pad with 0 bits if necessary.
+
+     Image data for all 256 of the ASCII characters must be present in the
+     file; if you won't be needing some o ' 	3(el free to store zero
+     bytes (or random bytes, if you're imaginative) as their image data.
+
+
+
+USING THE PCX2RAW UTILITY
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     The PCX2RAW utility provides a simple way to convert 256-colour images
+     in PCX format into a format usable by TGE.  It is used like this:
+
+          pcx2raw filename[.pcx]
+
+     Given the PCX file FILENAME.PCX, PCX2RAW will create two new files in
+     the current directory:  FILENAME.PAL which contains the colour palette
+     from FILENAME.PCX, and FILENAME.RAW which is a TGE format bitmap of
+     the image in FILENAME.PCX.  Following is a discussion of the PAL and
+     RAW file formats.
+
+
+     The PAL file is organized like this:
+
+         Element size    Element description
+         ------------    -------------------
+           3 bytes           colour 0
+           3 bytes           colour 1
+                        .
+                        .
+                        .
+           3 bytes           colour 254
+           3 bytes           colour 255
+
+     Each 3-byte element consists of the red, green, and blue colour
+     components, in that order.  Each of these components is an unsigned
+     char.  Code to load a PAL file and make it active might look like the
+     following.  For clarity, this function performs no error checking.
+
+          void loadPalFile(char *filename)
+          {
+            FILE *fp;
+            void far *pal;
+
+            fp = fopen(filename, "rb");      // open palette file
+            pal = malloc(768);               // grab some RAM
+            fread(pal, 768, 1, fp);          // read in palette data
+            fclose(fp);                      // close the file
+            setBlockPalette(0, 255, pal);    // make palette active
+            free(pal);                       // free memory block
+          }
+
+
+     The RAW file is organized in exactly the same way as the bitmaps used
+     by putImage() and its associated functions:
+
+         Element size    Element description
+         ------------    -------------------
+           2 bytes           image width
+           2 bytes           image depth
+           variable     raw pixel information
+
+     The image dimension fields are both unsigned ints, and are measured in
+     pixels.  Code to load a PAL file might look like the following.  For
+     clarity, this code performs no error checking.  Note the multiple
+     calls to fread() and the use of huge pointers to allow loading of
+     images larger than 64 K.
+
+          void far *loadRawFile(char *filename)
+          {
+            FILE *fp;
+            void far *image;
+            char huge *curPos;
+            unsigned long fileSize;
+            unsigned count, wide, deep;
+
+            //*** Initialize
+            fp = fopen(filename, "rb");      // open the file
+            fseek(fp, 0, SEEK_END);          // seek to end of file
+            fileSize = ftell(fp);            // get file size
+            rewind(fp);                      // seek to file start
+            image = farmalloc(fileSize);     // allocate some RAM
+            curPos = (char huge*)image;      // curPos=image for now
+
+            //*** Read in image dimensions
+            fread(&wide, 2, 1, fp);          // read in width
+            ((unsigned*)curPos)[0] = wide;   // store it in image header
+            fread(&deep, 2, 1, fp);          // read in depth
+            ((unsigned*)curPos)[1] = deep;   // store it in image header
+            curPos += 4;                     // skip past image header
+
+            //*** Read in the file line-by-line
+            for (count=0; count<deep; count++)
+            {
+              fread((void far*)curPos, wide, 1, fp); // read in a line
+              curPos += wide;                // update curPos
+            }
+
+            //*** Clean up and go home
+            fclose(fp);                      // close the file
+            return (image);                  // return pointer to image
+          }
+
+
+
+TERMS OF USAGE AND DISTRIBUTION
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     The Graphics Engine source code and associated documentation are
+     copyright (c) 1993 by Matthew Hildebrand.
+
+     The Graphics Engine (or "TGE"), consisting of the files listed in the
+     PACKING LIST section of this document, may be distributed freely as
+     long as:
+          1.   The distributed package is complete, and its contents are
+               not modified in any way.
+          2.   The distributed package is not sold for profit.
+
+     TGE is not free.  Permission is granted to use TGE, for evaluation
+     purposes only, for a trial period of up to 30 days.  Continuing to use
+     TGE beyond the trial period without purchasing a copy is illegal, even
+     if it is only used privately.  Note that no part of TGE may be used in
+     any distributed program, unless the program was created using a copy
+     of TGE which was purchased prior to program distribution.
+
+     After an individual or organization ("the Purchaser") has purchased a
+     copy of TGE, the Purchaser is granted permission to:
+          1.   Use any or all of TGE in as many software packages as the
+               Purchaser likes.
+          2.   Distribute any software packages built using TGE without
+               royalties.
+          3.   Modify any of the program code, and use the modified code as
+               described in 1 and 2 above.
+          4.   Use any version of TGE (including new ones as they are
+               released) as described in 1 to 3 above, as long as such
+               usage is in accordance with that version's terms of usage
+               and distribution as described in that version's
+               documentation.
+     By purchasing a copy of TGE, the Purchaser signifies that he/she/it
+     has read and understood the terms of usage and distribution as laid
+     out in this document, and that he/she/it agrees to be bound by them.
+
+     The privileges granted to the Purchaser by purchasing TGE may be
+     retracted if any of the following conditions is broken:
+          1.   None of the copyright notices contained in TGE's source code
+               may be modified or removed.
+          2.   Any program code derived or directly obtained from TGE's
+               source code may not be distributed unless the recipient has
+               also purchased a copy of TGE.
+          3.   Permission is granted to use TGE to create executable
+               software applications; TGE's source code may not be
+               distributed as part of a software package unless prior
+               written consent is obtained from the author of TGE.
+
+     In order to purchase a copy of TGE, non-commercial users send $30 (US
+     or Canadian funds) to Matthew Hildebrand at the address listed in
+     CONTACTING THE AUTHOR below; commercial users send $100 per software
+     package built using TGE.  Payment by money order, check, or cash is
+     acceptable.  The file REGISTER.FRM is provided for both your
+     convenience and mine; it is designed to be printed out and filled in.
+     Thank you in advance.
+
+
+
+CONTACTING THE AUTHOR
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     I would appreciate hearing any questions, comments, bug reports, or
+     suggestions for improvement.  If you have any, feel free to contact
+     me.  I can be reached at any of the following addresses.  When
+     reporting bugs, please be sure to mention the version of TGE to which
+     you are referring.
+
+
+     Snail mail:
+          Matthew Hildebrand
+          4 College St.
+          St. Catharines, ON
+          Canada
+          L2R 2W7 
+
+     Fidonet mail:
+          1:247/128.2
+
+     Internet mail:      (no guarantees on this one!)
+          Matthew.Hildebrand@p2.f128.n247.z1.fidonet.org
+
+
+
+OBTAINING THE NEWEST VERSION OF TGE
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     The most recent distributed copy of TGE is available via first-call
+     download from (416)-687-6537 (14.4 kbps, V.32bis).  Note that on
+     October 4 1993, the area code will become 905.
+
+     TGE is also available via file request from Fidonet node 1:247/128
+     (14400 bps, V.32bis) using the magic file name "TGE"; unlisted nodes
+     and points are welcome.
+
+     If you are interested in joining the TGE beta team, please contact me
+     as described in the previous section.
+
+
+
+REVISION HISTORY
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     Legend:   +    Addition
+               !    Change
+               -    Bug fix
+
+
+     1.29·C +  Added support for virtual screens.
+            +  TGE can now output to and input from different places.  For
+               example, it is possible to use a virtual screen for its
+               input whilst using the real screen for its output, or vice-
+               versa.  There is now an input and an output viewport.
+            +  Added the virtual coordinate system, via VCOORD.H.
+            -  Fixed a bug in NEWMOUSE.ASM which would, under rare
+               circumstances, corrupt portions of the screen.
+            !  To avoid memory problems, the palette is no longer
+               saved/restored automatically during text/graphics mode
+               switches.
+            !  setBlockPalette() and getBlockPalette() are now no longer
+               called with the first register and the number of registers
+               to change, but with the first register and the last
+               register. This change allows the whole palette to be set
+               with a single call in 64K-colour modes.
+            +  Improved documentation, describing the font file structure
+               and how to use the PCX2RAW utility and its output.
+            +  TGE can now scale bitmaps, using the scaleBitmap() function.
+            +  Added the imageSizeDim(), putLineInv(), and vertLine()
+               functions.
+            -  Fixed a horrible SVGA bug which caused TGE to work
+               incorrectly on all SVGAs with bank sizes other than 64K.
+
+     1.20   +  Added support for loadable fonts, viewports, colour
+               approximation, and region fills.
+            !  Rewrote the loadGraphDriver() function; it now returns more
+               descriptive values.
+            +  Added various clipping routines:  clipLine() and
+               clipFilledRect() in CLIP.C, and clipPoint() and
+               pointOnScreen() as macros in TGE.H.
+            -  Fixed aspect ratio problem in 360x480 driver.
+            -  Fixed bug in the 800x600 driver when run with the Trident
+               8900 chipset.
+            +  Added the REGISTER.FRM file.
+
+     1.10   -  Improved and debugged SuperVGA support.  Bugs squashed
+               include the infamous Trident and Oak bugs.
+            +  Added drivers for VGA 360x480 and SuperVGA 1024x768.
+            +  Added interrupt-driven definable mouse pointer services, as
+               well as miscellaneous mouse routines.
+            -  Fixed default palette routines to do translation between 6-
+               bit and 8-bit values.
+            +  Added ellipse(), filledEllipse(), circle(), and
+               filledCircle().
+            +  Added PCX2RAW, a utility to convert 256-colour PCX files
+               into raw bitmap and raw palette files.  This utility makes
+               importing graphics easy.
+
+     1.01   +  First public release.
+
+
+
+KNOWN PROBLEMS USING TGE
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     At present, the following problems may be experienced when using TGE:
+
+          1.   When TGE.C is compiled by Turbo C++ 3.0, putImage() and
+               putImageInv() do not work correctly.  When informed of this
+               bug, I stepped through the offending code at the assembly
+               level, and discovered that this problem is caused by a bug
+               in TC++, not TGE.  The miscompiled lines of TGE.C are
+               perfectly legal C statements; when TGE.C is compiled by my
+               compiler (Borland C++ 2.0), TGE works beautifully.
+          2.   A very small number of users may experience an odd pattern
+               of blue lines when TGE is run in an SVGA mode on some older
+               ATI cards.  I have been informed that this problem is caused
+               by a bug in the video card itself.  ATI has confirmed the
+               presence of this bug, and has implemented a software patch
+               in its Windows 3.1 SVGA driver, but ATI has not released
+               information on how this bug was squashed.
+          3.   Any bugs listed in BETATEST.DOC.
+
+
+
+ACKNOWLEDGEMENT
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     There are many people whom I would like to thank for their
+     suggestions, beta-testing, patience, registrations, and help with
+     distribution.  You know who you are.
+
+
+
+LEGAL MUMBO JUMBO
+ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+
+     The Graphics Engine source code and associated documentation are
+     copyright (c) 1993 by Matthew Hildebrand.
+
+     All software and documentation associated with The Graphics Engine is
+     provided "as is":  ie., it is provided without warranty of any kind,
+     not even an implied warranty of merchantability or fitness for any
+     purpose.  The Author (Matthew Hildebrand) disclaims all warranties,
+     both express and implied, including but not limited to warranties
+     regarding The Graphics Engine's merchantability or fitness for any
+     particular purpose.
+
+     The author may not be held liable for any damage or misfortune that
+     the use of this software may cause.  The usage of any of The Graphics
+     Engine is done entirely at the user's risk.
+
+     All registered trademarks in this document belong to whomever it is
+     that owns them.
+
+
+
+End of document.

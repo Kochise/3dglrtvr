@@ -10,12 +10,41 @@ You need the following to get this program working :
 
 * List of programs
 
-\- \\Allan Nielsen\\SuperGrid : excel-like control<br>
-\- \\Cristi Posea\\CSizingControlBar : dockable windows<br>
-\- \\Lance Putnam\\glv : user interface (prototyping)<br>
-\- \\Manu Sporny\\Glam : opengl user interface<br>
-\- \\Uri Mellshior\\VirtualGridDemo : grid-like control with tree_like header<br>
-\- \\Zoran M. Todorovic\\VisualFx : tabbed user interface<br>
+#### Constructive Solid Geometry
+
+\- \\Bernie Freidin\\flythrough : csg modeling (scriptable)<br>
+\- \\Bjarne Fich\\3DMaze : csg modeling (the only 6-dof maze)<br>
+
+#### File exploration
+
+\- \\Bjarke Viksoe\\treemaptest_src : file browser (better than spacemonger)<br>
+\- \\Ernst Kleiberg\\BotanicVis : file-data browser (no source)<br>
+\- \\Jun Rekimoto\\Information Cube : file-data browser (no source)<br>
+\- \\Sylvain Lefebvre\\AdFire : file browser (old, limit yourself to 100 GB)<br>
+\- \\Yingxin Wu\\Geodesic_SOM : file-data browser (no source)<br>
+\- \\Yusuke Shinyama\\xcruiser-0.3 : file browser (x windows, software rendered)<br>
+
+#### Global illumination
+
+\- \\Greg Coombe\\research : global illumination (markov tracing)<br>
+\- \\Lord Trancos\\Pulsar LMTools : global illumination (pascal sources)<br>
+
+#### Light and physic
+
+\- \\Asen Kovatchev\\3DJelloSrc : physic rendering (jello)<br>
+\- \\Eric Penner\\rigidbody : physic rendering (collision)<br>
+\- \\Mick West\\BlobPhysicsCode : jello-like spring physic<br>
+\- \\Gustav Taxen\\smoke : smoke simulation using FFT<br>
+\- \\Nicolas Schmitt\\ift6042 : physic rendering (2d and 3d smoke using fft)<br>
+\- \\Werner Benger\\Light++ : physic rendering (gravity)<br>
+
+#### Marching cube
+
+\- \\glUser3f\\MarchingCubes : marching cube rendering<br>
+\- \\Torsten Stoeter\\MassCarver : 3D texturing<br>
+\- \\Wei Lijie\\AtomVox : triangulated voxel rendering<br>
+
+#### Planet rendering
 
 \- \\Andras Balogh\\Ranger Mk2 : terrain rendering (lod)<br>
 \- \\Joel Davis\\Hex Planet : planet rendering (hex coordinates)<br>
@@ -25,22 +54,17 @@ You need the following to get this program working :
 \- \\Sebastian Mate\\Sunstorm : terraing and weather software rendering<br>
 \- \\Thibault Bernard\\planet0705 : planet rendering (Dr Typo, no source)<br>
 
-\- \\Asen Kovatchev\\3DJelloSrc : physic rendering (jello)<br>
-\- \\Eric Penner\\rigidbody : physic rendering (collision)<br>
-\- \\Mick West\\BlobPhysicsCode : jello-like spring physic<br>
-\- \\Gustav Taxen\\smoke : smoke simulation using FFT<br>
-\- \\Nicolas Schmitt\\ift6042 : physic rendering (2d and 3d smoke using fft)<br>
-\- \\Werner Benger\\Light++ : physic rendering (gravity)<br>
+#### Raytracing
 
-\- \\Bernie Freidin\\flythrough : csg modeling (scriptable)<br>
-\- \\Bjarne Fich\\3DMaze : csg modeling (the only 6-dof maze)<br>
+\- \\Nicolas Pillot\\raytracer-030-src : raytracing<br>
+\- \\Trevor Croft\\simpleraytracer-0.1.1 : raytracing<br>
 
-\- \\Bjarke Viksoe\\treemaptest_src : file browser (better than spacemonger)<br>
-\- \\Ernst Kleiberg\\BotanicVis : file-data browser (no source)<br>
-\- \\Jun Rekimoto\\Information Cube : file-data browser (no source)<br>
-\- \\Sylvain Lefebvre\\AdFire : file browser (old, limit yourself to 100 GB)<br>
-\- \\Yingxin Wu\\Geodesic_SOM : file-data browser (no source)<br>
-\- \\Yusuke Shinyama\\xcruiser-0.3 : file browser (x windows, software rendered)<br>
+#### Screen savers
+
+\- \\Plusplus\\RollerCoasterScreenSaver : RollerCoasterTycoon 3 before it was cool<br>
+\- \\Terence M. Welsh\\rssavers-0.1 : Really Slick Screensavers<br>
+
+#### Software rasterizer
 
 \- \\Dime Vangelovski\\Gens2 1.0b3 : software rendering (pascal+asm sources)<br>
 \- \\Lode Vandevenne\\trixel : software rendering<br>
@@ -52,18 +76,14 @@ You need the following to get this program working :
 \- \\Paul Nettle : software rendering<br>
 \- \\Stan Melax\\polychop : software rendering (lod)<br>
 
-\- \\glUser3f\\MarchingCubes : marching cube rendering<br>
-\- \\Torsten Stoeter\\MassCarver : 3D texturing<br>
-\- \\Wei Lijie\\AtomVox : triangulated voxel rendering<br>
+#### User interface
 
-\- \\Greg Coombe\\research : global illumination (markov tracing)<br>
-\- \\Lord Trancos\\Pulsar LMTools : global illumination (pascal sources)<br>
-
-\- \\Nicolas Pillot\\raytracer-030-src : raytracing<br>
-\- \\Trevor Croft\\simpleraytracer-0.1.1 : raytracing<br>
-
-\- \\Plusplus\\RollerCoasterScreenSaver : RollerCoasterTycoon 3 before it was cool<br>
-\- \\Terence M. Welsh\\rssavers-0.1 : Really Slick Screensavers<br>
+\- \\Allan Nielsen\\SuperGrid : excel-like control<br>
+\- \\Cristi Posea\\CSizingControlBar : dockable windows<br>
+\- \\Lance Putnam\\glv : user interface (prototyping)<br>
+\- \\Manu Sporny\\Glam : opengl user interface<br>
+\- \\Uri Mellshior\\VirtualGridDemo : grid-like control with tree_like header<br>
+\- \\Zoran M. Todorovic\\VisualFx : tabbed user interface<br>
 
 * How to use it
 

@@ -1,0 +1,234 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DLG_SCRNSAVECONFIGURE DIALOGEX 0, 0, 369, 206
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Skyrocket   by Terry Welsh"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,185,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,68,185,50,14
+    PUSHBUTTON      "About",ABOUT,129,185,50,14
+    LTEXT           "Maximum number of rockets",IDC_STATIC,7,25,89,8
+    LTEXT           "Smoke lifespan (in seconds)",IDC_STATIC,7,55,92,8
+    LTEXT           "Amount of smoke in explosions",IDC_STATIC,7,85,103,8
+    LTEXT           "(This will create an insane number of particles)",
+                    IDC_STATIC,7,92,146,8
+    LTEXT           "Wind speed",IDC_STATIC,7,115,64,8
+    LTEXT           "Ambient light",IDC_STATIC,7,145,64,8
+    LTEXT           "Star density",IDC_STATIC,190,25,43,8
+    LTEXT           "Lens flare brightness",IDC_STATIC,190,55,66,8
+    LTEXT           "Moon glow brightness",IDC_STATIC,190,85,70,8
+    LTEXT           "Sound effects volume",IDC_STATIC,190,115,70,8
+    CONTROL         "Slider1",MAXROCKETS,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,7,10,172,15
+    CONTROL         "Slider2",SMOKELIFE,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,7,40,172,15
+    CONTROL         "Slider2",EXPLOSIONSMOKE,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,7,70,172,15
+    CONTROL         "Slider3",WIND,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,7,100,172,15
+    CONTROL         "Slider3",AMBIENT,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,7,130,172,15
+    CONTROL         "Slider1",STARDENSITY,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,190,10,172,15
+    CONTROL         "Slider1",FLARE,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,190,40,172,15
+    CONTROL         "Slider2",MOONGLOW,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,190,70,172,15
+    CONTROL         "Slider2",SOUND,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,190,100,172,15
+    CONTROL         "Moon",MOON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,165,
+                    34,10
+    CONTROL         "Illumination",ILLUMINATION,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,128,165,51,10
+    CONTROL         "Clouds",CLOUDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,47,
+                    165,37,10
+    CONTROL         "Earth",EARTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,90,
+                    165,33,10
+    PUSHBUTTON      "Defaults",DEFAULTS,215,185,50,14
+    RTEXT           "#",MAXROCKETSTEXT,124,25,13,8
+    RTEXT           "#",SMOKELIFETEXT,124,55,13,8
+    RTEXT           "#",EXPLOSIONSMOKETEXT,124,85,13,8
+    RTEXT           "#",WINDTEXT,124,115,13,8
+    RTEXT           "#",AMBIENTTEXT,124,145,13,8
+    RTEXT           "#",STARDENSITYTEXT,303,25,17,8
+    RTEXT           "#",FLARETEXT,307,55,13,8
+    RTEXT           "#",MOONGLOWTEXT,307,85,13,8
+    RTEXT           "#",SOUNDTEXT,307,115,13,8
+    LTEXT           "Frame rate limit",IDC_STATIC,190,145,48,8
+    CONTROL         "",FRAMERATELIMIT,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,190,130,172,15
+    RTEXT           "#",FRAMERATELIMITTEXT,295,145,25,8
+    LTEXT           "0 = no limit",IDC_STATIC,328,145,34,8
+END
+
+DLG_ABOUT DIALOGEX 0, 0, 250, 242
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Skyrocket"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,193,221,50,14,WS_GROUP
+    CTEXT           "Skyrocket",IDC_STATIC,7,6,236,9
+    CTEXT           "version 3.0   March 20, 2005",IDC_STATIC,7,17,236,8
+    CTEXT           "Copyright (C) 1999-2005 Terence M. Welsh",IDC_STATIC,7,
+                    27,236,8
+    LTEXT           "   If you're having performance problems, the best thing you can do is probably decrease the smoke lifespan.  Smoke uses many particles and causes a large performance hit.",
+                    IDC_STATIC,7,103,236,25
+    LTEXT           "   This is my little contribution to the myriad of fireworks savers in the world.  There are way too many of them, which is why I tried to make mine really, really good.",
+                    IDC_STATIC,7,55,236,24
+    CTEXT           "http://www.reallyslick.com",WEBPAGE,7,37,236,8,
+                    SS_NOTIFY | NOT WS_GROUP
+    LTEXT           "   Underneath all the eye candy, I tried to keep the physics of the fireworks as realistic as possible.  It seemed like the best way to produce a believable effect.",
+                    IDC_STATIC,7,79,236,24
+    LTEXT           "1, 2, 3, 4, 5, 6, 7, 8, 9, 0, q, w, e, r, t, y, u, i, o = launch rockets",
+                    IDC_STATIC,7,175,198,8
+    LTEXT           "Keyboard commands:",IDC_STATIC,7,165,69,8
+    LTEXT           "f = pause/unpause fireworks",IDC_STATIC,7,185,91,8
+    LTEXT           "c = pause/unpause camera",IDC_STATIC,110,185,88,8
+    LTEXT           "g = slow motion fireworks",IDC_STATIC,7,195,80,8
+    LTEXT           "n = new camera view",IDC_STATIC,110,195,68,8
+    LTEXT           "m = toggle mouse camera control",IDC_STATIC,110,205,105,
+                    8
+    LTEXT           "   This screensaver is free software licensed under the terms of the Gnu General Public License version 2.  It uses OpenGL for graphics, and it will perform poorly without OpenGL hardware acceleration.",
+                    IDC_STATIC,7,135,236,27
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    DLG_SCRNSAVECONFIGURE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 362
+        VERTGUIDE, 137
+        VERTGUIDE, 179
+        VERTGUIDE, 190
+        VERTGUIDE, 265
+        VERTGUIDE, 320
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 199
+        HORZGUIDE, 25
+        HORZGUIDE, 55
+        HORZGUIDE, 85
+        HORZGUIDE, 115
+        HORZGUIDE, 145
+        HORZGUIDE, 175
+    END
+
+    DLG_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 243
+        VERTGUIDE, 110
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 235
+        HORZGUIDE, 15
+        HORZGUIDE, 25
+        HORZGUIDE, 35
+        HORZGUIDE, 45
+        HORZGUIDE, 55
+        HORZGUIDE, 79
+        HORZGUIDE, 103
+        HORZGUIDE, 135
+        HORZGUIDE, 165
+        HORZGUIDE, 175
+        HORZGUIDE, 185
+        HORZGUIDE, 195
+        HORZGUIDE, 205
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+ID_APP                  ICON                    "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_DESCRIPTION         "Skyrocket (OpenGL)"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

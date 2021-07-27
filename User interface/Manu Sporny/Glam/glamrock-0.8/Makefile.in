@@ -1,0 +1,74 @@
+default:
+	@echo "Build options:"
+	@echo "  all - Builds all libraries and test executables"
+	@echo "  install - Installs all libraries and development header files"
+	@echo "  deb - Builds all library and development DEBs"
+	@echo "  clean - Cleans the entire source tree"
+
+# Include common definitions.
+include @ROCKROOTDIR@/Makefile.base
+
+# Subdirectories used for recursion through the source tree.
+SUBDIRS	= src doc
+
+all:
+	@${MAKE} RECURSIVE_TARGET="all" recursive
+
+clean:
+	@${MAKE} RECURSIVE_TARGET="clean" recursive
+	rm -f lib/*.so lib/*.a
+
+distclean: clean
+	rm -rf autom4te.cache config.log config.cache config.status \
+		config.guess config.sub
+	rm -f `find . -name "Makefile"` Makefile.base
+	rm -f `find . -name "*~"`
+	rm -f `find include/glamrock/ -type l`
+
+install:
+	@echo "Installing under $$prefix"
+	# Create directories
+	install -d ${prefix}/bin
+	install -d ${prefix}/lib
+	install -d ${prefix}/include/glamrock
+	install -d ${prefix}/share/glamrock
+	install -d ${prefix}/share/glamrock/data
+	install -d ${prefix}/share/doc/glamrock
+	install -d ${prefix}/share/doc/glamrock/apidocs
+	install -d ${prefix}/share/doc/glamrock/handbook
+	install -d ${prefix}/share/doc/glamrock/handbook/htmlbook
+	install -d ${prefix}/share/doc/glamrock/handbook/htmlbook/figures
+	install -d ${prefix}/share/doc/glamrock/handbook/pdfbook
+
+	# Install header files
+	install -v -m 644 include/glamrock/*.h ${prefix}/include/glamrock
+
+	# Install static and shared libraries
+	install -v -m 644 lib/libglamrock.a ${prefix}/lib/libglamrock.a
+	install -v -m 644 lib/libglamrock.so \
+		${prefix}/lib/libglamrock.so.${ROCK_VERSION}
+	ln -s libglamrock.so.${ROCK_VERSION} \
+		${prefix}/lib/libglamrock.so.${ROCK_MAJORV}
+	ln -s libglamrock.so.${ROCK_VERSION} ${prefix}/lib/libglamrock.so
+
+	# Install the binaries
+	install -v -m 755 src/test/rockTest ${prefix}/bin/glamrockWidgetTest
+	install -v -m 755 src/test/rockTutorial ${prefix}/bin/glamrockTutorial
+
+        # Install data files
+	install -v -m 644 src/test/data/*svg ${prefix}/share/glamrock/data
+
+        # Install configuration files
+	install -v -m 644 src/test/data/*cfg ${prefix}/share/glamrock/data
+
+	# Install documentation
+	install -v -m 644 doc/html/libglamrock/* \
+		${prefix}/share/doc/glamrock/apidocs
+	install -v -m 644 doc/handbook/htmlbook/*.html \
+		${prefix}/share/doc/glamrock/handbook/htmlbook
+#	install -v -m 644 doc/handbook/htmlbook/figures/*.png \
+#		${prefix}/share/doc/glamrock/handbook/htmlbook/figures
+	install -v -m 644 doc/handbook/pdfbook/* \
+		${prefix}/share/doc/glamrock/handbook/pdfbook
+
+include @ROCKROOTDIR@/config/recursive.mk

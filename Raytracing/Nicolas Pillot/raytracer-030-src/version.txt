@@ -1,0 +1,61 @@
+
+	This is the version history for the 'raytracer' project.
+	Hosted on SourceForge ( http://raytracer.sf.net )
+	Developped by netsach ( netsach@users.sourceforge.net )
+
+v0.3 - 06th october 2003
+
+	- added *, +, -, *=, +=, -= operator for Color
+	- added computation of normal for objects
+	- added computation of U,V coord for objects
+	- modifed Light::getVisibilityFromPoint parameters
+	- done DiffuseLight::getVisibilityFromPoint behaviour
+	- moved Scene::ambientcolor to SimplestRayTracer
+	- added computeColor to RayTracer
+	- added LightRayTracer
+	- moved Scene::ambientlight to LightRayTracer
+	- updated SimplestRaytracer & LightRaytracer's toString
+	- added & modified Object::convert* methods
+	- corrected bug in Object::convertPoint3dToGlobal (local vector computation error)
+	- corrected bug in Ellipsoid::getSurfaceData (normal vector computation error)
+	- corrected bug in Intersections::getFirstVisible (using epsilon to skip start point)
+	- added LogConsole member in Utils, and moved epsilon from Polynom
+	- updated computation progress output
+
+v0.2.1 - 22th july 2003
+
+	- corrected bug in the Polynom::solve2 that had
+	  some depth glitches for consequence
+
+v0.2.0 - 21th july 2003
+
+	- not using namespace 'std' anymore
+	- classes renamed for lexical coherence
+		'World'          -> 'Scene'
+		'SolidRayTracer' -> 'SimplestRayTracer'
+		'BasicRenderer'  -> 'SimplestRenderer'
+	- added Row3d, Matrix3d, and Vector3d classes, with operators
+	- added logging system ('Log' and 'LogConsole')
+	- Utils class created
+	- Printable interface rewrote for every class
+	- Base3d is now always orthonormalized, rotation enabled
+	- added ambientcolor and ambientrefractionindex, in 'Scene'
+	- Polynom::getZeros returns a std::set of zeros, without multiplicity
+	- Intersections now computes every intersection, through Object
+	- added conversion to localbase for Ray/Object intersection
+	- the algorithm is now 'objet-oriented' : through Intersections,
+	  IntersectionData, and per-object intersection computing
+	- corrected a bug concerning view size and orientation
+
+v0.1.1 - 7th july 2003
+
+	- corrected a bug concerning bitmaps (missing fill-bytes)
+	- instanciate from string now returns dummy object instead of nothing
+	- windows only, using visual C++ 6.0 from now on
+
+v0.1.0 - 14th june 2003
+
+	- first implementation
+	- windows only, using dev-cpp 4.9.8.0
+
+

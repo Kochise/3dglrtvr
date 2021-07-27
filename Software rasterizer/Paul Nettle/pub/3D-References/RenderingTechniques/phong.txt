@@ -1,0 +1,92 @@
+                       PHONG ILLUMINATION EXPLAINED
+
+Many people confuse Phong shading with Phong illumination. Phong shading simply
+refers to process of interpolating the normal across a surface for shading on
+an individual pixel basis.  At each pixel, you can do whatever illumination you
+prefer.  Or, you could use Phong illumination at each vertex, and use Gouraud
+shading across that surface.
+
+Phong illumination was developed by Phong Bui-Tuong in 1975.  Phong's model is
+hard to do in plain text (lack of Greek symbols) so here are the symbols I'll
+use:
+
+Ix = result color
+Lx = light color
+Ax = ambient color
+Dx = diffuse color
+Sx = specular color
+Ka = ambient coefficient
+Kd = diffuse coefficient
+Ks = specular coefficient
+Att = attenuation coefficient
+n = usually referred to as "shine" or "roughness"
+N = surface normal
+L = light vector
+R = reflection vector
+V = view vector
+
+Given those variables, here's the Phong model (modified to account for specular
+color):
+
+Ix = AxKaDx + AttLx  [KdDx(N dot L) + KsSx(R dot V)^n]
+
+And here's what each of the values means:
+
+The first five values are component values.  For the RGB model, they represent
+one component (R, G or B).  They are also scalars (0.0 - 1.0).  So to solve the
+equation for RGB, with no simplifications, it would require 3 solutions:
+
+Ir = ArKaDr + AttLr  [KdDr(N dot L) + KsSr(R dot V)^n]
+Ig = AgKaDg + AttLg  [KdDg(N dot L) + KsSg(R dot V)^n]
+Ib = AbKaDb + AttLb  [KdDb(N dot L) + KsSb(R dot V)^n]
+
+The Ir, Ig, Ib would be your new RGB.  If you're dealing with 24-bit RGB, then
+the resulting RGB would be [(Ir * 255), (Ig * 255), (Ib * 255)].  Lx (Lr, Lg,
+Lb) refer to the color of the light source.  Ax is the color of the ambient
+light, Dx would be the color of the surface (typically found in the material),
+and Sx would be the color of the specular highlight (also found in the
+material.)
+
+The next three values (the coefficients) are also scalars (0.0 - 1.0) and are
+typically stored in the material as part of the surface material definition.
+The first, ambient coefficient (Ka), is used to determine how much ambient
+light affects a surface.  The diffuse coefficient (Kd) specifies how much of
+the diffuse light (incident light from the light source) affects the object.
+The specular coefficient (Ks) specifies how bright the specular reflection is.
+To help explain how these values work together, consider the following example.
+A white sphere with the world ambient color set to 1.0 (full intensity) given a
+Ka of 0.2, a Kd of 0.0 and a Ks of 1.0 would yield a circle that is very dark
+gray with a bright white spot for the specular reflection.  The sphere would
+appear to be a circle because it would have no shading (Kd is 0.0) but only
+ambient (Ka is 0.2).
+
+The attenuation coefficient is used for atmospheric attenuation (depth cueing).
+Since the Phong model is a lighting model, then this refers to the attenuation
+of the light to the object.  You may apply a secondary attenuation to the
+result of the Phong equation to account for atmospheric attenuation from the
+object to the viewer.
+
+The shine (or some refer to it as "roughness") is used to determine the size of
+the specular reflection (consider a bowling ball vs a billiard ball.)  The
+larger the value, the smaller the specular reflection.  This value is usually
+chosen by experimentation.  To get a good idea, try experimenting with 3.0,
+200.0 and 10000.0.
+
+The surface normal (N) is just that.  For Phong shading, N is interpolated
+across the surface. Then, at each pixel, it is normalized and used in the Phong
+illumination equation.  The light vector (L) is the vector from the point on
+the surface to the light.  The reflection vector (R) represents the light
+vector reflected across the surface normal.  R is calculated by:
+
+	2N (N dot L) - L
+
+The view vector (V) is the vector from the point on the surface to the viewer.
+
+The information from this document can be obtained from:
+
+	"Computer Graphics Principles and Practice, 2nd edition" by
+	Foley, van Dam, Feiner, Hughes
+
+------------------------------------------------------------------------------
+Paul Nettle, midnight@grafix3d.dyn.ml.org
+Webmaster for the Grafix3d! website (http://www.grafix3d.dyn.ml.org/)

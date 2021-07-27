@@ -1,7 +1,0 @@
-#!/bin/sh
-
-setmon -n main
-
-./roller -x 640 -y 640 -f -i -s -c 5 $*
-
-setmon -n padrao

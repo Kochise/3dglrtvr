@@ -1,0 +1,33 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "swShader", "swShader.vcproj", "{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoftWire", "SoftWire\SoftWire.vcproj", "{2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Profile
+		ConfigName.2 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+		{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}.0 = {2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}.Debug.ActiveCfg = Profile|Win32
+		{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}.Debug.Build.0 = Profile|Win32
+		{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}.Profile.ActiveCfg = Profile|Win32
+		{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}.Profile.Build.0 = Profile|Win32
+		{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}.Release.ActiveCfg = Release|Win32
+		{9B7E94CE-55D6-4DA9-BEBF-43EF54388804}.Release.Build.0 = Release|Win32
+		{2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}.Debug.ActiveCfg = Debug|Win32
+		{2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}.Debug.Build.0 = Debug|Win32
+		{2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}.Profile.ActiveCfg = Release|Win32
+		{2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}.Profile.Build.0 = Release|Win32
+		{2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}.Release.ActiveCfg = Release|Win32
+		{2D1106FC-C7E2-43FB-AB4E-41FF1B1477D4}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

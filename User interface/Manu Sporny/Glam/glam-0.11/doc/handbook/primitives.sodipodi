@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg101"
+   sodipodi:version="0.33pre"
+   width="5.5in"
+   height="2in"
+   sodipodi:docname="/work/src/opensource/glam/doc/handbook/primitives.sodipodi"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   sodipodi:docbase="/work/src/opensource/glam/doc/handbook/">
+  <defs
+     id="defs103">
+    <linearGradient
+       id="linearGradient108">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop109" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop110" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient108"
+       id="linearGradient111" />
+    <radialGradient
+       xlink:href="#linearGradient108"
+       id="radialGradient112"
+       cx="0.5"
+       cy="0.5"
+       fx="0.5"
+       fy="0.5"
+       r="0.5"
+       gradientUnits="objectBoundingBox"
+       spreadMethod="pad" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     snaptoguides="true"
+     showgrid="false"
+     snaptogrid="false" />
+  <g
+     id="g608"
+     transform="translate(11.6005,1.83155)">
+    <text
+       style="fill:#0000c7;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:16;text-anchor:start;writing-mode:lr;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
+       x="381.963"
+       y="55.1418"
+       id="text591">
+      <tspan
+         id="tspan592"
+         style="fill:#0000c7;fill-opacity:1;">
+Hyperlink</tspan>
+    </text>
+    <rect
+       style="font-size:12;fill:#3533fc;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+       id="rect607"
+       width="67.231300"
+       height="1.477610"
+       x="382.701996"
+       y="55.880577" />
+  </g>
+  <rect
+     style="font-size:12;fill:#b5b5d7;fill-rule:evenodd;stroke:#8a83c1;stroke-width:3.75;stroke-dashoffset:0;stroke-opacity:1;stroke-dasharray:none;"
+     id="rect585"
+     width="119.686996"
+     height="43.589600"
+     x="38.197470"
+     y="28.914181"
+     ry="8.86567020"
+     rx="0" />
+  <text
+     style="font-size:16;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+     x="49.500004"
+     y="43.320885"
+     id="text597"
+     transform="translate(4.892970,13.02010)">
+    <tspan
+       id="tspan598">
+Push Button</tspan>
+  </text>
+  <rect
+     style="font-size:12;fill-opacity:0.126582;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-linejoin:miter;"
+     id="rect589"
+     width="135.201004"
+     height="30.291100"
+     x="211.672283"
+     y="116.108685" />
+  <text
+     style="font-size:16;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+     x="220.164528"
+     y="136.886242"
+     id="text618">
+    <tspan
+       id="tspan604">
+Text Field</tspan>
+  </text>
+  <g
+     id="g634"
+     transform="translate(-5.17164,-10.3433)">
+    <rect
+       style="font-size:12;fill:#647171;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;stroke:#000000;stroke-opacity:1;"
+       id="rect586"
+       width="162.537003"
+       height="22.164200"
+       x="25.744658"
+       y="126.451981" />
+    <rect
+       style="font-size:12;fill:#64c771;fill-rule:evenodd;stroke:#000000;stroke-width:0.780442pt;fill-opacity:1;"
+       id="rect633"
+       width="98.999697"
+       height="22.164200"
+       x="25.744658"
+       y="126.451981" />
+    <text
+       style="fill:#000000;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:16;text-anchor:start;writing-mode:lr;fill-opacity:1;stroke-opacity:1;stroke-width:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-dasharray:none;"
+       x="44.3283"
+       y="165.962"
+       id="text600">
+      <tspan
+         id="tspan601"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1;stroke-width:0;stroke-dasharray:none;">
+Progress Indicator</tspan>
+    </text>
+  </g>
+  <rect
+     style="font-size:12;fill:#b5b5d7;fill-rule:evenodd;stroke:#8d8bcf;stroke-width:3.75;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;"
+     id="rect641"
+     width="103.433250"
+     height="79.0522842"
+     x="372.789581"
+     y="85.0634155"
+     ry="16.0785007"
+     rx="0" />
+  <text
+     style="font-size:16;font-weight:normal;stroke-width:1pt;font-family:Arial;font-style:normal;text-anchor:start;writing-mode:lr;"
+     x="378.066"
+     y="153.863"
+     id="text642">
+    <tspan
+       x="378.066010"
+       y="153.863007"
+       sodipodi:role="line"
+       id="tspan649">
+Iconic Button</tspan>
+  </text>
+  <g
+     id="g500"
+     transform="matrix(0.210869,0,0,0.210869,398.467,89.2995)">
+    <path
+       style="font-size:12;fill:#f3d900;fill-rule:evenodd;stroke:#000000;stroke-width:10;stroke-linejoin:round;"
+       d="M 8.79718 229.103 L 238.173 229.103 L 123.485 9.72775 L 8.79718 229.103 z "
+       id="path171"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;"
+       d="M 123.23 53.8178 L 115.677 96.3188 L 110.677 98.8188 L 110.677 107.569 L 49.4262 185.694 L 50.0512 195.694 L 93.1772 182.569 L 96.3022 178.194 L 107.552 174.444 L 112.552 181.319 L 111.927 188.194 L 88.1772 198.819 L 88.8022 206.319 L 110.677 204.444 L 119.427 201.319 L 123.204 205.069 L 126.98 201.319 L 135.73 204.444 L 157.605 206.319 L 158.23 198.819 L 134.48 188.194 L 133.855 181.319 L 138.855 174.444 L 150.105 178.194 L 153.23 182.569 L 196.356 195.694 L 196.981 185.694 L 135.73 107.569 L 135.73 98.8188 L 130.73 96.3188 L 123.23 53.8178 z "
+       id="path184"
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccc" />
+  </g>
+  <g
+     id="g655"
+     transform="translate(-7.145786,2.942390)">
+    <text
+       style="font-size:16;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+       x="243.805984"
+       y="52.186554"
+       id="text594"
+       transform="translate(5.171640,4.155197)">
+      <tspan
+         id="tspan595">
+Radio Button</tspan>
+    </text>
+    <g
+       id="g652"
+       transform="translate(13.87125,-4.203415)">
+      <path
+         sodipodi:type="arc"
+         style="font-size:12;fill:#808080;fill-opacity:0.588608;fill-rule:evenodd;stroke:#000000;stroke-width:2.5;"
+         id="path588"
+         d="M 233.462677 51.078346 A 15.145515 15.145521 0 1 0 203.171661,51.078346 A 15.1455 15.1455 0 1 0 233.463 51.0783 L 218.317169 51.078346 z"
+         sodipodi:cx="218.317169"
+         sodipodi:cy="51.078346"
+         sodipodi:rx="15.145515"
+         sodipodi:ry="15.145521"
+         transform="matrix(0.722465,0.000000,0.000000,0.722465,61.18946,18.01004)" />
+      <path
+         sodipodi:type="arc"
+         style="font-size:12;fill-rule:evenodd;stroke-width:1pt;"
+         id="path606"
+         d="M 235.679138 58.097012 A 11.082100 11.082096 0 1 0 213.514954,58.097012 A 11.0821 11.0821 0 1 0 235.679 58.097 L 224.597046 58.097012 z"
+         sodipodi:cx="224.597046"
+         sodipodi:cy="58.097012"
+         sodipodi:rx="11.082100"
+         sodipodi:ry="11.082096"
+         transform="matrix(0.627641,0.000000,0.000000,0.627641,77.94966,18.44830)" />
+    </g>
+  </g>
+</svg>

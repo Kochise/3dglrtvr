@@ -1,0 +1,93 @@
+<html>
+<head>
+<style type="text/css">
+	body
+	{
+		background-color: rgb(0, 0, 0);
+		color: rgb(255, 255, 255);
+	}
+	A:link		{ color: rgb(255, 255, 255); }
+	A:visited	{ color: rgb(255, 255, 255); }
+	A:active	{ color: rgb(255, 255, 255); }
+	h3			{ margin: 1em 0em 0.1em 0em; }
+	p			{ margin: 0.5em 0em; }
+
+	.main_table
+	{
+		width: 100%;
+		border: 3px inset gray;
+	}
+	.main_menu
+	{
+		height: 2em;
+	}
+	.menu_cell
+	{
+		width: 10%;
+		text-align: center;
+		border: 3px inset gray;
+	}
+	.page_cell
+	{
+		padding: 1em;
+	}
+
+	.link_table
+	{
+		width: 100%;
+		border: 3px inset gray;
+	}
+	.link_cell
+	{
+		border: 1px inset gray;
+		text-align: left;
+		padding: 0.25em;
+	}
+	.copyright
+	{
+		width: 100%;
+		margin: 2em;
+		text-align: center;
+	}
+</style>
+<title>A Real-Time Procedural Universe</title>
+</head>
+<body>
+<table class="main_table">
+<tr class="main_menu">
+	<td class="menu_cell"><a href="index-1.htm" tppabs="http://sponeil.org/index.htm">Home</a></td>
+	<td class="menu_cell"><a href="downloads.htm" tppabs="http://sponeil.org/downloads.htm">Downloads</a></td>
+	<td class="menu_cell"><a href="links.htm" tppabs="http://sponeil.org/links.htm">Links</a></td>
+	<td class="menu_cell"><a href="Resume.htm" tppabs="http://sponeil.org/Resume.htm">Resume</a></td>
+	<td class="menu_cell"><a href="http://www.opengl.org/"><img border="0" src="OGLonBlackSm.jpg" tppabs="http://sponeil.org/OGLonBlackSm.jpg" alt="OpenGL.org"></img></a></td>
+</tr>
+<tr><td colspan="4" class="page_cell">
+
+<h1>Downloads</h1>
+<p>This is an update of my previous work, with the source code and projects refactored and cleaned up. I don't get paid to work on this, and I don't have much time to spend on it, so the demos are not very polished. Think of them as proof-of-concept demos. The source code is published under the BSD license (not counting any third-party libraries I'm using), so you are free to do what you want with it.</p>
+
+<p>The source code zip comes with a <b>Readme.rtf</b>. I don't like writing documentation, but I don't like repeating myself a few hundred times either, so read the Readme!</p>
+
+<h3>Card-specific issues with the GLSL shaders:</h3>
+<ul>
+	<li>ATI cards do not support sampler2DRect in GLSL, so the current grass and HDR implementations don't work on ATI cards. The demos should still run, but HDR rendering will be disabled and the grass billboards may not render properly. You should be able to fix this by changing the textures to be power-of-two textures.</li>
+	<li>Radeon 9600-level cards do not support loops in GLSL unless the compiler can unroll them. This means that the scattering shaders won't work on these cards unless you change nSamples and fSamples from uniform variables to constants. (This is very easy to change, but you must change it in each of the scattering vertex shaders.)</li>
+	<li>GeForce FX-level cards do not have enough registers for the scattering shaders when the loop is unrolled. This means that nSamples and fSamples must be uniform parameters in the scattering shaders for them to work on this card.</li>
+	<li>Although HDR rendering works on GeForce FX cards, they don't support features like alpha test or blend in floating-point buffers, so for now HDR is only enabled for the GeForce 6000 series.</li>
+	<li>All nVidia cards exhibit very noticeable visual artifacts in the Mie scattering (the glow in and around the sun). The problem does not exist on the Radeon 9600. Even the guys at nVidia couldn't help me with this one when we were working on the GPU Gems 2 article.</li>
+</ul>
+
+<h3>Project Downloads</h3>
+<table class="link_table">
+	<tr><td class="link_cell"><a href="SPO_Sandbox-0.1.tar.gz" tppabs="http://sponeil.org/SPO_Sandbox-0.1.tar.gz">New FreeBSD Package!</a></td><td class="link_cell">Download if you're a *nix hacker (tested in FreeBSD 6.0, should work in most Linux distros).</td></tr>
+	<tr><td class="link_cell"><a href="Sandbox-exe.zip" tppabs="http://sponeil.org/Sandbox-exe.zip">Sandbox Executables</a></td><td class="link_cell">Download to see all of my latest projects in action.</td></tr>
+	<tr><td class="link_cell"><a href="Sandbox-src.zip" tppabs="http://sponeil.org/Sandbox-src.zip">Sandbox Source Code</a></td><td class="link_cell">Download to play with the source code for all of my latest projects.</td></tr>
+</table>
+
+<div class="copyright">©2000 <a href="mailto:sean.p.oneil@gmail.com">Sean O'Neil</a></div>
+
+</td></tr>
+</table>
+</body>
+</html>
+

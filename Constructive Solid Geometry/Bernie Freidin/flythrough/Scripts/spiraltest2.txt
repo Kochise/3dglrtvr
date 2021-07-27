@@ -1,0 +1,161 @@
+# simple scene test script
+# (c) Bernie Freidin 1999
+
+	// stairs
+
+DEPTH=1
+SHAPE "cube"=[(-1,-1)(-1,1)(1,1)(1,-1)]
+BBOX=[-3.7,0,-.7,-3.5,1.5,.7]
+PUSHCOORDS
+	LOOP=12
+		CSGADD "cube"
+		STEPBBOX=[Y1,-.1,Y2,-.05]
+		TRANSLATE=[-.2,0,0]
+	ENDLOOP
+POPCOORDS
+BBOX=[-25,-1.2,-.7,-5.9,.9,.7] CSGADD "cube"
+BBOX=[3.5,0,-.7,3.7,1.5,.7]
+PUSHCOORDS
+	LOOP=12
+		CSGADD "cube"
+		STEPBBOX=[Y1,-.1,Y2,-.05]
+		TRANSLATE=[.2,0,0]
+	ENDLOOP
+POPCOORDS
+BBOX=[5.9,-1.2,-.7,25,.9,.7] CSGADD "cube"
+
+BBOX=[-.7,0,-3.7,.7,1.5,-3.5]
+PUSHCOORDS
+	LOOP=12
+		CSGADD "cube"
+		STEPBBOX=[Y1,-.1,Y2,-.05]
+		TRANSLATE=[0,0,-.2]
+	ENDLOOP
+POPCOORDS
+BBOX=[-.7,-1.2,-25,.7,.9,-5.9] CSGADD "cube"
+
+BBOX=[-.7,0,3.5,.7,1.5,3.7]
+PUSHCOORDS
+	LOOP=12
+		CSGADD "cube"
+		STEPBBOX=[Y1,-.1,Y2,-.05]
+		TRANSLATE=[0,0,.2]
+	ENDLOOP
+POPCOORDS
+BBOX=[-.7,-1.2,5.9,.7,.9,25] CSGADD "cube"
+
+	// spiral 1
+
+DEPTH=1
+SPIRALSTAIR1 *=[45,22.5/2,1.5/3.5,2]
+PUSHCOORDS
+	TRANSLATE=[-5,0,0]
+	BBOX=[-4.94974747,0,-4.94974747,4.94974747,1.5,4.94974747]
+	AXIS=Y
+	LOOP=12*2
+		CSGADD *
+		ROTATE=[Y,22.5/2]
+		TRANSLATE=[0,1.5/12,0]
+	ENDLOOP
+POPCOORDS
+
+	// spiral 2
+
+DEPTH=1
+SPIRALSTAIR1 *=[225,22.5/2,1.5/3.5,2]
+PUSHCOORDS
+	TRANSLATE=[+5,0,0]
+	BBOX=[-4.94974747,0,-4.94974747,4.94974747,1.5,4.94974747]
+	AXIS=Y
+	LOOP=12*2
+		CSGADD *
+		ROTATE=[Y,22.5/2]
+		TRANSLATE=[0,1.5/12,0]
+	ENDLOOP
+POPCOORDS
+
+	// spiral 3
+
+DEPTH=1
+SPIRALSTAIR1 *=[135,22.5/2,1.5/3.5,2]
+PUSHCOORDS
+	TRANSLATE=[0,0,-5]
+	BBOX=[-4.94974747,0,-4.94974747,4.94974747,1.5,4.94974747]
+	AXIS=Y
+	LOOP=12*2
+		CSGADD *
+		ROTATE=[Y,22.5/2]
+		TRANSLATE=[0,1.5/12,0]
+	ENDLOOP
+POPCOORDS
+
+	// main room
+
+DEPTH=1
+AXIS=Y
+SHAPE "octagon"=[(-3,-7)(-7,-3)(-7,3)(-3,7)(3,7)(7,3)(7,-3)(3,-7)]
+BBOX=[-3.5,0,-3.5,3.5,20,3.5]
+CSGADD "octagon"
+
+	// ledge
+	// (note useage of multiple depths)
+
+DEPTH=2
+AXIS=Y
+BBOX=[-3.5,2.5,-3.5,3.5,3,3.5] CSGADD "octagon"
+BBOX=[-2.6,3,-2.6,2.6,3.95,2.6] CSGADD "octagon"
+DEPTH=3
+BBOX=[-2.5,2.5,-2.5,2.5,3.95,2.5] CSGADD "octagon"
+AXIS=X
+PUSHCOORDS
+	LOOP=8
+		BBOX=[-3,3.15,-.4,3,3.4,.4] CSGADD "octagon"
+		BBOX=[-3,3.5,-.4,3,3.8,.4] CSGADD "octagon"
+		BBOX=[-3,2.9,-.07,3,4,.07] CSGADD "cube"
+		ROTATE=[Y,22.5]
+	ENDLOOP
+POPCOORDS
+
+	// archway
+
+DEPTH=2
+AXIS=Y BBOX=[-1,.2,-1,1,2,1] CSGADD "cube"
+BBOX=[-1.2,.15,-1.2,1.2,.2,1.2]
+LOOP=4
+	CSGADD "cube"
+	STEPBBOX=[X1,-.2,X2,.2,Z1,-.2,Z2,.2,Y1,-.05,Y2,-.05]
+ENDLOOP
+DEPTH=3
+REGULARPOLY1 *=[180,360/32,17]
+AXIS=Z BBOX=[-.6,-1.3,-2,.6,1.7,2] CSGADD *
+AXIS=X BBOX=[-2,-1.3,-.6,2,1.7,.6] CSGADD *
+
+	// ribs (uses previous shape)
+
+DEPTH=2
+AXIS=X
+BBOX=[-3,-2,-1.5,-2.0,2,1.5] CSGADD *
+DEPTH=3
+BBOX=[-3,-1.4,-1.2,-2.0,1.7,1.2] CSGADD *
+BBOX=[-2.8,.05,-1.5,-2.6,2,1.5] CSGADD "cube"
+BBOX=[-2.4,.05,-1.5,-2.2,2,1.5] CSGADD "cube"
+BBOX=[-3,.05,-.4,-2.0,2,.4] CSGADD "cube"
+
+	// final staircase
+
+RETURN
+DEPTH=2
+AXIS=Y
+SPIRALSTAIR1 *=[0,360/36,.6,2]
+BBOX=[-3.7,3,-3.7,3.7,3.1,3.7]
+PUSHCOORDS
+	LOOP=10
+		CSGADD *
+		ROTATE=[Y,360/30]
+		TRANSLATE=[0,.2,0]
+	ENDLOOP
+POPCOORDS
+
+	// that's it!!
+
+RETURN

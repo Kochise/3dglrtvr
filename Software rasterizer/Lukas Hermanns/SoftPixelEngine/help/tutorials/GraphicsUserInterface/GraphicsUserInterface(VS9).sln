@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsUserInterface(VS9)", "GraphicsUserInterface(VS9).vcproj", "{C5EF687D-E25F-47C7-9BFB-4C1D95A6B638}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5EF687D-E25F-47C7-9BFB-4C1D95A6B638}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C5EF687D-E25F-47C7-9BFB-4C1D95A6B638}.Debug|Win32.Build.0 = Debug|Win32
+		{C5EF687D-E25F-47C7-9BFB-4C1D95A6B638}.Release|Win32.ActiveCfg = Release|Win32
+		{C5EF687D-E25F-47C7-9BFB-4C1D95A6B638}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

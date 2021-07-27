@@ -1,0 +1,35 @@
+XCOMM  $Id: Imakefile,v 1.1.1.1.2.2 2003/01/26 18:29:18 euske Exp $
+XCOMM
+XCOMM  Imakefile for XCruiser
+XCOMM  by Yusuke Shinyama (yusuke at cs . nyu . edu)
+XCOMM
+
+XCRUISER_VERSION = 0.30
+XCRUISER_RPM_ROOT=/tmp/rpm-root
+
+DEPLIBS = XawClientDepLibs XkbClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs XkbClientLibs
+SYS_LIBRARIES = MathLibrary
+DEFINES = XkbClientDefines 
+
+CDEBUGFLAGS = -g -Wall
+
+SRCS = MainScreen.c xcruiser.c draw.c zone.c vec3.c info.c
+OBJS = MainScreen.o xcruiser.o draw.o zone.o vec3.o info.o
+
+ComplexProgramTarget(xcruiser)
+InstallAppDefaults(XCruiser)
+
+debug:: xcruiser
+	gdb ./xcruiser
+
+pack:: distclean
+	cd ..; tar c --numeric-owner --exclude CVS --gzip --dereference \
+		-f xcruiser-$(XCRUISER_VERSION).tar.gz xcruiser-$(XCRUISER_VERSION)
+	cp ../xcruiser-$(XCRUISER_VERSION).tar.gz $(XCRUISER_RPM_ROOT)/SOURCES
+	rpm -ba xcruiser.spec
+	cp $(XCRUISER_RPM_ROOT)/SRPMS/xcruiser-$(XCRUISER_VERSION)-*.src.rpm ..
+	cp $(XCRUISER_RPM_ROOT)/RPMS/i386/xcruiser-$(XCRUISER_VERSION)-*.i386.rpm ..
+
+test:: xcruiser
+	./xcruiser
