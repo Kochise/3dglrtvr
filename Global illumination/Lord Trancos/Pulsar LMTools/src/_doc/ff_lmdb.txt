@@ -1,0 +1,29 @@
+
+ Pulsar Studio LMDB File Format
+ version number: 1
+
+ DESC: This sort of files are temporary lightmap databases.
+       (So, once you have your lightmaps; can be deleted)
+
+ ----------------------------------------------------------
+ NOTE: This is an internal file format used by LMTools,
+       usually you don't have the need to deal with it.
+ ----------------------------------------------------------
+
+ Header:
+  
+  - MagicID : 32 bit unsigned integer - 0x42444D4C ("LMDB")
+  - Version : 32 bit unsigned integer - 1
+  - Number of lightmaps : 32 bit unsigned integer.
+  - Max. lightmap size  : 16 bit unsigned integer.
+                          (i.e; A value of 256 means that
+                           the max. size for a lightmap
+                           will be 256x256.)
+
+ Data:
+
+  - [Header.Number of lightmaps] * ARGB files. (see ARGB file
+    format for details).
+
+ ----------------------------------------------------------
+

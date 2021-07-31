@@ -1,0 +1,12 @@
+A3DS2LMTS     - Autodesk 3DS to Pulsar Studio LMTS converter for Linux.
+A3DS2LMTS.exe - Autodesk 3DS to Pulsar Studio LMTS converter for Win32.
+A3DS2LMTS.txt - Documentation for A3DS2LMTS
+d3dx8ab.dll   - DirectX 8 DLL for required by LMDx.
+LMDx.exe      - Win32+DirectX 8 tool for creating/viewing LMTS files.
+LMGen         - Lightmap Generation Tool for Linux.
+LMGen.exe     - Lightmap Generation Tool for Win32.
+LMGen.txt     - Documentation for LMGen.
+LMPack        - Lightmap Packing Tool for Linux.
+LMPack.exe    - Lightmap Packing Tool for Win32.
+LMPack.txt    - Documentation for LMPack.
+LMTools.bat   - Batch file for easier usage of LMGen and LMPack (win32).

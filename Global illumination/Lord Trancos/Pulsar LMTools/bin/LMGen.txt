@@ -1,0 +1,450 @@
+----------------------------------------------------------------------
+Pulsar LMTools v1.1
+Copyright (C) 2002, 2003 Lord Trancos. All rights reserved.
+----------------------------------------------------------------------
+
+Pulsar LMTools is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either
+version 2 of the License, or any later version.
+
+Pulsar LMTools is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details (license.txt).
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+You should also be able to get a copy of the license here:
+  
+  http://www.gnu.org/licenses/gpl.txt
+
+----------------------------------------------------------------------
+LMGen v0.2b Documentation                                   2003/02/12
+----------------------------------------------------------------------
+
++ What is LMGen?
+  --------------------------------------------------------------------
+
+  Is one of the essential components of Pulsar LMTools v1.1 Software.
+  It is a Win32 console application for creating lightmaps.
+
++ Introduction
+  --------------------------------------------------------------------
+
+  In order to use LMGen you need, at least, your 3D data in LMTS file
+  format and a script file (.SCR) that tells LMGen where the lights 
+  are placed and other details needed.
+
++ LMTS file format
+  --------------------------------------------------------------------
+
+  In order to create the .LMTS file you can use A3DS2LMTS or LMDx
+  tools. (read A3DS2LMTS.txt and LMDx.txt for details)
+
+  You can also create your own converters; the .LMTS file format is
+  described in src/_doc/ff_lmts.txt.
+
++ SCR files
+  --------------------------------------------------------------------
+
+  The LMTS file format only contains information about the geometry
+  of your 3D MAP. You need one way to provide LMGen the information
+  about the lights (and other data) used by your map.
+
+  To learn how to write a .SCR file; read appendix A and appendix B
+  located at the bottom of this file.
+
+  If you are a 3DSMax/GMAX user; the MaxScript file located at
+  bin/MaxScript will help you to create the .SCR file.
+
+  A3DS2LMTS can also output a .SCR file with light data from a 3Ds
+  file.
+
++ LMGen Command Line Usage
+  --------------------------------------------------------------------
+
+  LMGen.exe base_name [quality settings]
+
+  Where base_name is the filename without extension
+  of the files used as input.
+
+    Example:
+
+      3D Data -----> my_map.1.lmts
+      Script file -> my_map.scr
+
+    both files have the same base name; "my_map".
+
+  You need at least two files;
+
+      * The 3D data file must be a valid LMTS file, with
+        the double extension: ".1.lmts".
+
+      * The script file.
+
+  Also, texture files (in 32 bits uncompressed Truevision TARGA
+  .TGA file format) are needed if Alpha Channel is enabled
+  (by default is disabled).
+
+  Quality settings can be the following (type they together):
+
+      A - Enable alpha channel.
+      F - Disable lightmap filtering.
+      H - Enable hight quality shadows (oversample).
+      S - Disable shadows.
+ 
+  Example:
+
+      LMGen.exe my_map afh
+  
+      In this example; alpha channel processing and high quality
+      shadows will be enabled, but lightmap filtering will be
+      disabled.
+
++ Quality Settings
+  --------------------------------------------------------------------
+
+   A - Enable alpha channel
+
+       When you enable alpha channel processing; when a ray of light
+       colides against a polygon, LMGen checks the color of the
+       texel (texture's pixel) that the ray hits. If the alpha channel
+       of that texel has;
+          - 100% opacity, the ray stops. (a shadow is projected) 
+          - 0% opacity, the ray passes trhough the polygon.
+          - otherwise, the ray color and intensity are modified
+            according to the texel values.
+
+       Only enable alpha channel if you need it.
+
+   F - Disable lightmap filtering.
+
+       The lightmaps are filtered using a 3x3 average filter.
+
+       Disabling this is always a bad idea; lightmaps are better
+       with it.
+
+   H - Enable hight quality shadows (oversample).
+
+       LMGen uses 4 rays for each lumel instead of one; so takes more
+       time, but the lightmaps are nicest.
+
+       Use this (at least) the last time that you create the lightmaps
+       for your maps.
+
+   S - Disable shadows.
+
+       The rays of light will not collide agains the 3D world.
+
+       Very fast, but lightmaps without shadows are very poor.
+
+   Note: alpha channel will not be used if shadow casting is
+         disabled.
+
++ Input/Source files
+  --------------------------------------------------------------------
+
+  The files that LMGen uses as input are like these;
+
+  base_name.1.lmts ------> 3D Data (world/map) in lmts file format.
+                           (see ff_lmts.txt for details).
+  base_name.scr ---------> Script with light data and other settings.
+  XXXXXXXXXXX.tga -------> 2D Data (textures). OPTIONAL: Only needed
+                           if alpha channel is enabled.
+
+  Textures are only supported on 32 bits uncompressed Truevision
+  Targa (.TGA) file format.
+
+  Warning: If the LMTS file used as source, has texture file names
+    with extexions other than TGA, LMGen still will try to load
+    a TGA file. (i.e; if a texture with wood.png file name is found,
+    LMGen will try to load a file named wood.tga). LMGen will not
+    modify texture file names, so the output file (base_name.2.lmts) 
+    will have the same texture file names that base_name.1.lmts.
+
++ Output/Destination files
+  --------------------------------------------------------------------
+
+  2 files are output by LMGen:
+
+  base_name.2.lmts ------> 3D Data (world/map).
+  base_name.lmdb --------> Lightmap Database.
+
+  A 3D file with a temporary texture coordinates for the lightmaps
+  will be stored on the LMTS file.
+
+  The lightmaps created by lmgen will be stored on a LMDB file
+  with the base_name (see ff_lmdb.txt for details).
+
+  Both output files are the only needed input files for LMPack.
+  Once packed the lightmaps by LMPack you can delete both files.
+
+  LMGen can also output another file called base_name.lm.log with
+  all the warning messages displayed the last time.
+
++ Once Created, How Can I See my Lightmaps?
+  --------------------------------------------------------------------
+
+  After creating the lightmaps with LMGen, you need to use LMPack
+  for optimizing and packing lightmaps. LMPack will output a valid
+  LMTS file (.3.lmts) and valid TGA files with the lightmaps.
+
+  See LMPack.txt for details.
+
+----------------------------------------------------------------------
+
++ APPENDIX A: Creating a script (.SCR) file
+  --------------------------------------------------------------------
+
+  In order to set the lights and other settings used on the lightmap
+  generation process, you will need to write a text file. You can use
+  an aplication like notepad in order to write it. 
+  (BUT the file extension should be .SCR!, not .TXT)
+
+  The easiest way to create a SCR is to use A3DS2LMTS or the MaxScript
+  SCRGen.ms file that comes with LMTools (see Apendix B for details).
+  BUT some very important settings are not used by that tool!!! So,
+  you should add them manually to the generated file.
+
+  For setting lights and lightmap generation settings, you will use
+  some sort of "objects" and their properties (variables) and methods
+  (functions).
+
+  For instance, to set a point light you will use the OMNI_POINT
+  object. First set its values, and then call its ADD method to
+  add a light of this type. Like follows;
+
+  -- EXAMPLE.SCR --------------------------------------------
+
+  ; this is a comment, you can write comments using ';' character
+  
+  ; first, set omni parameters
+  OMNI_POINT.POSITION = 0, 100, 0
+  OMNI_POINT.MULTIPLIER = 1.0
+  OMNI_POINT.ATTENUATION = 100.0, 200.0
+  OMNI_POINT.COLOR = $FF0000
+  OMNI_POINT.CAST_SHADOWS = true
+  OMNI_POINT.ENABLED = true
+  
+  ; and now add that light
+  OMNI_POINT.ADD
+
+  -----------------------------------------------------------
+
+  Once you called ADD, the light's properties aren't reset. So,
+  you can add another light like the last one but in another position,
+  with only two lines;
+
+  OMNI_POINT.POSITION = 100, 100, -100
+  OMNI_POINT.ADD
+
+  Here is the list of the objects and their properties and methods;
+
+  > "I'M NOT A LIGHT" OBJECTS < (NOT used by SCRGen.ms tool!) 
+  -----------------------------------------------------------
+
+  ** Object:
+      LIGHTMAP
+
+      Lightmap settings.
+
+    Properties:
+      MAX_SIZE - 16 bit unsigned integer value. Default value is: 256
+                 This is the max. size for the lightmaps. Do not
+                 change unless you have a good reason, since some old
+                 3D cards does not support textures larger than
+                 256x256 and lightmaps SHOULD NOT BE SCALED! (Also you
+                 must not create mipmaps for your lightmaps.)
+
+      LUMEL_SIZE - 32 bit floating point value. Default value is: 8.0
+                   It's the size of a lightmap pixel in world units.
+                   So, if you have a wall with 80 units of height and
+                   a lumel size of 8, the lightmaps used on that wall
+                   will have 8 pixels of height.
+
+                   NOTE: A lumel is a pixel of a lightmap.
+ 
+    Methods:
+      DISABLE_SUBSET - one parameter; 16 bit unsigned integer value.
+                       This method will allow you to disable lightmap
+                       generation for any subset. Use it in this way;
+  
+                       ; disable lightmap generation for subsets
+                       ; 10 and 16.
+                       LIGHTMAP.DISABLE_SUBSET = 10
+                       LIGHTMAP.DISABLE_SUBSET = 16
+
+  ** Object:
+      COLLISION
+
+      Collision detection settings.
+
+    Properties:
+      SAFE_DISTANCE - 32 bit floating point value. Default value is
+                      1/4 of LIGHTMAP.LUMEL_SIZE.
+                      This value it's used on the shadow casting
+                      process. Must be > 0. Default value works quite
+                      well.
+
+
+  ** Object:
+      OCTREE
+
+      Octree settings. (Do not modify its properties unless you known
+      what are you doing.)
+
+    Properties:
+      MIN_TRIS - 16 bit unsigned integer value. Default value is: 25
+                 Minimum number of triangles to allow node split.
+                 (0 - unlimited)
+
+      MIN_SIZE - 32 bit floating point value. Default value is: 0
+                 Minimun size of a node to allow node split.
+                 (0 - unlimited)
+
+      MAX_LEVELS - 16 bit unsigned integer value. Default value is: 6
+                   Max octree levels.
+                   (0 - unlimited)
+
+  > "YES, I AM A LIGHT" OBJECTS < (used by SCRGen.ms tool)
+  -----------------------------------------------------------
+
+  ** Object
+      AMBIENT_GLOBAL
+
+      Ambient light color, used as a base value for all lumels.
+
+    Properties:
+      COLOR - 32 bit unsigned integer value.
+              Default value is: 0 (black, no light)
+
+      You can set that sort of values using hexadecimal in this
+      way:  $ + red value + green value + blue value.
+
+      Examples:  $FF0000 - is red color, $00FF00 - is green color,...
+
+  ** Object
+      DIRECTIONAL
+
+      A directional light, like Direct3D ones. Has not a source point,
+      only a direction. It's useful for using as sunlight.
+
+    Properties:
+      DIRECTION - One vector (x, y, z; 32 bit floating point values)
+                  It's the light's direction.
+                  Default value is: 0, -1, 0
+                  Use in this way;
+
+                  DIRECTIONAL.DIRECTION = 0.5, -1, 1
+
+      MULTIPLIER - 32 bit floating point value.
+                   Light's intensity. Default value is: 1.0
+
+      COLOR - 32 bit unsigned integer value.
+              Light's color. Default value is: $FFFFFF (white light)
+
+      CAST_SHADOWS - boolean value. (true or false, yes or no)
+                     Light will project shadows. Default value
+                     is: true.
+
+      ENABLED - boolean value.
+                Light is enabled. Default value is: true.
+
+    Methods:
+      ADD - No parameters. Add a light with current properties.
+
+  ** Object
+       OMNI_POINT
+
+       Point light, like Direct3D ones. Has a source point, and emits
+       lights in all directions.
+
+     Properties:
+       POSITION - One vector (x, y, z; 32 bit floating point values)
+                  It's the light's position.
+                  Default value is: 0, 0, 0
+
+       MULTIPLIER - the same that DIRECTIONAL.MULTIPLIER
+
+       ATTENUATION - Two 32 bit floating point value.
+                     It's the attenuation start and end.
+                     Default value is: 256, 512
+
+                     You can use 0, 0 to disable attenuation. But
+                     using attenuation is better and faster.
+
+       COLOR - the same that DIRECTIONAL.COLOR
+
+       CAST_SHADOWS - the same that DIRECTIONAL.CAST_SHADOWS
+
+       ENABLED - the same that DIRECTIONAL.ENABLED
+
+     Methods:
+       ADD - the same that DIRECTIONAL.ADD
+
+  ** Object
+       SPOTLIGHT
+
+       A spotlight (something like a "cone" of light), like Direct3D
+       ones.
+       
+     Properties:
+       POSITION - the same that OMNI_POINT.POSITION
+
+       TARGET - One vector (x, y, z; 32 bit floating point values)
+                It's the light's target point.
+                Default value is: 0, -1, 0
+
+       THETA - 32 bit floating point value.
+               Light's hotspot (inner cone). In radians.
+               Default value is: 0.5
+
+       PHI - 32 bit floating point value.
+             Light's falloff (outer cone). In radians.
+             Default value is: 1.0
+
+       MULTIPLIER - the same that OMNI_POINT.MULTIPLIER
+
+       ATTENUATION - the same that OMNI_POINT.ATTENUATION
+
+       COLOR - the same that OMNI_POINT.COLOR
+
+       CAST_SHADOWS - the same that OMNI_POINT.CAST_SHADOWS
+
+       ENABLED - the same that OMNI_POINT.ENABLED
+
+     Methods:
+       ADD - the same that OMNI_POINT.ADD
+
++ APPENDIX B: About SCRGen.ms 
+  --------------------------------------------------------------------
+
+  This is a script for GMAX 1.1 (should also work with GMAX 1.0 and
+  3DS Max) used for creating scripts (.SCR files) for Pulsar LMTools.
+ 
+  Important: Currently only "Free Direct", "Omni" and "Target Spot"
+  lights are processed!
+
+  Warning: Developed and tested ONLY on GMAX 1.1
+
+  Usage:
+
+  Once you have placed the lights using GMax,...
+
+   1. Click on "Utilities" (the tab with the icon of a hammer; on the
+      right of GMAX)
+   2. Then click on the "MAXScript" button.
+   3. Click on the "Open Listener" button.
+   4. Choose "File \ Run Script"
+   5. Open "SCRGen.ms"
+   6. Choose "Edit \ Select All"
+   7. Choose "Edit \ Copy"
+   8. On notepad (or something like) choose paste and save the file
+      with ".scr" extension.
+
+----------------------------------------------------------------------
+DXLab - Visit us at: http://www.dxlab.tk or http://dxlab.host.sk
+        <lordtrancos@softhome.net>

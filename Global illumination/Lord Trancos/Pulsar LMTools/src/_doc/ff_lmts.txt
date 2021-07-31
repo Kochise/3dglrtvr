@@ -1,0 +1,100 @@
+
+ Pulsar Studio LMTS File Format
+ version number: 4
+
+ DESC: This sort of files are used by LMTools 
+       as input and output for all 3D data. (except lights)
+
+----------------------------------------------------------------------
+
+ Header:
+  
+  - MagicID    : 32 bit unsigned integer - 0x53544D4C ("LMTS")
+  - Version    : 32 bit unsigned integer - 4
+  - HeaderSize : 32 bit unsigned integer.
+  - Number of Textures  : 16 bit unsigned integer. 
+  - Number of Subsets   : 16 bit unsigned integer. 
+  - Number of Triangles : 32 bit unsigned integer.
+  - Subset Entry Size   : 16 bit unsigned integer. 
+  - Vertex Size         : 16 bit unsigned integer. 
+  - User Data           : Variable length.
+
+  The header have a fixed part (from [MagicID] to [Vertex Size])
+  and a variable part ([User Data]). If no user data is stored
+  [HeaderSize] must be 24 bytes, otherwise must be 24 + length
+  of user data.
+
+  Subset Entry Size - size of each entry on subset
+                      data array. Must be 12 or greater.
+
+  Vertex Size - size of each vertex. Must be 28 or greater.
+
+----------------------------------------------------------------------
+
+ Texture Info Array:
+
+  - MagicID : 32 bit unsigned integer - 0x54584554 ("TEXT")
+  - Data : array of [Header.Number of Textures] * [Texture Info Entry]
+
+  Where [Texture Info Entry] is:
+
+    - Texture Filename : 256 char. The last one must be 0x0.
+    - Texture Flags : 16 bit unsigned integer.
+                      Currently only the less significative
+                      bit is used; If this bit is 1 the texture
+                      is a lightmap, otherwise it isn't.
+
+----------------------------------------------------------------------
+
+ Subset Info Array:
+
+  - MagicID : 32 bit unsigned integer - 0x53425553 ("SUBS")
+  - Data : array of [Header.Number of Subsets] * [Subset Info Entry]
+
+  Where [Subset Info Entry] is:
+
+    - Offset    : 32 bit unsigned integer. Triangle offset.
+    - Count     : 32 bit unsigned integer. Triangle count.
+    - TextID1   : 16 bit unsigned integer.
+                  Texture index for normal texture.
+    - TextID2   : 16 bit unsigned integer.
+                  Texture index for lightmap texture.
+    - User data : Variable length.
+
+  Offset  - index (0=first) of the first triangle of this subset.
+  Count   - number of triangles on this subset.
+  TextID1 - index (0=first) of the texture used as a normal
+            texture. (*)
+  TextID2 - index (0=first) of the texture used as a lightmap
+            texture. (*)
+
+  (*) If no texture or lightmap is used the index value is 0xFFFF.
+
+  If no user data is stored [Header.Subset Entry Size] must be
+  12 bytes, otherwise must be 12 + length of user data.
+
+----------------------------------------------------------------------
+
+ Triangle Data Array:
+
+  - MagicID : 32 bit unsigned integer - 0x53495254 ("TRIS")
+  - Data : array of [Header.Number of Triangles] * [Vertex] * 3.
+
+  As you can see, each triangle have 3 vertices (so it's a non
+  indexed mesh). Where each [Vertex] is:
+
+    - X, Y, Z, U1, V1, U2, V2 : each one is a 32 bit signed
+                                real number. (float).
+    - User data : Variable length.
+
+  X, Y, Z - Vertex position.
+  U1, V1 - normal texture coordinates.
+  U2, V2 - lightmap texture coordinates.
+
+  If no user data is stored [Header.Vertex Size] must be 28 bytes,
+  otherwise must be 28 + length of user data.
+
+  You can use [User Data] to store vertex normals, vertex colors or
+  whatever you want.
+
+----------------------------------------------------------------------

@@ -1,0 +1,58 @@
+----------------------------------------------------------------------
+Pulsar LMTools v1.1
+Copyright (C) 2002, 2003 Lord Trancos. All rights reserved.
+----------------------------------------------------------------------
+
+Pulsar LMTools is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either
+version 2 of the License, or any later version.
+
+Pulsar LMTools is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details (license.txt).
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+You should also be able to get a copy of the license here:
+  
+  http://www.gnu.org/licenses/gpl.txt
+
+----------------------------------------------------------------------
+A3DS2LMTS v0.1a Documentation                               2003/02/12
+----------------------------------------------------------------------
+
++ What is A3DS2LMTS?
+  --------------------------------------------------------------------
+
+  It's a console application that converts Autodesk 3D Studio files
+  (.3DS) to Pulsar Studio LMTS file format (the 3D file format used by
+  LMGen and LMPack). Also, this tool is able to generate a script
+  (.SCR) file with info about the lights found inside the 3DS file.
+  (this script file is also needed by LMGen)  
+
++ A3DS2LMTS Command Line Usage
+  --------------------------------------------------------------------
+
+  A3DS2LMTS base_name [-scr]
+
+  Where base_name is the filename without extension of the file used
+  as input. And -scr parameter enables the .SCR file output with light 
+  information.
+
+  Example:
+
+      A3DS2LMTS map -scr
+
+      In this example; a file called map.3ds will be procesed, and
+      map.1.lmts and a map.scr files will be output. map.1.lmts will
+      contain the 3D map in LMTS file format ready to be used by LMGen.
+      And map.scr will be a script with light information that will
+      also be used by LMGen.
+
+------------------------------------------------------------------------
+DXLab - Visit us at: http://www.dxlab.tk or http://dxlab.host.sk
+        <lordtrancos@softhome.net>

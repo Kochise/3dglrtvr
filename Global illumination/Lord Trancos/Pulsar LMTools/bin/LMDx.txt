@@ -1,0 +1,65 @@
+----------------------------------------------------------------------
+Pulsar LMTools v1.1
+Copyright (C) 2002, 2003 Lord Trancos. All rights reserved.
+----------------------------------------------------------------------
+
+Pulsar LMTools is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either
+version 2 of the License, or any later version.
+
+Pulsar LMTools is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details (license.txt).
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+You should also be able to get a copy of the license here:
+  
+  http://www.gnu.org/licenses/gpl.txt
+
+----------------------------------------------------------------------
+LMDx v1.1b Documentation                                    2003/02/12
+----------------------------------------------------------------------
+
++ What is LMDx?
+  --------------------------------------------------------------------
+
+  LMDX is a tool that will aid you to work with LMTS files.
+
+  It is basically a LMTS viewer, but can also export Direct3D .X files
+  to Pulsar .LMTS format; and their textures to Truevision .TGA file
+  format.
+
++ What Can I do with LMDX ?
+  --------------------------------------------------------------------
+
+  With LMDX you can:
+
+  - View Direct X Model files (.x files) and convert these files
+    to Pulsar LMTS file format.
+
+  - Also, you can export the textures used by the Direct X Model to
+    Truevision TARGA (.tga files) file format. (which is the format
+    used by LMTools) LMTools only need the textures if you want to
+    use their alpha channel (see LMGen.txt for details).
+
+  - View Pulsar Studio LMTS files (with their lightmaps).
+
++ Requirements
+  --------------------------------------------------------------------
+
+  DirectX 8 or above is needed in order to use LMDX.
+
+  To compile the source code, you will need Delphi 4 or above
+  and DirectX 8 headers for Delphi. You can find these headers
+  here:
+
+   http://www.delphi-jedi.org/delphigraphics/
+
+------------------------------------------------------------------------
+DXLab - Visit us at: http://www.dxlab.tk or http://dxlab.host.sk
+        <lordtrancos@softhome.net>

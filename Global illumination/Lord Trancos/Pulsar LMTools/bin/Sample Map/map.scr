@@ -1,0 +1,187 @@
+; Script created automaticaly by SCRGen
+; -------------------------------------
+; and a bit modified by me :P
+
+; ligthmap settings
+lightmap.lumel_size = 12
+lightmap.disable_subset = 4
+lightmap.disable_subset = 19
+
+; Ambient light
+ambient_global.color = $202020
+
+; light [FDirect01]
+directional.direction = 0.553665, -0.309985, 0.772894
+directional.color = $faffc6
+directional.multiplier = 1.0
+directional.cast_shadows = true
+directional.enabled = true
+directional.add
+
+; light [Spot01]
+spotlight.position = -96.0, 304.0, -1.32883e-005
+spotlight.target = -64.0, -256.0, 1.11901e-005
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 400.0, 800.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot02]
+spotlight.position = 96.0, 304.0, -1.32883e-005
+spotlight.target = 64.0, -256.0, 1.11901e-005
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 400.0, 800.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot03]
+spotlight.position = 4.19629e-006, 304.0, 96.0
+spotlight.target = 3.14722e-006, -256.0, 72.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 400.0, 800.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot04]
+spotlight.position = -4.19629e-006, 304.0, -96.0
+spotlight.target = -2.79753e-006, -256.0, -64.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 400.0, 800.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot05]
+spotlight.position = 3.49691e-005, 304.0, 800.0
+spotlight.target = 3.63679e-005, -256.0, 832.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 400.0, 800.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot06]
+spotlight.position = -800.0, 304.0, -1.32883e-005
+spotlight.target = -832.0, -264.0, 1.15398e-005
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 400.0, 800.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot07]
+spotlight.position = -768.0, -16.0, 927.961
+spotlight.target = -768.0, -256.0, 960.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 200.0, 400.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot08]
+spotlight.position = 288.0, -40.0, -511.858
+spotlight.target = 256.0, -256.0, -511.858
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 200.0, 400.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot09]
+spotlight.position = 544.0, -40.0, -288.0
+spotlight.target = 544.0, -256.0, -256.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 200.0, 400.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot10]
+spotlight.position = 96.0, 264.0, -832.0
+spotlight.target = 128.0, -256.0, -832.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffffff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 200.0, 400.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot11]
+spotlight.position = 576.0, 408.0, -384.0
+spotlight.target = 576.0, 32.0, -384.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ff00
+spotlight.multiplier = 1.0
+spotlight.attenuation = 300.0, 500.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot12]
+spotlight.position = 576.0, 408.0, -768.0
+spotlight.target = 576.0, 32.0, -768.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ffff00
+spotlight.multiplier = 1.0
+spotlight.attenuation = 300.0, 500.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot13]
+spotlight.position = 768.0, 408.0, -576.0
+spotlight.target = 768.0, 32.0, -576.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ff
+spotlight.multiplier = 1.0
+spotlight.attenuation = 300.0, 500.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add
+
+; light [Spot14]
+spotlight.position = 384.136, 408.0, -576.0
+spotlight.target = 384.0, 32.0, -576.0
+spotlight.theta = 0.872665
+spotlight.phi = 1.22173
+spotlight.color = $ff0000
+spotlight.multiplier = 1.0
+spotlight.attenuation = 300.0, 500.0
+spotlight.cast_shadows = true
+spotlight.enabled = true
+spotlight.add

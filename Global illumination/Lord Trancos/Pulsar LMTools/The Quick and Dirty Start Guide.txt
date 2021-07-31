@@ -1,0 +1,122 @@
+----------------------------------------------------------------------
+Pulsar LMTools v1.1
+Copyright (C) 2002, 2003 Lord Trancos. All rights reserved.
+----------------------------------------------------------------------
+
+Pulsar LMTools is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either
+version 2 of the License, or any later version.
+
+Pulsar LMTools is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details (license.txt).
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+You should also be able to get a copy of the license here:
+  
+  http://www.gnu.org/licenses/gpl.txt
+
+----------------------------------------------------------------------
+Pulsar LMTools Quick and Dirty Guide                        2003/02/12
+----------------------------------------------------------------------
+
++ Introduction
+  --------------------------------------------------------------------
+
+  Ok. So you have checked the sample map and want to see what can
+  LMTools do with your maps ?
+
+  Well,... to use correctly LMTools, you have to read all the docs,
+  (yes, those ones written with my poor english ^_^) and try to
+  understand how all this works until getting nice results.
+
+  To make things easier, this quick guide WILL TRY to help you to
+  test LMTools with your 3D Maps, in the easiest and fastest way.
+
+  But if this guide fails to do this, do not discourage; read the
+  other docs.
+
++ What do you need ?
+  --------------------------------------------------------------------
+
+  Next ones are the things that you need in order to test LMTools in
+  the easiest way.
+
+  Remember that this is only ONE WAY to use LMTools, and all these
+  things are not needed to use LMTools, but all is easier with
+  them...
+
+  + Your 3D Map in Autodesk 3D Studio .3DS file format.
+
+  + If your 3D tool isn't able to export lights inside a 3DS file
+    you will need Discreet's GMAX 1.1 or better (or 3DStudio Max if
+    you can pay it);
+
+      http://www.discreet.com
+      http://www.discreet.com/products/gmax/
+
+    [ As the web page says: "gmax is a free 3D modeling and animation
+      tool based on Discreet's award-winning 3ds max (TM)." ]
+
+
++ Ready ? Have what you need ?
+  --------------------------------------------------------------------  
+
+  * If your 3D editor isn't able to export lights inside a 3DS file;
+
+      > Run GMAX and import your map (the .3DS file).
+
+      > Place some lights. Use only "Free Direct", "Omni" and "Target
+        Spot" lights. NOTE: "Free Direct" will be aplied to all your
+        map; use only as sunlight/moonlight.
+
+      > Now use the SCRGen maxscript (see SCRGen.ms or Apendix B of
+        LMGen.txt for details) in order to create a .SCR file.
+
+      > Then use A3DS2LMTS to convert the 3DS file to .LMTS file
+        format.
+
+  * If your 3D editor is able to export lights inside a 3DS file;
+
+      > Use  A3DS2LMTS to convert the 3DS file to .LMTS file format
+        with the -scr parameter in order to export also the lights
+        to a .SCR file. Example; a3ds2lmts map -scr     
+
+  * You should have:
+
+     - Your map in .LMTS file format. (map.1.lmts)
+     - A .SCR file with info about the lights. (map.scr)
+
+  * Open a command line (aka MS-DOS) window and type:
+
+      CD "C:\Path_To_LmTools\BIN\"
+      LMTools base_name
+
+    Where base_name must be the name of the LMTS file without
+    the ".1.lmts" part. Example; lmtools map
+
+  * If all worked correctly (no errors); run LMDx and load the
+    ".3.lmts" file. You must see your map with the
+    generated lightmaps,... otherwise something is wrong... :(
+
++ Too many or too few lightmaps ?
+  --------------------------------------------------------------------  
+
+  That's because the default value for LIGHTMAP.LUMEL_SIZE isn't
+  ok for your 3D Map.
+
+  Read Apendix A from LMGen.txt
+
+----------------------------------------------------------------------
+
+ If you have troubles first read the docs, then mail me if you still
+ need my help, at: lordtrancos@softhome.net :)  
+
+----------------------------------------------------------------------
+DXLab - Visit us at: http://www.dxlab.tk or http://dxlab.host.sk
+        <lordtrancos@softhome.net>

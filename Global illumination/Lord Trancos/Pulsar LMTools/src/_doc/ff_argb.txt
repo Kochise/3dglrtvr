@@ -1,0 +1,27 @@
+
+ Pulsar Studio ARGB File Format
+ version number: 0
+
+ DESC: This sort of files contain an 32 bpp image in an
+       uncompressed A8R8G8B8 format.
+
+ ----------------------------------------------------------
+ NOTE: This is an internal file format used by LMTools,
+       usually you don't have the need to deal with it.
+ ----------------------------------------------------------
+
+ Header:
+  
+  - MagicID : 32 bit unsigned integer - 0x42475241 ("ARGB")
+  - Version : 32 bit unsigned integer - 0
+  - Width   : 16 bit unsigned integer - image width.
+  - Height  : 16 bit unsigned integer - image height.
+
+ Data:
+
+  - Array of [Width * Height] ARGB(1) values.
+
+ ----------------------------------------------------------
+
+ (1) ARGB value : 4 x 8 bit unsigned integer: alpha, red,
+                  green and blue channels.
